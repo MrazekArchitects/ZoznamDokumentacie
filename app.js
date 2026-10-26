@@ -1206,6 +1206,70 @@ function createEmptyObject(){const raw=prompt('Číslo stavebného objektu (01�
 function scaleStoredValue(value){const raw=String(value??'').trim();if(!raw)return '';if(/^[0-9]+$/.test(raw)){const n=String(Number(raw));return Number(n)!==0?`1:${n}`:''}return 'rôzna'}
 function editDocumentScale(id){const targets=[...documentTargets(id)],d=findDoc(id),input=document.querySelector(`[data-doc-scale-input="${id}"]`),cell=input?.closest('.doc-scale-cell');if(!d||!input||!cell)return;cell.classList.add('editing');input.value=normalizedScale(d.mierka);const choose=value=>{input.value=value;const stored=scaleStoredValue(value);for(const targetId of targets){const target=findDoc(targetId);if(target)target.mierka=stored}requestAnimationFrame(render)};input._scaleChoose=choose;requestAnimationFrame(()=>{input.focus();input.select();showDocumentValueMenu(input,documentSuggestionValues('mierka'),choose,false)})}
 function commitDocumentScale(input){const id=input.dataset.docScaleInput,d=findDoc(id);if(!d)return;applyDocumentValue(id,'mierka',scaleStoredValue(input.value));render()}
+// v250: One keyboard/commit path for user-defined registry codes and names.
+// Keep system-defined entries read-only and outside the custom-row Tab sequence.
+function normalizeCustomRegistryCode(value){
+ const exceptions={'Ł':'L','ł':'L','Đ':'D','đ':'D','Ð':'D','ð':'D','Þ':'TH','þ':'TH','Æ':'AE','æ':'AE','Œ':'OE','œ':'OE','Ø':'O','ø':'O','ß':'SS','ẞ':'SS','ı':'I'};
+ return Array.from(String(value||'')).map(char=>exceptions[char]||char)
+  .join('').normalize('NFKD').replace(/[\u0300-\u036f]/g,'')
+  .toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,3);
+}
+function bindCustomRegistryEditor(kind){
+ const attr=kind==='profession'?'data-registry-prof':'data-registry-attachment';
+ const dataKey=kind==='profession'?'registryProf':'registryAttachment';
+ const registry=()=>kind==='profession'?professionOptions():ensureAttachmentRegistry();
+ const inputs=Array.from(document.querySelectorAll('input['+attr+']')).filter(el=>!el.readOnly);
+ const commit=input=>{
+  const [id,key]=(input.dataset[dataKey]||'').split(':');
+  const entry=registry().find(x=>x.id===id);
+  if(!entry||entry.system)return;
+  const value=key==='kod'?normalizeCustomRegistryCode(input.value):input.value.trim();
+  if(value)entry[key]=value; // Empty value keeps the current entry (legacy rule).
+  input.value=entry[key]||'';
+  if(kind==='profession'&&key==='kod'){
+   const row=input.closest('tr'),code=String(entry.kod||'').toUpperCase();
+   if(row){
+    row.classList.toggle('profession-used',usedProfessionCodes().has(code));
+    row.classList.toggle('profession-emphasized',emphasizedProfessionCodes.has(code));
+    row.classList.toggle('profession-asr',code==='ASR');
+   }
+  }
+ };
+ const focusNext=target=>{
+  if(!target)return;
+  // Do not rerender on blur: that destroys the newly focused field and
+  // interrupts Tab/Enter (and can swallow a user's immediate next keystroke).
+  target.focus();target.select();
+ };
+ inputs.forEach((input,index)=>{
+  const key=input.dataset[dataKey].split(':')[1];
+  if(key==='kod'){
+   const format=()=>{
+    if(input.isComposing)return;
+    const start=input.selectionStart,end=input.selectionEnd;
+    const before=normalizeCustomRegistryCode(input.value.slice(0,start??input.value.length));
+    const through=normalizeCustomRegistryCode(input.value.slice(0,end??input.value.length));
+    const normalized=normalizeCustomRegistryCode(input.value);
+    if(input.value!==normalized){input.value=normalized;input.setSelectionRange(before.length,through.length);}
+   };
+   input.addEventListener('input',format);
+   input.addEventListener('compositionend',format);
+  }
+  input.addEventListener('change',()=>commit(input));
+  input.addEventListener('keydown',e=>{
+   let target=null;
+   if(key==='kod'&&(e.key==='Enter'||(e.key==='Tab'&&!e.shiftKey)))target=inputs[index+1];
+   else if(key==='nazov'&&e.key==='Tab'&&!e.shiftKey)target=inputs[index+1];
+   else if(e.key==='Tab'&&e.shiftKey)target=inputs[index-1];
+   if(!target||e.isComposing)return;
+   // The sequence is code -> name -> next custom row code. Never land on action buttons.
+   e.preventDefault();
+   commit(input);
+   focusNext(target);
+  });
+ });
+}
+
 function installDefaultTextSelection(){
  document.querySelectorAll('input:not([type="file"]):not([type="checkbox"]):not([type="radio"]), textarea').forEach(input=>{
   if(input.dataset.selectAllBound)return;input.dataset.selectAllBound='1';
@@ -1427,10 +1491,10 @@ function bindInputs(){
  document.querySelectorAll('[data-doc-revision]').forEach(b=>b.onpointerdown=e=>{e.preventDefault();editDocumentRevision(b.dataset.docRevision)});
  document.querySelectorAll('[data-number-dial]').forEach(b=>b.onmousedown=e=>attachNumberDial(e,b.dataset.numberDial));
  document.querySelectorAll('.doc-number-input').forEach(i=>i.oninput=()=>{i.value=i.value.replace(/\D/g,'')});
- document.querySelectorAll('[data-registry-prof]').forEach(i=>i.onchange=()=>{const [id,key]=i.dataset.registryProf.split(':'),p=professionOptions().find(x=>x.id===id);if(!p)return;if(p.system){render();return}let value=i.value.trim();if(key==='kod')value=value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,3);if(value)p[key]=value;render()});
+ bindCustomRegistryEditor('profession');
  document.querySelectorAll('[data-duplicate-registry-prof]').forEach(b=>b.onclick=()=>{const p=professionOptions().find(x=>x.id===b.dataset.duplicateRegistryProf);if(!p)return;let n=1,k;do{k='X'+String(n++).padStart(2,'0')}while(model.professionRegistry.some(x=>x.kod===k));model.professionRegistry.push({id:uid(),kod:k,nazov:p.nazov+' kópia',system:false});render()});
  document.querySelectorAll('[data-del-registry-prof]').forEach(b=>b.onclick=()=>{const p=professionOptions().find(x=>x.id===b.dataset.delRegistryProf);if(!p||p.system)return;model.professionRegistry=professionOptions().filter(p=>p.id!==b.dataset.delRegistryProf);render()});
- document.querySelectorAll('[data-registry-attachment]').forEach(i=>i.onchange=()=>{const [id,key]=i.dataset.registryAttachment.split(':'),p=ensureAttachmentRegistry().find(x=>x.id===id);if(!p)return;if(p.system){render();return}let value=i.value.trim();if(key==='kod')value=value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,3);if(value)p[key]=value;render()});
+ bindCustomRegistryEditor('attachment');
  document.querySelectorAll('[data-duplicate-registry-attachment]').forEach(b=>b.onclick=()=>{const p=ensureAttachmentRegistry().find(x=>x.id===b.dataset.duplicateRegistryAttachment);if(!p)return;model.attachmentRegistry.push({id:uid(),kod:p.kod,nazov:p.nazov+' kópia',system:false});render()});
  document.querySelectorAll('[data-del-registry-attachment]').forEach(b=>b.onclick=()=>{const p=ensureAttachmentRegistry().find(x=>x.id===b.dataset.delRegistryAttachment);if(!p||p.system)return;model.attachmentRegistry=ensureAttachmentRegistry().filter(x=>x.id!==p.id);render()});
  document.querySelectorAll('[data-hierarchy-add-set]').forEach(b=>b.onclick=e=>{e.stopPropagation();addObjectGroupWithStarter()});
