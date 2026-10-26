@@ -48,9 +48,18 @@ window.ZoznamDocx={async create(model,data){
  const makeTabbed=(proto,vals,opt={})=>{const p=proto.cloneNode(true),pr=[...p.getElementsByTagNameNS(W,'r')][0];clearRuns(p);const pPr=p.getElementsByTagNameNS(W,'pPr')[0]||p.insertBefore(doc.createElementNS(W,'w:pPr'),p.firstChild);for(const shd of [...pPr.getElementsByTagNameNS(W,'shd')])shd.remove();if(opt.fill){const shd=doc.createElementNS(W,'w:shd');shd.setAttributeNS(W,'w:val','clear');shd.setAttributeNS(W,'w:color','auto');shd.setAttributeNS(W,'w:fill',opt.fill);pPr.appendChild(shd)}vals.forEach((v,i)=>{if(i)addTab(p);p.appendChild(makeRun(v,pr,{...opt,highlight:false}))});return p};
  const pageBreak=()=>{const p=doc.createElementNS(W,'w:p'),r=doc.createElementNS(W,'w:r'),b=doc.createElementNS(W,'w:br');b.setAttributeNS(W,'w:type','page');r.appendChild(b);p.appendChild(r);return p};
  const project=model.projekt||{},u=data.udaje_projektu||{};
- const placeStreet=project.miesto_stavby_ulica??u.miesto_stavby_ulica??project.miesto_stavby??u.miesto_stavby??'';
- const placeCity=project.miesto_stavby_mesto??u.miesto_stavby_mesto??'';
- const placePsc=project.miesto_stavby_psc??u.miesto_stavby_psc??'';
+ const place=(model?.lokalita?.adresa&&typeof model.lokalita.adresa==='object')?model.lokalita.adresa:((data?.miesto_stavby&&typeof data.miesto_stavby==='object')?data.miesto_stavby:{});
+ const placeStreetName=String(place.ulica??project.miesto_stavby_ulica??u.miesto_stavby_ulica??project.miesto_stavby??u.miesto_stavby??'').trim();
+ const placeSup=String(place.supisne_cislo??'').trim(),placeOri=String(place.orientacne_cislo??'').trim();
+ const placeNumber=placeSup&&placeOri?`${placeSup} / ${placeOri}`:(placeSup||placeOri);
+ const placeStreet=[placeStreetName,placeNumber].filter(Boolean).join(' ');
+ const placeCityRaw=String(place.mesto??project.miesto_stavby_mesto??u.miesto_stavby_mesto??'').trim();
+ const placeCity=placeCityRaw
+  .replace(/\s*\([^)]*\)\s*/g,' ')
+  .replace(/mestská\s+časť/giu,' ')
+  .replace(/\s+/g,' ')
+  .trim();
+ const placePsc=String(place.psc??project.miesto_stavby_psc??u.miesto_stavby_psc??'').trim();
  const cityParagraph=[...body.children].find(n=>n.localName==='p'&&(txt(n).includes('MM11NN22')||txt(n).includes('<<projekt_mesto>>')));
  const pscParagraph=[...body.children].find(n=>n.localName==='p'&&(txt(n).includes('PP33SS44')||txt(n).includes('<<projekt_psc>>')));
  const map={

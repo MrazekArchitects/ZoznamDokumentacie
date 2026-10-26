@@ -1,4 +1,5 @@
 'use strict';
+const JSON_SCHEMA_VERSION='1.1';
 const $=s=>document.querySelector(s), uid=()=>crypto.randomUUID?.()||Math.random().toString(36).slice(2);
 const professionCatalog=Object.freeze([{"type": "section", "name": "--- Profesie základné ---"}, {"type": "item", "code": "ASR", "name": "Architektonicko-stavebné riešenie"}, {"type": "item", "code": "STA", "name": "Statika"}, {"type": "item", "code": "ZTI", "name": "Zdravotechnická inštalácia"}, {"type": "item", "code": "VYK", "name": "Vykurovanie"}, {"type": "item", "code": "PLY", "name": "Plynoinštalácia"}, {"type": "item", "code": "VZT", "name": "Vzduchotechnika a chladenie"}, {"type": "item", "code": "MAR", "name": "Meranie a regulácia"}, {"type": "item", "code": "ELI", "name": "Elektroinštalácia"}, {"type": "item", "code": "BLZ", "name": "Bleskozvod a uzemnenie"}, {"type": "item", "code": "SLP", "name": "Slaboprúdová inštalácia, Štruktúrované káblové rozvody"}, {"type": "item", "code": "HSP", "name": "Hlasová signalizácia požiaru"}, {"type": "item", "code": "EPS", "name": "Elektrická požiarna signalizácia"}, {"type": "item", "code": "SHZ", "name": "Stabilné hasiace zariadenia"}, {"type": "item", "code": "ODT", "name": "Zariadenie na odvod dymu a tepla"}, {"type": "item", "code": "USV", "name": "Umelé osvetlenie"}, {"type": "item", "code": "KRA", "name": "Krajinné, sadové a terénne úpravy"}, {"type": "item", "code": "DOP", "name": "Dopravné riešenie"}, {"type": "item", "code": "POD", "name": "Projekt organizácie dopravy"}, {"type": "item", "code": "COO", "name": "Civilná ochrana obyvateľstva"}, {"type": "item", "code": "TDZ", "name": "Trvalé dopravné značenie"}, {"type": "item", "code": "DDZ", "name": "Dočasné dopravné značenie"}, {"type": "section", "name": "--- Profesie areálové ---"}, {"type": "item", "code": "PNN", "name": "Elektrická prípojka nízkeho napätia"}, {"type": "item", "code": "PVN", "name": "Elektrická prípojka vysokého napätia"}, {"type": "item", "code": "VUO", "name": "Vonkajšie / verejné osvetlenie"}, {"type": "item", "code": "ARS", "name": "Areálové / miestne rozvody silnoprúdu"}, {"type": "item", "code": "AEK", "name": "Areálové / miestne rozvody elektronických komunikácií"}, {"type": "item", "code": "REK", "name": "Rozvody elektronických komunikácií"}, {"type": "item", "code": "VDS", "name": "Vedenia distribučnej sústavy"}, {"type": "section", "name": "--- Profesie špecializované ---"}, {"type": "item", "code": "BK", "name": "Betónové konštrukcie"}, {"type": "item", "code": "OK", "name": "Oceľové konštrukcie"}, {"type": "item", "code": "SKV", "name": "Systém kontroly vstupu"}, {"type": "item", "code": "EZS", "name": "Elektrická zabezpečovacia signalizácia"}, {"type": "item", "code": "UTO", "name": "Uzatvorený televízny okruh (CCIR)"}, {"type": "item", "code": "HSR", "name": "Hotelový systém riadenia"}, {"type": "item", "code": "NKS", "name": "Nemocničný komunikačný systém"}, {"type": "item", "code": "SKR", "name": "Systém riadenia procesov (SRTP, ASRTP, SKR)"}, {"type": "item", "code": "CRS", "name": "Centrálne riadiace systémy budov (BMS)"}, {"type": "item", "code": "ADR", "name": "Automatický systém dispečerského riadenia (ASDR)"}, {"type": "item", "code": "ZDT", "name": "Zdravotnícka technológia"}, {"type": "item", "code": "RTG", "name": "Projekt radiačnej ochrany"}, {"type": "item", "code": "MED", "name": "Medicinálne plyny"}, {"type": "item", "code": "TGZ", "name": "Výrobné technologické zariadenia"}, {"type": "item", "code": "ETS", "name": "Elektrická stanica"}, {"type": "item", "code": "PRS", "name": "Prevádzkový rozvod silnoprúdu"}, {"type": "item", "code": "NZE", "name": "Náhradný zdroj (elektrickej energie)"}, {"type": "item", "code": "FVZ", "name": "Fotovoltický zdroj (výkon meniča do 10 kW)"}, {"type": "item", "code": "FVE", "name": "Fotovoltická elektráreň (výkon meniča nad 10 kW)"}, {"type": "item", "code": "KGZ", "name": "Kogeneračný zdroj / KVET"}, {"type": "item", "code": "BAT", "name": "Batériové úložisko"}, {"type": "item", "code": "KTO", "name": "Katódová ochrana"}, {"type": "item", "code": "INE", "name": "Iná profesia vyššie neuvedená"}]);
 const attachmentCatalog=Object.freeze([{"type": "section", "name": "--- Inžiniering ---"}, {"type": "item", "code": "SZS", "name": "Správa o prerokovaní stavebného zámeru"}, {"type": "section", "name": "--- Posúdenia ---"}, {"type": "item", "code": "PBS", "name": "Protipožiarna bezpečnosť stavby"}, {"type": "item", "code": "POV", "name": "Plán organizácie výstavby"}, {"type": "item", "code": "STP", "name": "Protokol z kontrolného statického posúdenia"}, {"type": "item", "code": "GDP", "name": "Geodetické podklady"}, {"type": "item", "code": "PAM", "name": "Pamiatkový výskum"}, {"type": "item", "code": "EIA", "name": "Posúdenie vplyvov na životné prostredie"}, {"type": "item", "code": "EHB", "name": "Energetické hodnotenie budovy"}, {"type": "item", "code": "DEN", "name": "Dendrologické posúdenie"}, {"type": "item", "code": "DEV", "name": "Náhradná výsadba drevín"}, {"type": "item", "code": "SVP", "name": "Svetelno-technické posúdenie"}, {"type": "item", "code": "HGP", "name": "Hydrogeologické posúdenie"}, {"type": "item", "code": "IGP", "name": "Inžinierskogeologické posúdenie"}, {"type": "item", "code": "HLU", "name": "Hluková štúdia"}, {"type": "item", "code": "IPP", "name": "Imisno-prenosové (rozptylová štúdia) posúdenie"}, {"type": "item", "code": "PEZ", "name": "Prieskum environmentálnej záťaže"}, {"type": "item", "code": "ECB", "name": "Energetický certifikát budovy"}, {"type": "item", "code": "STP", "name": "Svetelno-technické riešenie umelého osvetlenia"}, {"type": "item", "code": "INE", "name": "Iné posúdenie vyššie neuvedené"}, {"type": "section", "name": "--- Stavba ---"}, {"type": "item", "code": "STD", "name": "Stavebný denník"}, {"type": "item", "code": "ZSS", "name": "Záverečné stanovisko stavbyvedúceho"}]);
@@ -76,14 +77,239 @@ function professionMenuRows(){
 }
 
 let pendingNewObjectId=null;
-let model={verzia_schema:'1.0',projekt:{id_projektu:'123456',nazov_projektu:'',stupen_dokumentacie:'SZP',identifikacny_kod_stavby:'1111',miesto_stavby_ulica:'',miesto_stavby_mesto:'',miesto_stavby_psc:'',datum_vydania:'',revizia_zoznamu:'00',verzia_zoznamu:'v1.0',stavebnik:'',adresa_stavebnika:'',zoznam_vypracoval:''},stavebneSubory:[{id:uid(),cislo:1,kod_stavby:'1111',nazov:'Hlavný stavebný súbor'}],sekcie:[{id:uid(),kod:'D',nazov:'Dokumentácia stavebných objektov',objekty:[]}],prilohy:[]}, sourceWorkbook=null, currentView='settings', expanded=new Set(), validationResults=[], validationCollapsed=false, validationHighlightId='';
+let model={verzia_schema:JSON_SCHEMA_VERSION,projekt:{id_projektu:'123456',nazov_projektu:'',stupen_dokumentacie:'SZP',identifikacny_kod_stavby:'1111',datum_vydania:'',revizia_zoznamu:'00',verzia_zoznamu:'v1.0',zoznam_vypracoval:''},lokalita:{adresa:{mesto:'',cityID:'',psc:'',ulica:'',supisne_cislo:'',orientacne_cislo:''}},stavebnik:null,_rawPersonsIndex:null,_rawLocationIndex:null,_opaqueVyjadrenia:null,_builderIdentityDirty:false,stavebneSubory:[{id:uid(),cislo:1,kod_stavby:'1111',nazov:'Hlavný stavebný súbor'}],sekcie:[{id:uid(),kod:'D',nazov:'Dokumentácia stavebných objektov',objekty:[]}],prilohy:[]}, sourceWorkbook=null, currentView='settings', expanded=new Set(), validationResults=[], validationCollapsed=false, validationHighlightId='';
 const modeSearchValues={settings:'',buildingSets:'',objects:'',professions:'',all:'',documents:''};
 const selectedDocumentIds=new Set();let lastSelectedDocumentId=null;
 const collapsedDocumentSections=new Set(),collapsedDocumentBuildingSets=new Set(),collapsedDocumentObjects=new Set(),collapsedDocumentProfessions=new Set();
+let documentFileDropMode=false;
+let pendingDocumentsIndex=null;
+let droppedDocumentCandidateFiles=[];
+const attachedDocumentFiles=new Map();
+const manuallyReplacedDocumentIds=new Set();
+const attachedDocumentHandles=new Map();
+const attachedDocumentSourceDirectories=new Map();
+const manuallyDroppedDocumentIds=new Set();
+const preservedIndexedDocumentIds=new Set();
+let projectValidationResults=[];
 const esc=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 const normalizeFilter=v=>String(v??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('sk');
 const matchesFilter=(value,q)=>!q||normalizeFilter(value).includes(q);
 const startsWithFilter=(value,q)=>!q||normalizeFilter(value).startsWith(normalizeFilter(q));
+
+const publicSubjectTypeOptions=Object.freeze([{code:'S',name:'Súkromná osoba'},{code:'F',name:'Fyz. osoba - podnikateľ'},{code:'P',name:'Právnická osoba'}]);
+function parseJsonTextLenient(text,name='JSON'){
+ try{return JSON.parse(text)}catch(firstError){
+  // Narrow recovery for generated JSON where a comma between two object properties was accidentally omitted.
+  const fixed=String(text).replace(/("(?:[^"\\]|\\.)*"\s*)\n(\s*"[A-Za-zÀ-ž0-9_ -]+"\s*:)/g,'$1,\n$2');
+  try{return JSON.parse(fixed)}catch{throw new Error(`Neplatný JSON ${name}: ${firstError.message}`)}
+ }
+}
+const deepClone=value=>value==null?value:JSON.parse(JSON.stringify(value));
+function schemaVersionNumber(value){const n=Number.parseFloat(String(value||'0').replace(',','.'));return Number.isFinite(n)?n:0}
+function isLegacySchema(data){return schemaVersionNumber(data?.verzia_schema)<1.1}
+function subjectTypeName(code){return publicSubjectTypeOptions.find(x=>x.code===code)?.name||publicSubjectTypeOptions[0].name}
+function subjectTypeCode(value){const s=String(value||'').trim();return publicSubjectTypeOptions.find(x=>x.code===s||x.name===s)?.code||'S'}
+function newPublicBuilder(){return{id:uid(),kategoria_kod:'stavebnik',typ_subjektu_kod:'S',akademicky_titul_pred_menom:'',meno:'',priezvisko:'',akademicky_titul_za_menom:'',obchodne_meno:'',ulica:'',supisne_cislo:'',orientacne_cislo:'',mesto:'',psc:''}}
+function ensurePublicBuilder(){if(!model.stavebnik||typeof model.stavebnik!=='object')model.stavebnik=newPublicBuilder();return model.stavebnik}
+function blankPublicAddress(){return{mesto:'',cityID:'',psc:'',ulica:'',supisne_cislo:'',orientacne_cislo:''}}
+function ensurePublicLocation(){if(!model.lokalita||typeof model.lokalita!=='object')model.lokalita={adresa:blankPublicAddress()};if(!model.lokalita.adresa||typeof model.lokalita.adresa!=='object')model.lokalita.adresa=blankPublicAddress();model.lokalita.adresa={...blankPublicAddress(),...model.lokalita.adresa};return model.lokalita}
+function normalizePscPublic(value){return String(value||'').replace(/\D/g,'').slice(0,5)}
+function formatPscPublic(value){const v=normalizePscPublic(value);return v.length>3?`${v.slice(0,3)} ${v.slice(3)}`:v}
+function cleanJsonValue(value){if(value===undefined||value===null)return undefined;const s=String(value).trim();return s===''?undefined:s}
+function personArrayFromDataPublic(data){if(Array.isArray(data))return data.filter(x=>x&&typeof x==='object');if(Array.isArray(data?.osoby))return data.osoby.filter(x=>x&&typeof x==='object');if(data&&typeof data==='object'&&(data.typ_osoby||data.typ_subjektu))return[data];return[]}
+function publicBuilderFromJson(x){x=x&&typeof x==='object'?x:{};const io=x.udaje_osoby||x.udaje_osoba||{},sub=x.udaje_subjektu||x.udaje_subjekt||{},a=x.adresa||{};return{...newPublicBuilder(),id:x.id_osoby||x.id||uid(),typ_subjektu_kod:subjectTypeCode(x.typ_subjektu||x.typ_subjektu_nazov||x.typ_subjektu_kod),akademicky_titul_pred_menom:String(io.akademicky_titul_pred_menom||''),meno:String(io.meno||''),priezvisko:String(io.priezvisko||''),akademicky_titul_za_menom:String(io.akademicky_titul_za_menom||''),obchodne_meno:String(sub.obchodne_meno||''),ulica:String(a.ulica||''),supisne_cislo:String(a.supisne_cislo||''),orientacne_cislo:String(a.orientacne_cislo||''),mesto:String(a.mesto||''),psc:normalizePscPublic(a.psc||'')}}
+function isBuilderJson(x){const role=String(x?.typ_osoby??x?.kategoria_nazov??x?.kategoria_kod??'').toLowerCase();return role==='stavebník'||role==='stavebnik'}
+function makeMinimalBuilderJson(b=ensurePublicBuilder()){
+ const out={typ_osoby:'Stavebník',typ_subjektu:subjectTypeName(b.typ_subjektu_kod),adresa:{ulica:String(b.ulica||''),supisne_cislo:String(b.supisne_cislo||''),orientacne_cislo:String(b.orientacne_cislo||''),mesto:String(b.mesto||''),psc:normalizePscPublic(b.psc||'')}};
+ if(b.typ_subjektu_kod==='S')out.udaje_osoby={akademicky_titul_pred_menom:String(b.akademicky_titul_pred_menom||''),meno:String(b.meno||''),priezvisko:String(b.priezvisko||''),akademicky_titul_za_menom:String(b.akademicky_titul_za_menom||'')};
+ else out.udaje_subjektu={obchodne_meno:String(b.obchodne_meno||'')};
+ return pruneEmpty(out)
+}
+function pruneEmpty(value){if(Array.isArray(value))return value.map(pruneEmpty).filter(v=>v!==undefined);if(value&&typeof value==='object'){const o={};for(const[k,v]of Object.entries(value)){const c=pruneEmpty(v);if(c===undefined)continue;if(c&&typeof c==='object'&&!Array.isArray(c)&&!Object.keys(c).length)continue;o[k]=c}return o}if(value===undefined||value===null)return undefined;if(typeof value==='string'&&!value.trim())return undefined;return value}
+function mergePublicBuilderIntoRaw(raw,b){const out=deepClone(raw||{});out.typ_osoby='Stavebník';out.typ_subjektu=subjectTypeName(b.typ_subjektu_kod);out.adresa=out.adresa&&typeof out.adresa==='object'?out.adresa:{};Object.assign(out.adresa,{ulica:String(b.ulica||''),supisne_cislo:String(b.supisne_cislo||''),orientacne_cislo:String(b.orientacne_cislo||''),mesto:String(b.mesto||''),psc:normalizePscPublic(b.psc||'')});if(b.typ_subjektu_kod==='S'){out.udaje_osoby=out.udaje_osoby&&typeof out.udaje_osoby==='object'?out.udaje_osoby:{};Object.assign(out.udaje_osoby,{akademicky_titul_pred_menom:String(b.akademicky_titul_pred_menom||''),meno:String(b.meno||''),priezvisko:String(b.priezvisko||''),akademicky_titul_za_menom:String(b.akademicky_titul_za_menom||'')})}else{out.udaje_subjektu=out.udaje_subjektu&&typeof out.udaje_subjektu==='object'?out.udaje_subjektu:{};out.udaje_subjektu.obchodne_meno=String(b.obchodne_meno||'')}return out}
+function applyPersonsIndexPublic(data){model._rawPersonsIndex=deepClone(data&&typeof data==='object'?data:{osoby:[]});const people=personArrayFromDataPublic(data),ix=people.findIndex(isBuilderJson),src=ix>=0?people[ix]:null;model.stavebnik=src?publicBuilderFromJson(src):newPublicBuilder();model._builderIdentityDirty=false;model._builderFieldsDirty=false;return{total:people.length,builder:!!src}}
+function makePersonsIndexPublic(){if(model._rawPersonsIndex&&!model._builderFieldsDirty&&!model._builderIdentityDirty)return deepClone(model._rawPersonsIndex);const root=Array.isArray(model._rawPersonsIndex)?{osoby:deepClone(model._rawPersonsIndex)}:(model._rawPersonsIndex&&typeof model._rawPersonsIndex==='object'?deepClone(model._rawPersonsIndex):{osoby:[]});root.verzia_schema=JSON_SCHEMA_VERSION;let people=Array.isArray(root.osoby)?root.osoby:personArrayFromDataPublic(root);if(!Array.isArray(root.osoby))root.osoby=people;let ix=people.findIndex(isBuilderJson),builderJson=model._builderIdentityDirty?makeMinimalBuilderJson(ensurePublicBuilder()):mergePublicBuilderIntoRaw(ix>=0?people[ix]:{},ensurePublicBuilder());if(ix>=0)people[ix]=builderJson;else people.unshift(builderJson);root.osoby=people;return root}
+function commitPublicBuilderAfterSave(savedPersons){if(!model._builderIdentityDirty&&!model._builderFieldsDirty)return;model._rawPersonsIndex=deepClone(savedPersons);model._builderFieldsDirty=false;const b=ensurePublicBuilder();if(b.typ_subjektu_kod==='S')b.obchodne_meno='';else{b.akademicky_titul_pred_menom='';b.meno='';b.priezvisko='';b.akademicky_titul_za_menom=''}model._builderIdentityDirty=false}
+function locationAddressFromPublicData(data){if(!data||typeof data!=='object')return null;const src=data.miesto_stavby&&typeof data.miesto_stavby==='object'?data.miesto_stavby:(data.adresa&&typeof data.adresa==='object'?data.adresa:null);if(!src)return null;return{mesto:String(src.mesto||''),cityID:String(src.cityID??src.cityId??src.city_id??''),psc:String(src.psc||''),ulica:String(src.ulica||''),supisne_cislo:String(src.supisne_cislo||''),orientacne_cislo:String(src.orientacne_cislo||'')}}
+// Public retains parcels invisibly but merges them using Private's non-interactive
+// parcel-only policy. The raw index remains the export source of truth.
+const publicLocationGroups=['stavebne_pozemky','susedne_stavby','susedne_pozemky'];
+const publicAddressKeys=['mesto','psc','ulica','supisne_cislo','orientacne_cislo'];
+function publicLocText(v){return v===undefined||v===null?'':String(v).trim()}
+function publicAddressHasValues(a){return !!a&&publicAddressKeys.some(k=>publicLocText(a[k]))}
+function publicAddressesDiffer(a,b){return publicAddressKeys.some(k=>{let av=publicLocText(a?.[k]),bv=publicLocText(b?.[k]);if(k==='psc'){av=av.replace(/\s/g,'');bv=bv.replace(/\s/g,'')}return av!==bv})}
+function publicAddressSummary(a){const street=[a?.ulica,[a?.supisne_cislo,a?.orientacne_cislo].filter(Boolean).join('/')].filter(Boolean).join(' ');return [street,[a?.mesto,a?.psc].filter(Boolean).join(', ')].filter(Boolean).join(' | ')||'(prázdne)'}
+function publicParcelIdentity(row){return ['register','cislo_parcely','list_vlastnictva'].map(k=>publicLocText(row?.[k]).toLocaleLowerCase('sk')).join('\u001f')}
+function publicParcelsClash(a,b){
+ if(publicParcelIdentity(a)!==publicParcelIdentity(b))return false;
+ const ac=publicLocText(a.katastralne_uzemie),bc=publicLocText(b.katastralne_uzemie);
+ return !ac||!bc||ac.localeCompare(bc,'sk',{sensitivity:'base'})===0;
+}
+function applyLocationIndexPublic(data,options={}){
+ if(!data||typeof data!=='object'||Array.isArray(data))return{added:0,skipped:0};
+ let root=model._rawLocationIndex&&typeof model._rawLocationIndex==='object'?deepClone(model._rawLocationIndex):null;
+ if(!root)root={verzia_schema:JSON_SCHEMA_VERSION};
+ const incomingAddress=locationAddressFromPublicData(data);
+ const old=ensurePublicLocation().adresa;
+ // Private's address mismatch confirmation, but parcel conflicts never prompt.
+ if(incomingAddress&&publicAddressHasValues(incomingAddress)){
+  let replace=!publicAddressHasValues(old);
+  if(!replace&&publicAddressesDiffer(old,incomingAddress)){
+   const name=String(options.name||'lokalita.json');
+   replace=window.confirm(`Upozornenie – nezhodné údaje Miesta stavby.\n\nAktuálne údaje:\n${publicAddressSummary(old)}\n\n${name}:\n${publicAddressSummary(incomingAddress)}\n\nOK = použiť adresu z ${name}\nZrušiť = ponechať aktuálnu adresu`);
+  }else if(!publicAddressesDiffer(old,incomingAddress)){
+   for(const k of [...publicAddressKeys,'cityID'])if(!publicLocText(old[k])&&publicLocText(incomingAddress[k]))old[k]=incomingAddress[k];
+  }
+  if(replace)model.lokalita.adresa={...blankPublicAddress(),...incomingAddress};
+ }
+ let added=0,skipped=0;
+ // Deliberately check all three groups: Private's parcel-only mode detects
+ // duplicates even when a parcel is present in a different group.
+ const previous=[];for(const group of publicLocationGroups){if(Array.isArray(root[group]))previous.push(...root[group])}
+ for(const group of publicLocationGroups){
+  const rows=Array.isArray(data[group])?data[group]:[];
+  for(const raw of rows){
+   if(!raw||typeof raw!=='object'||Array.isArray(raw)||!Object.values(raw).some(v=>publicLocText(v))){skipped++;continue}
+   const identity=publicParcelIdentity(raw);
+   if(!publicLocText(raw.cislo_parcely)||!identity){skipped++;continue}
+   if(previous.some(ex=>publicParcelsClash(ex,raw))){skipped++;continue}
+   const copy=deepClone(raw);if(!Array.isArray(root[group]))root[group]=[];root[group].push(copy);previous.push(copy);added++;
+  }
+ }
+ // Preserve source properties and unknown metadata. Export the selected address.
+ const incomingRoot=deepClone(data);
+ for(const [key,value] of Object.entries(incomingRoot)){
+  if(key==='miesto_stavby'||key==='adresa'||publicLocationGroups.includes(key))continue;
+  if(!(key in root))root[key]=value;
+ }
+ root.miesto_stavby={...(root.miesto_stavby&&typeof root.miesto_stavby==='object'?root.miesto_stavby:{} )};
+ const chosen=ensurePublicLocation().adresa;
+ for(const key of [...publicAddressKeys,'cityID']){
+  const v=publicLocText(chosen[key]);if(v)root.miesto_stavby[key]=v;else delete root.miesto_stavby[key];
+ }
+ model._rawLocationIndex=root;model._locationAddressDirty=false;
+ return{added,skipped};
+}
+function makeLocationIndexPublic(){
+ const raw=model._rawLocationIndex;
+ if(raw&&typeof raw==='object'&&!model._locationAddressDirty)return deepClone(raw);
+ const root=raw&&typeof raw==='object'?deepClone(raw):{verzia_schema:JSON_SCHEMA_VERSION};
+ const a=ensurePublicLocation().adresa;
+ const next={...(root.miesto_stavby&&typeof root.miesto_stavby==='object'?root.miesto_stavby:{})};
+ for(const key of [...publicAddressKeys,'cityID']){
+  const val=publicLocText(a[key]);if(val)next[key]=val;else delete next[key];
+ }
+ root.miesto_stavby=next;
+ if(!raw)delete root.adresa;
+ return root;
+}
+
+// Schema-compatible consolidation of consolidated vyjadrenia.json and single
+// vyjadrenie_*.json. No statement (or demand) is discarded due to duplicates.
+function publicStatementArray(data){
+ if(Array.isArray(data?.vyjadrenie))return data.vyjadrenie.filter(x=>x&&typeof x==='object'&&!Array.isArray(x));
+ if(data?.vyjadrenie&&typeof data.vyjadrenie==='object'&&!Array.isArray(data.vyjadrenie))return[data.vyjadrenie];
+ if(Array.isArray(data))return data.filter(x=>x&&typeof x==='object'&&!Array.isArray(x)&&(x.dotknuta_osoba!==undefined||x.skratka!==undefined||Array.isArray(x.pripomienky)));
+ if(data&&typeof data==='object'&&!Array.isArray(data)&&(data.dotknuta_osoba!==undefined||data.skratka!==undefined||Array.isArray(data.pripomienky)))return[data];
+ return[];
+}
+function isStatementsJsonDataPublic(data){return publicStatementArray(data).length>0||!!(data&&typeof data==='object'&&!Array.isArray(data)&&('vyjadrenie' in data||'spracovanie_vyjadreni' in data))}
+function publicStatementValue(x){return String(x??'').trim().toLocaleLowerCase('sk')}
+function publicStatementIdentity(s){const number=publicStatementValue(s.cislo_vyjadrenia),who=publicStatementValue(s.skratka||s.dotknuta_osoba);return number&&who?`${who}\u001f${number}`:''}
+function publicStatementsSame(a,b){const n1=publicStatementValue(a.cislo_vyjadrenia),n2=publicStatementValue(b.cislo_vyjadrenia);if(!n1||n1!==n2)return false;const ab1=publicStatementValue(a.skratka),ab2=publicStatementValue(b.skratka),name1=publicStatementValue(a.dotknuta_osoba),name2=publicStatementValue(b.dotknuta_osoba);return !!(ab1&&ab1===ab2||name1&&name1===name2)}
+function publicStatementFingerprint(s){return JSON.stringify(s,Object.keys(s||{}).sort())}
+function publicMergeSupplemental(dst,src){
+ for(const [k,v] of Object.entries(src||{})){
+  if(v===null||v===undefined||v==='')continue;
+  if(k==='pripomienky')continue;
+  if(!(k in dst)||dst[k]===null||dst[k]===undefined||dst[k]==='')dst[k]=deepClone(v);
+  else if(v&&typeof v==='object'&&!Array.isArray(v)&&dst[k]&&typeof dst[k]==='object'&&!Array.isArray(dst[k]))publicMergeSupplemental(dst[k],v);
+ }
+ return dst;
+}
+function publicMergeDemands(dst,incoming){
+ if(!Array.isArray(dst.pripomienky))dst.pripomienky=[];
+ for(const src of (Array.isArray(incoming.pripomienky)?incoming.pripomienky:[])){
+  if(!src||typeof src!=='object')continue;
+  const match=dst.pripomienky.find(e=>publicStatementValue(e?.pripomienka)===publicStatementValue(src.pripomienka)&&publicStatementValue(e?.zapracovanie)===publicStatementValue(src.zapracovanie));
+  if(match){publicMergeSupplemental(match,src);continue}
+  const sameText=dst.pripomienky.find(e=>publicStatementValue(e?.pripomienka)&&publicStatementValue(e.pripomienka)===publicStatementValue(src.pripomienka));
+  if(sameText&&(!publicStatementValue(sameText.zapracovanie)||!publicStatementValue(src.zapracovanie))){publicMergeSupplemental(sameText,src);continue}
+  dst.pripomienky.push(deepClone(src));
+ }
+}
+function mergeOpaqueStatementsPublic(data){
+ const incoming=publicStatementArray(data);if(!isStatementsJsonDataPublic(data))return{added:0,merged:0,skipped:0};
+ let root=model._opaqueVyjadrenia;
+ if(!root||typeof root!=='object'||Array.isArray(root))root={verzia_schema:JSON_SCHEMA_VERSION,spracovanie_vyjadreni:{zodpovedna_osoba:'',spolocnost:'',datum_spracovania:''},vyjadrenie:[]};
+ if(!Array.isArray(root.vyjadrenie))root.vyjadrenie=publicStatementArray(root);
+ if(!root.spracovanie_vyjadreni||typeof root.spracovanie_vyjadreni!=='object')root.spracovanie_vyjadreni={};
+ if(data&&typeof data==='object'&&!Array.isArray(data)){
+  for(const [key,value] of Object.entries(data))if(!['vyjadrenie','spracovanie_vyjadreni'].includes(key)&&!(key in root))root[key]=deepClone(value);
+  publicMergeSupplemental(root.spracovanie_vyjadreni,data.spracovanie_vyjadreni||{});
+ }
+ let added=0,merged=0,skipped=0;
+ for(const source of incoming){
+  const imp=deepClone(source);const identity=publicStatementIdentity(imp);
+  let previous=identity?root.vyjadrenie.find(x=>publicStatementIdentity(x)===identity||publicStatementsSame(x,imp)):null;
+  if(!previous){previous=root.vyjadrenie.find(x=>JSON.stringify(x)===JSON.stringify(imp))}
+  if(previous){
+   const before=JSON.stringify(previous);
+   publicMergeSupplemental(previous,imp);publicMergeDemands(previous,imp);
+   if(JSON.stringify(previous)===before)skipped++;else merged++;
+  }else{root.vyjadrenie.push(imp);added++}
+ }
+ model._opaqueVyjadrenia=root;return{added,merged,skipped};
+}
+function makeOpaqueStatementsPublic(){
+ const root=model._opaqueVyjadrenia;
+ if(!root||!Array.isArray(root.vyjadrenie))return null;
+ const out=deepClone(root);
+ if(!out.spracovanie_vyjadreni||typeof out.spracovanie_vyjadreni!=='object')out.spracovanie_vyjadreni={};
+ for(const key of ['zodpovedna_osoba','spolocnost','datum_spracovania'])if(!(key in out.spracovanie_vyjadreni))out.spracovanie_vyjadreni[key]='';
+ out.verzia_schema=JSON_SCHEMA_VERSION;return out;
+}
+function isPersonsJsonDataPublic(data){
+ const arr=personArrayFromDataPublic(data);return arr.length>0&&arr.every(x=>!!(x.typ_osoby||x.typ_subjektu||x.kategoria_kod||x.typ_subjektu_kod));
+}
+function isLocationJsonDataPublic(data){
+ if(!data||typeof data!=='object'||Array.isArray(data))return false;
+ if(data.udaje_projektu||data.projekt||Array.isArray(data.dokumentacia)||isPersonsJsonDataPublic(data)||isStatementsJsonDataPublic(data))return false;
+ return publicLocationGroups.some(k=>k in data)||('miesto_stavby' in data)||('adresa' in data);
+}
+function publicJsonKind(data,name=''){
+ // Structure takes precedence over a nonstandard or misleading filename.
+ if(isStatementsJsonDataPublic(data))return'statements';
+ if(isPersonsJsonDataPublic(data))return'persons';
+ if(isLocationJsonDataPublic(data))return'location';
+ if(data&&typeof data==='object'&&!Array.isArray(data)&&(data.udaje_projektu&&data.dokumentacia||data.projekt&&(data.sekcie||data.stavebneSubory)))return'main';
+ if(data&&typeof data==='object'&&!Array.isArray(data)&&Array.isArray(data.documents))return'documents';
+ return indexKindFromName(name)||'';
+}
+function publicPrepareJsonEntries(parsed){
+ const items=parsed.map(item=>({...item,kind:publicJsonKind(item.data,item.name||item.file?.name||'')}));
+ const main=items.find(x=>x.kind==='main');
+ return{items,main,persons:items.filter(x=>x.kind==='persons'),locations:items.filter(x=>x.kind==='location'),statements:items.filter(x=>x.kind==='statements')};
+}
+
+function legacyAddressFromMainPublic(data){if(!isLegacySchema(data))return null;const u=data?.udaje_projektu||data?.projekt||{},embedded=data?.miesto_stavby&&typeof data.miesto_stavby==='object'?data.miesto_stavby:{};const out={mesto:String(embedded.mesto??u.miesto_stavby_mesto??u.projekt_mesto??''),cityID:String(embedded.cityID??u.miesto_stavby_cityID??''),psc:String(embedded.psc??u.miesto_stavby_psc??u.projekt_psc??''),ulica:String(embedded.ulica??u.miesto_stavby_ulica??u.projekt_ulica??u.miesto_stavby??''),supisne_cislo:String(embedded.supisne_cislo??u.miesto_stavby_supisne_cislo??''),orientacne_cislo:String(embedded.orientacne_cislo??u.miesto_stavby_orientacne_cislo??'')};return Object.values(out).some(v=>String(v||'').trim())?out:null}
+function legacyBuilderAddressPublic(value=''){const raw=String(value||'').trim();if(!raw)return{};const parts=raw.split(',').map(x=>x.trim()).filter(Boolean),street=parts[0]||'',city=parts.slice(1).join(' '),sm=street.match(/^(.*?)(?:\s+(\d+[A-Za-z]?)(?:\/(\d+[A-Za-z]?))?)?$/),cm=city.match(/^(.*?)(?:\s+(\d{3}\s?\d{2}))?$/);return{ulica:String(sm?.[1]||street).trim(),supisne_cislo:String(sm?.[2]||''),orientacne_cislo:String(sm?.[3]||''),mesto:String(cm?.[1]||city).trim(),psc:normalizePscPublic(cm?.[2]||'')}}
+function legacyBuilderFromMainPublic(data){if(!isLegacySchema(data))return null;const u=data?.udaje_projektu||data?.projekt||{},name=String(u.stavebnik_meno??u.stavebnik??'').trim(),addr=String(u.stavebnik_adresa??u.adresa_stavebnika??'').trim();if(!name&&!addr)return null;const company=/\b(s\.?\s*r\.?\s*o\.?|a\.?\s*s\.?|k\.?\s*s\.?|v\.?\s*o\.?\s*s\.?|družstvo|spol\.?|s\.p\.)\b/i.test(name),b={...newPublicBuilder(),typ_subjektu_kod:company?'P':'S',...legacyBuilderAddressPublic(addr)};if(company)b.obchodne_meno=name;else{const bits=name.split(/\s+/).filter(Boolean);if(bits.length>1){b.priezvisko=bits.pop();b.meno=bits.join(' ')}else b.meno=name}return b}
+function applyLegacyMainFallbackPublic(data,target){if(!isLegacySchema(data))return target;const a=legacyAddressFromMainPublic(data);if(a)target.lokalita={adresa:{...blankPublicAddress(),...a}};const b=legacyBuilderFromMainPublic(data);if(b)target.stavebnik=b;return target}
+function listVersionFilePart(){return asciiFilePart(model.projekt.verzia_zoznamu||'v1.0','v1.0')}
+function personsIndexFileName(){const projectId=normalizeProjectId(model.projekt.id_projektu)||'123456';return `${projectId}_osoby_${listVersionFilePart()}.json`}
+function locationIndexFileName(){const projectId=normalizeProjectId(model.projekt.id_projektu)||'123456';return `${projectId}_lokalita_${listVersionFilePart()}.json`}
+function statementsIndexFileName(){const projectId=normalizeProjectId(model.projekt.id_projektu)||'123456';return `${projectId}_vyjadrenia_${listVersionFilePart()}.json`}
+function eSectionFilename(d,o,p,numberedMode,extension=null){
+ const setNumber=String(Number(ensureBuildingSets().find(s=>s.id===o?.stavebnySuborId)?.cislo)||Number(ensureBuildingSets()[0]?.cislo)||1).padStart(2,'0');
+ const base=[model.projekt.id_projektu,model.projekt.stupen_dokumentacie,setNumber,model.projekt.identifikacny_kod_stavby];
+ const attachmentCode=String(d.typ_dokumentu||p?.kod||d.profesia||'SZS').slice(0,3).toUpperCase();
+ const number=Number(d.cislo_dokumentu??0),num=String(number).padStart(3,'0');
+ const sectionCode=numberedMode?`E${String(number).padStart(2,'0')}`:'E00';
+ const a=numberedMode?[...base,sectionCode,attachmentCode,'001']:[...base,sectionCode,attachmentCode,num];
+ if(d.revizia&&d.revizia!=='00')a.push(String(d.revizia).padStart(2,'0'));
+ return a.filter(Boolean).join('_')+'.'+(extension||d.pripona||'pdf')
+}
 function filename(d,o,p){
  const setNumber=String(Number(ensureBuildingSets().find(s=>s.id===o?.stavebnySuborId)?.cislo)||Number(ensureBuildingSets()[0]?.cislo)||1).padStart(2,'0');
  const base=[model.projekt.id_projektu,model.projekt.stupen_dokumentacie,setNumber,model.projekt.identifikacny_kod_stavby];
@@ -94,16 +320,28 @@ function filename(d,o,p){
   a=[...base,sectionCode,prof||d.typ_dokumentu];
  }
  else if(cast==='C00') a=[...base,cast,prof||'SIT',num];
- else if(cast==='E00') {
-  const attachmentCode=String(d.typ_dokumentu||prof||'SZS').slice(0,3).toUpperCase();
-  if(Boolean(model.eSectionToggle)){
-   const eNumber=`E${String(Number(d.cislo_dokumentu??0)).padStart(2,'0')}`;
-   a=[...base,eNumber,attachmentCode,'001'];
-  } else a=[...base,cast,attachmentCode,num];
- }
+ else if(cast==='E00') return eSectionFilename(d,o,p,Boolean(model.eSectionToggle));
  else a=[...base,cast,prof,num,d.typ_dokumentu];
  if(d.revizia&&d.revizia!=='00')a.push(String(d.revizia).padStart(2,'0'));
  return a.filter(Boolean).join('_')+'.'+(d.pripona||'pdf')
+}
+function generatedDocumentBaseVariants(o,p,d){
+ const current=filename(d,o,p).replace(/\.[^.]+$/,'').toLowerCase();
+ if(documentSectionKey(o,d)!=='E')return [current];
+ const alternate=eSectionFilename(d,o,p,!Boolean(model.eSectionToggle)).replace(/\.[^.]+$/,'').toLowerCase();
+ return alternate===current?[current]:[current,alternate]
+}
+function inferESectionToggleFromNames(names){
+ let numbered=0,e00=0;
+ for(const raw of names||[]){
+  const name=String(raw||'').split(/[\\/]/).pop();
+  if(/_E00_[A-Z0-9]{3}_\d{3}(?:_|\.|$)/i.test(name))e00++;
+  else if(/_E(?!00)\d{2}_[A-Z0-9]{3}_001(?:_|\.|$)/i.test(name))numbered++;
+ }
+ if(numbered&&!e00)return true;
+ if(e00&&!numbered)return false;
+ if(numbered||e00)return numbered>=e00;
+ return null
 }
 function allObjects(){return model.sekcie.flatMap(s=>s.objekty||[])} function allProf(){return allObjects().flatMap(o=>(o.profesie||[]).map(p=>({o,p})))} function allDocs(){return allProf().flatMap(({o,p})=>(p.dokumenty||[]).map(d=>({o,p,d}))).concat((model.prilohy||[]).map(d=>({o:null,p:null,d})))}
 function toast(t){const el=$('#toast');if(!el)return;el.textContent=t;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),1800)}
@@ -127,13 +365,21 @@ function updateContextButtons(){
  const toolbar=$('#toolbar'),button=$('#contextAction');if(!button||!toolbar)return;
  let secondary=$('#contextSecondaryAction');
  if(!secondary){secondary=document.createElement('button');secondary.id='contextSecondaryAction';secondary.type='button';secondary.hidden=true;button.insertAdjacentElement('afterend',secondary)}
- const config={buildingSets:['+ Súbor stavieb',addBuildingSet],objects:['+ Súbor stavieb',addObjectGroupWithStarter],professions:['+ Profesia',()=>addProfession()],settings:['+ Údaj projektu',addProjectProperty],all:['+ Príloha',()=>addAttachment()]};
+ let tertiary=$('#contextTertiaryAction');
+ if(!tertiary){tertiary=document.createElement('button');tertiary.id='contextTertiaryAction';tertiary.type='button';tertiary.hidden=true;secondary.insertAdjacentElement('afterend',tertiary)}
+ const config={buildingSets:['+ Súbor stavieb',addBuildingSet],objects:['+ Súbor stavieb',addObjectGroupWithStarter],professions:['+ Profesia',()=>addProfession()],settings:['Kontrola',runPublicProjectValidation],all:['+ Príloha',()=>addAttachment()]};
  toolbar.classList.toggle('documents-context-actions',currentView==='documents');
+ toolbar.classList.toggle('construction-renumber-context-actions',currentView==='objects');
  if(currentView==='documents'){
   button.textContent='Skontrolovať';button.onclick=runDocumentValidation;
-  secondary.hidden=false;secondary.textContent='Prečíslovať';secondary.onclick=renumberDocumentsAndObjects;
+  secondary.hidden=false;secondary.textContent='Prečíslovať';secondary.onclick=renumberDocuments;
+  documentFileDropMode=false;tertiary.hidden=true;
+ }else if(currentView==='objects'){
+  button.textContent='+ Súbor stavieb';button.onclick=addObjectGroupWithStarter;
+  secondary.hidden=false;secondary.className='';secondary.textContent='Prečíslovať';secondary.onclick=renumberConstructionHierarchy;
+  tertiary.hidden=true;
  }else{
-  secondary.hidden=true;const [label,handler]=config[currentView]||config.all;button.textContent=label;button.onclick=handler;
+  secondary.hidden=true;tertiary.hidden=true;const [label,handler]=config[currentView]||config.all;button.textContent=label;button.onclick=handler;
  }
  const search=$('#search');if(search)search.placeholder=currentView==='settings'?'Hľadať v údajoch projektu':currentView==='buildingSets'?'Hľadať v súboroch stavieb':currentView==='objects'?'Hľadať v stavebných objektoch':currentView==='professions'?'Hľadať v profesiách':currentView==='all'?'Hľadať v prílohách':'Hľadať v dokumentácii';
 }
@@ -193,9 +439,23 @@ function runDocumentValidation(){
  });
  validationResults=results;validationCollapsed=false;render();if(!results.length)toast('Kontrola nenašla žiadne chyby.')
 }
-function renumberDocumentsAndObjects(){
- // SO and PS numbering always restarts at 01, independently for each object type.
- const setsForRenumber=ensureBuildingSets();const firstSetNumber=Math.max(1,Number(setsForRenumber[0]?.cislo)||1);setsForRenumber.forEach((set,setIndex)=>{set.cislo=firstSetNumber+setIndex;const objs=objectsInSetDisplayOrder(set.id);objs.filter(o=>objectKind(o)==='S').forEach((o,i)=>o.kod='S'+String(i+1).padStart(2,'0'));objs.filter(o=>objectKind(o)==='P').forEach((o,i)=>o.kod='P'+String(i+1).padStart(2,'0'))});
+// The Stavebné objekty toolbar exclusively renumbers construction groups and
+// their objects. Keep the persistent IDs, object affiliations and documents intact.
+function renumberConstructionHierarchy(){
+ ensureBuildingSets().forEach((set,setIndex)=>{
+  set.cislo=setIndex+1; // S01, S02, ... regardless of previous starting number.
+  const counters={S:0,P:0};
+  for(const object of objectsInSetDisplayOrder(set.id)){
+   const kind=objectKind(object);
+   object.kod=kind+String(++counters[kind]).padStart(2,'0');
+  }
+ });
+ validationResults=[];render();toast('Číslovanie súborov a stavebných objektov bolo upravené.');
+}
+
+// The Dokumenty toolbar renumbers document numbers only. Never change set
+// numbers or SO/PS codes here: those are handled exclusively by the button above.
+function renumberDocuments(){
  // A, B, C and E are numbered continuously inside the whole section,
  // starting with the current number of the first document in that section.
  for(const sectionKey of ['A','B','C','E']){
@@ -220,12 +480,28 @@ function validationHtml(){if(!validationResults.length)return'';return `<div cla
 function focusValidationResult(index){const r=validationResults[index];if(!r)return;if(r.objectId)collapsedDocumentObjects.delete(r.objectId);if(r.professionId)collapsedDocumentProfessions.delete(r.professionId);collapsedDocumentSections.delete('D');validationHighlightId=r.id;render();requestAnimationFrame(()=>{let el=r.kind==='document'?document.querySelector(`[data-document-row="${r.id}"]`):r.kind==='profession'?document.querySelector(`[data-profession-collapse="${r.id}"]`)?.closest('tr'):document.querySelector(`[data-object-collapse="${r.id}"]`)?.closest('tr');if(el){el.scrollIntoView({behavior:'smooth',block:'center'});el.classList.add('validation-highlight');setTimeout(()=>el.classList.remove('validation-highlight'),2200)}})}
 function beginConstructionObjectNameEdit(objectId,button){const o=allObjects().find(x=>x.id===objectId);if(!o)return;const input=document.createElement('input');input.className='construction-name-inline-editor';input.value=o.nazov||'';button.replaceWith(input);requestAnimationFrame(()=>{input.focus();input.select()});const commit=()=>{o.nazov=input.value.trim()||'Stavebný objekt';render()};input.onkeydown=e=>{if(e.key==='Enter')commit();if(e.key==='Escape')render()};input.onblur=commit}
 
+// A blur/change callback can request render while another render is replacing
+// the same DOM subtree. Defer nested requests so the browser never receives
+// re-entrant innerHTML mutations; commit callbacks still update the model.
+let renderActive=false,renderPending=false,renderPendingScheduled=false;
 function render(){
+ if(renderActive){renderPending=true;return}
+ renderActive=true;
+ try{return renderInternal()}
+ finally{
+  renderActive=false;
+  if(renderPending&&!renderPendingScheduled){
+   renderPending=false;renderPendingScheduled=true;
+   queueMicrotask(()=>{renderPendingScheduled=false;render()});
+  }
+ }
+}
+function renderInternal(){
  model.projekt.id_projektu=normalizeProjectId(model.projekt.id_projektu)||'123456';
  updateContextButtons();ensureProfessionRegistry();ensureBuildingSets();ensureObjectHierarchy();
  $('#idProjektu').value=model.projekt.id_projektu||''; const idDisplay=$('#idProjektuDisplay'); if(idDisplay) idDisplay.textContent=model.projekt.id_projektu||'—';
  let c=$('#content'),q=normalizeFilter($('#search').value.trim());
- if(currentView==='settings'){const resultCount=projectPropertyRows().filter(x=>matchesFilter(`${x.label} ${projectDisplayValue(x.key,x.value)}`,q)).length;c.innerHTML=settingsHtml(q);bindInputs();updateContextFilterFeedback(q,resultCount);return}
+ if(currentView==='settings'){const resultCount=projectPropertyRows().filter(x=>matchesFilter(`${x.label} ${projectDisplayValue(x.key,x.value)}`,q)).length+(!q?5:0);c.innerHTML=publicProjectValidationHtml()+settingsHtml(q);bindInputs();updateContextFilterFeedback(q,resultCount);return}
  if(currentView==='buildingSets'){
    const sets=ensureBuildingSets().filter(x=>matchesFilter(`${buildingSetDisplay(x)} ${x.kod_stavby} ${x.nazov}`,q));
    c.innerHTML=`<table class="objects-table building-sets-table two-zone-table"><colgroup><col class="building-set-number-col"><col class="building-set-type-col"><col><col class="action-zone-2"></colgroup><thead><tr><th>Číslo</th><th>Typ</th><th>Názov</th><th class="table-action-zone">Akcie</th></tr></thead><tbody>${sets.map(buildingSetRow).join('')}${buildingSetAddRow()}</tbody></table>`;
@@ -249,7 +525,7 @@ function render(){
  }
  let rows='';
  if(currentView==='documents') rows=documentRowsBySection(q);
- c.innerHTML=rows?`${validationHtml()}<div class="documentation-table-scroll"><table class="documentation-table two-zone-table"><colgroup><col class="col-number" style="width:77px"><col class="col-label"><col class="col-type" style="width:47px"><col class="col-revision" style="width:47px"><col class="col-scale" style="width:67px"><col class="col-person"><col class="col-filename"><col class="action-zone-3" style="width:92px"></colgroup><thead><tr><th>Číslo</th><th>Názov</th><th class="doc-type-col">Typ</th><th class="doc-revision-col">Rev</th><th class="doc-scale-col"></th><th>Projektant</th><th>Názov súboru</th><th class="table-action-zone"></th></tr></thead><tbody>${rows}</tbody></table></div>`:'<div class="empty">Dokumentácia zatiaľ neobsahuje žiadne položky.</div>';bindInputs();updateContextFilterFeedback(q,q?c.querySelectorAll('[data-document-row],[data-object-collapse],[data-profession-collapse]').length:1)
+ c.innerHTML=rows?`${validationHtml()}<div class="documentation-table-scroll"><table class="documentation-table two-zone-table ${documentFileDropMode?'document-file-drop-active':''}"><colgroup><col class="col-number" style="width:77px"><col class="col-label"><col class="col-type" style="width:47px"><col class="col-revision" style="width:47px"><col class="col-scale" style="width:67px"><col class="col-person"><col class="col-filename"><col class="action-zone-3" style="width:92px"></colgroup><thead><tr><th>Číslo</th><th>Názov</th><th class="doc-type-col">Typ</th><th class="doc-revision-col">Rev</th><th class="doc-scale-col"></th><th>Projektant</th><th>Názov súboru</th><th class="table-action-zone"></th></tr></thead><tbody>${rows}</tbody></table></div>`:'<div class="empty">Dokumentácia zatiaľ neobsahuje žiadne položky.</div>';bindInputs();updateContextFilterFeedback(q,q?c.querySelectorAll('[data-document-row],[data-object-collapse],[data-profession-collapse]').length:1)
 }
 const documentSections=[
  {key:'A',title:'Zoznam dokumentácie'},
@@ -281,13 +557,10 @@ function serializeJsonModel(){
  const stageCode=String(model.projekt.stupen_dokumentacie||'SZP').split(/\s+[–-]\s+/)[0].trim();
  const buildingCode=String(model.projekt.identifikacny_kod_stavby||'1111').split(/\s+[–-]\s+/)[0].trim();
  const result={
-  verzia_schema:'1.0',
+  verzia_schema:JSON_SCHEMA_VERSION,
   udaje_projektu:{
    id_projektu:normalizeProjectId(model.projekt.id_projektu||''),
    nazov_projektu:String(model.projekt.nazov_projektu||''),
-   miesto_stavby_ulica:String(model.projekt.miesto_stavby_ulica||''),
-   miesto_stavby_mesto:String(model.projekt.miesto_stavby_mesto||''),
-   miesto_stavby_psc:String(model.projekt.miesto_stavby_psc||''),
    stupen_dokumentacie_kod:stageCode,
    stupen_dokumentacie_nazov:documentationStageCatalog.find(x=>x.code===stageCode)?.name||'',
    identifikacny_kod_stavby_kod:buildingCode,
@@ -296,9 +569,7 @@ function serializeJsonModel(){
    zoznam_datum:String(model.projekt.datum_vydania||''),
    zoznam_revizia:String(model.projekt.revizia_zoznamu||'00').padStart(2,'0'),
    zoznam_verzia:String(model.projekt.verzia_zoznamu||'v1.0'),
-   zoznam_vypracoval:String(model.projekt.zoznam_vypracoval||''),
-   stavebnik_meno:String(model.projekt.stavebnik||''),
-   stavebnik_adresa:String(model.projekt.adresa_stavebnika||'')
+   zoznam_vypracoval:String(model.projekt.zoznam_vypracoval||'')
   },
   dokumentacia:[]
  };
@@ -329,10 +600,9 @@ function modelFromStructuredJson(data){
  const u=data.udaje_projektu||{};
  const projekt={
   id_projektu:normalizeProjectId(u.id_projektu||'123456')||'123456',nazov_projektu:String(u.nazov_projektu||''),
-  miesto_stavby_ulica:String(u.miesto_stavby_ulica??u.projekt_ulica??u.miesto_stavby??''),miesto_stavby_mesto:String(u.miesto_stavby_mesto??u.projekt_mesto??''),miesto_stavby_psc:String(u.miesto_stavby_psc??u.projekt_psc??''),
   stupen_dokumentacie:String(u.stupen_dokumentacie_kod||'SZP'),identifikacny_kod_stavby:String(u.identifikacny_kod_stavby_kod||'1111'),
   datum_vydania:String(u.zoznam_datum||''),revizia_zoznamu:String(u.zoznam_revizia||'00'),verzia_zoznamu:String(u.zoznam_verzia||'v1.0'),
-  zoznam_vypracoval:String(u.zoznam_vypracoval||''),stavebnik:String(u.stavebnik_meno||''),adresa_stavebnika:String(u.stavebnik_adresa||'')
+  zoznam_vypracoval:String(u.zoznam_vypracoval||'')
  };
  const objects=[],customProfessions=new Map(),customAttachments=new Map();
  const sections=Array.isArray(data.dokumentacia)?data.dokumentacia:Object.values(data.dokumentacia||{});
@@ -359,7 +629,8 @@ function modelFromStructuredJson(data){
    if(!professionCatalog.some(x=>x.type==='item'&&x.code===code))customProfessions.set(code,name)
   }objects.push(o)
  }
- const m=normalize({verzia_schema:String(data.verzia_schema||'1.0'),projekt,stavebneSubory,sekcie:[{id:uid(),kod:'KOMPLET',nazov:'Kompletný zoznam dokumentácie',objekty:objects}],prilohy:[]});
+ const m=normalize({verzia_schema:String(data.verzia_schema||'1.0'),projekt,lokalita:{adresa:blankPublicAddress()},stavebnik:newPublicBuilder(),_rawPersonsIndex:null,_rawLocationIndex:null,_opaqueVyjadrenia:null,_builderIdentityDirty:false,stavebneSubory,sekcie:[{id:uid(),kod:'KOMPLET',nazov:'Kompletný zoznam dokumentácie',objekty:objects}],prilohy:[]});
+ applyLegacyMainFallbackPublic(data,m);
  const previousModel=model;model=m;ensureProfessionRegistry();ensureAttachmentRegistry();model=previousModel;
  for(const [kod,nazov] of customProfessions)if(!m.professionRegistry.some(x=>x.kod===kod))m.professionRegistry.push({id:uid(),kod,nazov,system:false});
  for(const [kod,nazov] of customAttachments)if(!m.attachmentRegistry.some(x=>x.kod===kod))m.attachmentRegistry.push({id:uid(),kod,nazov,system:false});
@@ -400,7 +671,7 @@ function constructionSubsectionRow(o){
 function professionSubsectionRow(o,p){
  const code=String(p?.kod||'INE').toUpperCase(),name=p?.nazov||professionName(code),empty=(p.dokumenty||[]).length===0?'<span class="empty-suffix">&nbsp;&nbsp;&nbsp;(prázdne)</span>':'';
  const actions=headerIcon('btn-down-action','Pridať dokument',`data-add-prof-doc="${p.id}"`,iconDown)+headerIcon('btn-white','Presunúť profesiu',`data-move-prof="${p.id}"`,iconMove)+headerIcon('btn-danger','Zmazať profesiu',`data-del-prof="${p.id}"`,iconTrash);
- return `<tr class="document-profession-subsection"><td colspan="7"><div class="profession-header-layout"><button type="button" class="profession-subheader-button" data-profession-header="${p.id}" title="Zmeniť profesiu"><strong>${esc(code)} – ${esc(name)}</strong>${empty}<span class="profession-dropdown-mark" aria-hidden="true">▾</span></button><button type="button" class="profession-collapse-space" data-profession-collapse="${p.id}" data-object-id="${o.id}" aria-label="Zbaliť alebo rozbaliť profesiu"></button></div></td><td class="table-action-zone subheader-actions">${actions}</td></tr>`
+ return `<tr class="document-profession-subsection"><td colspan="7"><div class="profession-header-layout"><button type="button" class="profession-subheader-button" data-profession-header="${p.id}" title="Zmeniť profesiu"><strong>${esc(code)} – ${esc(name)}</strong>${empty}<span class="profession-dropdown-mark" aria-hidden="true">▾</span></button><span class="profession-drag-zone" data-profession-drag="${p.id}" data-profession-object="${o.id}" title="Presunúť profesiu v rámci stavebného objektu"></span><button type="button" class="profession-collapse-space" data-profession-collapse="${p.id}" data-object-id="${o.id}" aria-label="Zbaliť alebo rozbaliť profesiu"></button></div></td><td class="table-action-zone subheader-actions">${actions}</td></tr>`
 }
 function documentRowsBySection(q=''){
  const grouped=new Map(documentSections.map(x=>[x.key,[]]));
@@ -460,16 +731,17 @@ function focusNewObjectRow(){if(!pendingNewObjectId)return;const id=pendingNewOb
 function usedProfessionCodes(){return new Set(allProf().map(({p})=>String(p.kod||'').toUpperCase()))}
 
 function registrySectionRow(name){return `<tr class="registry-section-row"><td colspan="2">${esc(name)}</td><td class="table-action-zone"></td></tr>`}
-function attachmentModeRow(p){return `<tr class="object-list-row profession-list-row"><td><input class="profession-code-input" data-registry-attachment="${p.id}:kod" value="${esc(p.kod)}" maxlength="3" ${p.system?'readonly':''}></td><td><input class="object-name-input" data-registry-attachment="${p.id}:nazov" value="${esc(p.nazov)}"></td><td class="object-actions-col table-action-zone"><button type="button" class="icon-btn btn-copy" data-duplicate-registry-attachment="${p.id}" title="Duplikovať prílohu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">${iconCopy}</svg></button><button type="button" class="icon-btn btn-danger" data-del-registry-attachment="${p.id}" title="Zmazať prílohu" ${p.system?'disabled':''}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">${iconTrash}</svg></button></td></tr>`}
+function attachmentModeRow(p){return `<tr class="object-list-row profession-list-row"><td><input class="profession-code-input" data-registry-attachment="${p.id}:kod" value="${esc(p.kod)}" maxlength="3" ${p.system?'readonly':''}></td><td><input class="object-name-input registry-name-input" data-registry-attachment="${p.id}:nazov" value="${esc(p.nazov)}" ${p.system?'readonly':''}></td><td class="object-actions-col table-action-zone"><button type="button" class="icon-btn btn-copy" data-duplicate-registry-attachment="${p.id}" title="Duplikovať prílohu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">${iconCopy}</svg></button><button type="button" class="icon-btn btn-danger" data-del-registry-attachment="${p.id}" title="Zmazať prílohu" ${p.system?'disabled':''}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">${iconTrash}</svg></button></td></tr>`}
 function addAttachment(){ensureAttachmentRegistry();let n=1,k;do{k='X'+String(n++).padStart(2,'0')}while(model.attachmentRegistry.some(p=>p.kod===k));model.attachmentRegistry.push({id:uid(),kod:k,nazov:'Nová príloha',system:false});render()}
-function professionModeRow(p){const used=usedProfessionCodes().has(String(p.kod||'').toUpperCase()),emphasized=emphasizedProfessionCodes.has(String(p.kod||'').toUpperCase());return `<tr class="object-list-row profession-list-row ${used?'profession-used':''} ${emphasized?'profession-emphasized':''}"><td><input class="profession-code-input" data-registry-prof="${p.id}:kod" value="${esc(p.kod)}" maxlength="3" ${p.system?'readonly':''}></td><td><input class="object-name-input" data-registry-prof="${p.id}:nazov" value="${esc(p.nazov)}"></td><td class="object-actions-col table-action-zone"><button type="button" class="icon-btn btn-copy" data-duplicate-registry-prof="${p.id}" title="Duplikovať profesiu" aria-label="Duplikovať profesiu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">${iconCopy}</svg></button><button type="button" class="icon-btn btn-danger" data-del-registry-prof="${p.id}" title="Zmazať profesiu" aria-label="Zmazať profesiu" ${p.system?'disabled':''}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">${iconTrash}</svg></button></td></tr>`}
+function professionModeRow(p){const used=usedProfessionCodes().has(String(p.kod||'').toUpperCase()),emphasized=emphasizedProfessionCodes.has(String(p.kod||'').toUpperCase());return `<tr class="object-list-row profession-list-row ${used?'profession-used':''} ${emphasized?'profession-emphasized':''} ${String(p.kod||'').toUpperCase()==='ASR'?'profession-asr':''}"><td><input class="profession-code-input" data-registry-prof="${p.id}:kod" value="${esc(p.kod)}" maxlength="3" ${p.system?'readonly':''}></td><td><input class="object-name-input registry-name-input" data-registry-prof="${p.id}:nazov" value="${esc(p.nazov)}" ${p.system?'readonly':''}></td><td class="object-actions-col table-action-zone"><button type="button" class="icon-btn btn-copy" data-duplicate-registry-prof="${p.id}" title="Duplikovať profesiu" aria-label="Duplikovať profesiu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">${iconCopy}</svg></button><button type="button" class="icon-btn btn-danger" data-del-registry-prof="${p.id}" title="Zmazať profesiu" aria-label="Zmazať profesiu" ${p.system?'disabled':''}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">${iconTrash}</svg></button></td></tr>`}
 function objectRow(o){return `<tr class="row-object"><td><button class="tree-toggle" data-toggle="${o.id}">${expanded.has(o.id)?'▾':'▸'}</button><b>${esc(o.kod)}</b></td><td><input data-path="object:${o.id}:nazov" value="${esc(o.nazov)}"></td><td colspan="5"><span class="badge">${(o.profesie||[]).length} profesií</span></td><td class="muted">Zmena kódu sa prenesie do všetkých názvov súborov</td><td class="actions"><button data-add-prof="${o.id}">+ Profesia</button><button class="danger" data-del-object="${o.id}">×</button></td></tr>`}
 function professionRow(o,p){return `<tr class="row-profession"><td class="indent-1"><button class="tree-toggle" data-toggle="${p.id}">${expanded.has(p.id)?'▾':'▸'}</button><b>${esc(o.kod)}.${esc(p.kod)}</b></td><td><input data-path="prof:${p.id}:nazov" value="${esc(p.nazov)}"></td><td colspan="5"><span class="badge">${(p.dokumenty||[]).length} dokumentov</span></td><td class="muted">Zmena profesie sa prenesie do všetkých jej dokumentov</td><td class="actions"><button data-add-doc="${p.id}">+ Dokument</button><button class="danger" data-del-prof="${p.id}">×</button></td></tr>`}
 function normalizedScale(v){const raw=String(v||'').trim();if(!raw)return '';const normalized=normalizeFilter(raw);if(normalized==='rozna'||normalized==='rozne')return 'rôzna';const digits=raw.replace(/^1\s*:\s*/, '').replace(/\D/g,'');return digits&&Number(digits)!==0?digits:''}
 function scaleDisplay(v){const n=normalizedScale(v);return n==='rôzna'?'rôzna':(n?`1:${n}`:'—')}
 function documentRow(o,p,d,sectionKey=documentSectionKey(o,d)){
  const type=String(d.typ_dokumentu||'TXT').slice(0,3).toUpperCase(),revision=String(d.revizia||'00').replace(/\D/g,'').slice(0,2).padStart(2,'0'),number=Math.max(0,Number(d.cislo_dokumentu)||0),file=filename(d,o,p),selected=selectedDocumentIds.has(d.id);
- return `<tr class="row-document section-row-${sectionKey.toLowerCase()} ${selected?'document-selected':''}" data-document-row="${d.id}">
+ const hasAssignedFile=attachedDocumentFiles.has(d.id),wasManuallyReplaced=manuallyReplacedDocumentIds.has(d.id);
+ return `<tr class="row-document section-row-${sectionKey.toLowerCase()} ${selected?'document-selected':''} ${hasAssignedFile?'document-file-assigned':'document-file-missing'} ${hasAssignedFile&&wasManuallyReplaced?'document-file-replaced':''}" data-document-row="${d.id}">
  <td class="doc-number-cell"><span class="doc-number-wrap editable-affordance"><input type="text" inputmode="numeric" data-path="doc:${d.id}:cislo_dokumentu" value="${esc(number)}" class="doc-number-input" aria-label="Číslo dokumentu"><button type="button" class="number-dial" data-number-dial="${d.id}" title="Potiahnutím zmeniť číslo" aria-label="Potiahnutím zmeniť číslo"><span class="number-dial-core"></span></button></span></td>
  <td class="doc-name-cell"><div class="doc-name-layout"><input class="editable-control doc-name-input" data-path="doc:${d.id}:nazov_dokumentu" value="${esc(d.nazov_dokumentu)}"><button type="button" class="document-selection-zone" data-select-document="${d.id}" title="Vybrať dokument" aria-label="Vybrať dokument"></button></div></td>
  <td class="doc-type-cell"><button type="button" class="doc-type-button editable-control" data-doc-type="${d.id}" title="${esc(codes.typy[type]||type)}">${esc(type)}</button></td>
@@ -480,44 +752,162 @@ function documentRow(o,p,d,sectionKey=documentSectionKey(o,d)){
  <td class="actions doc-actions table-action-zone"><button type="button" class="icon-btn suffix-toggle ${includePdfSuffixInSelection?'active':''}" data-suffix-toggle title="${includePdfSuffixInSelection?'Kopírovať vrátane prípony PDF':'Kopírovať bez prípony PDF'}" aria-pressed="${includePdfSuffixInSelection}" aria-label="${includePdfSuffixInSelection?'Vyberať celý názov vrátane .pdf':'Vyberať názov bez .pdf'}"><span class="suffix-label"><span class="suffix-star">*</span><span class="suffix-pdf">.pdf</span></span></button><button type="button" class="icon-btn btn-copy" data-duplicate-doc="${d.id}" title="Duplikovať dokument" aria-label="Duplikovať dokument"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button><button type="button" class="icon-btn btn-danger" data-del-doc="${d.id}" title="Zmazať dokument" aria-label="Zmazať dokument"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button></td></tr>`
 }
 
+function publicProjectValidationTargets(){
+ const a=ensurePublicLocation().adresa,b=ensurePublicBuilder(),out=[['project','id_projektu','ID projektu',model.projekt.id_projektu],['project','nazov_projektu','Názov projektu',model.projekt.nazov_projektu],['address','ulica','Miesto stavby – Ulica',a.ulica],['address','mesto','Miesto stavby – Mesto',a.mesto],['address','psc','Miesto stavby – PSČ',a.psc]];
+ if(b.typ_subjektu_kod==='S'){out.push(['builder','meno','Stavebník – Meno',b.meno],['builder','priezvisko','Stavebník – Priezvisko',b.priezvisko])}else if(b.typ_subjektu_kod==='P')out.push(['builder','obchodne_meno','Stavebník – Obchodné meno',b.obchodne_meno]);return out
+}
+function runPublicProjectValidation(){projectValidationResults=publicProjectValidationTargets().filter(x=>!String(x[3]||'').trim()).map(([scope,key,label])=>({scope,key,title:`${label}: chýba hodnota`}));render();if(!projectValidationResults.length)toast('Kontrola nenašla žiadne chyby.')}
+function publicProjectValidationHtml(){if(!projectValidationResults.length)return'';return `<div class="validation-panel"><button type="button" class="validation-header"><span>Výsledky kontroly</span><strong>${projectValidationResults.length}</strong></button><table class="validation-table"><tbody>${projectValidationResults.map((r,i)=>`<tr><td><button type="button" data-project-validation-index="${i}">${esc(r.title)}</button></td></tr>`).join('')}</tbody></table></div>`}
+function publicValidationSelector(r){if(r.scope==='project')return `[data-project="${CSS.escape(r.key)}"]`;if(r.scope==='address')return `[data-public-address="${CSS.escape(r.key)}"]`;return `[data-public-builder="${CSS.escape(r.key)}"]`}
+function flashPublicProjectValidation(index){const r=projectValidationResults[index];if(!r)return;const el=document.querySelector(publicValidationSelector(r));if(!el)return;el.scrollIntoView({behavior:'smooth',block:'center'});const wasWarn=el.classList.contains('field-warning-required');let step=0;const pulse=()=>{const on=step%2===0;el.classList.toggle('validation-flash-invert',wasWarn&&on);el.classList.toggle('validation-flash-red',!wasWarn&&on);step++;if(step<4)setTimeout(pulse,250);else{el.classList.remove('validation-flash-invert','validation-flash-red');el.focus({preventScroll:true});try{el.select()}catch{}}};pulse()}
 function projectPropertyRows(){
- const projectLabels=[
-  ['id_projektu','ID projektu'],
-  ['nazov_projektu','Názov projektu'],
-  ['miesto_stavby_ulica','Miesto stavby – Ulica a číslo'],
-  ['miesto_stavby_mesto','Miesto stavby – Mesto'],
-  ['miesto_stavby_psc','Miesto stavby – PSČ']
- ];
- const documentationLabels=[
-  ['stupen_dokumentacie','Stupeň dokumentácie'],
-  ['identifikacny_kod_stavby','Identifikačný kód stavby'],
-  ['subor_stavieb','Súbor stavieb'],
-  ['datum_vydania','Dátum vydania'],
-  ['revizia_zoznamu','Revízia zoznamu'],
-  ['verzia_zoznamu','Verzia zoznamu']
- ];
- const investorLabels=[
-  ['stavebnik','Stavebník'],
-  ['adresa_stavebnika','Adresa'],
-  ['zoznam_vypracoval','Zoznam vypracoval']
- ];
+ const projectLabels=[['id_projektu','ID projektu'],['nazov_projektu','Názov projektu']];
+ const documentationLabels=[['stupen_dokumentacie','Stupeň dokumentácie'],['identifikacny_kod_stavby','Identifikačný kód stavby'],['subor_stavieb','Súbor stavieb'],['datum_vydania','Dátum vydania'],['revizia_zoznamu','Revízia zoznamu'],['verzia_zoznamu','Verzia zoznamu'],['zoznam_vypracoval','Zoznam vypracoval']];
  const make=(items,group)=>items.map(([key,label])=>({key,label,value:model.projekt[key]??'',system:true,group}));
- return make(projectLabels,'project').concat(make(documentationLabels,'documentation'),make(investorLabels,'investor'),(model.projekt.customProperties||[]).map(x=>({...x,system:false,group:'investor'})));
+ return make(projectLabels,'project').concat(make(documentationLabels,'documentation'));
 }
 function projectDisplayValue(key,value){if(key==='subor_stavieb')return calculatedBuildingSetValue();const options=projectCodeRegistry[key];if(!options)return value??'';const code=String(value??'').split(/\s+[–-]\s+/)[0].trim();const found=options.find(x=>x.type!=='section'&&x.code===code);return found?`${code} – ${found.name}`:code}
 function projectSettingsTable(rows,extraClass=''){
- return `<table class="objects-table settings-table two-zone-table ${extraClass}"><colgroup><col class="settings-name-col"><col><col class="action-zone-2"></colgroup><tbody>${rows.map(x=>{const valueCell=x.key==='subor_stavieb'?`<span class="settings-calculated-value">${esc(projectDisplayValue(x.key,x.value))}</span>`:`<input data-project="${esc(x.key)}" data-custom-project="${x.system?'0':'1'}" ${projectCodeRegistry[x.key]?'data-project-picker="1" readonly':''} value="${esc(projectDisplayValue(x.key,x.value))}">`;return `<tr><td><span class="settings-fixed-label">${esc(x.label)}</span></td><td>${valueCell}</td><td class="table-action-zone"><button type="button" class="icon-btn btn-copy" data-duplicate-project-property="${esc(x.key)}" title="Duplikovať údaj"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">${iconCopy}</svg></button><button type="button" class="icon-btn btn-danger" data-delete-project-property="${esc(x.key)}" title="Zmazať údaj" ${x.system?'disabled':''}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">${iconTrash}</svg></button></td></tr>`}).join('')}</tbody></table>`
+ return `<table class="objects-table settings-table two-zone-table ${extraClass}"><colgroup><col class="settings-name-col"><col><col class="action-zone-2"></colgroup><tbody>${rows.map(x=>{const required=['id_projektu','nazov_projektu'].includes(x.key),warn=required&&!String(x.value||'').trim()?' field-warning-required':'';const valueCell=x.key==='subor_stavieb'?`<span class="settings-calculated-value">${esc(projectDisplayValue(x.key,x.value))}</span>`:`<input class="${warn.trim()}" ${required?'data-required-warning="1"':''} data-project="${esc(x.key)}" data-custom-project="0" ${projectCodeRegistry[x.key]?'data-project-picker="1"':''} value="${esc(projectDisplayValue(x.key,x.value))}">`;return `<tr class="settings-row-${esc(x.key)}"><td><span class="settings-fixed-label">${esc(x.label)}</span></td><td>${valueCell}</td><td class="table-action-zone"></td></tr>`}).join('')}</tbody></table>`
+}
+function publicFieldGroup(inputs,layout){return `<div class="public-field-group public-field-${layout}">${inputs.join('')}</div>`}
+function publicAddressTable(q=''){
+ const a=ensurePublicLocation().adresa,streetMatch=!q||matchesFilter(`Miesto stavby Ulica a číslo ${a.ulica} ${a.supisne_cislo} ${a.orientacne_cislo}`,q),cityMatch=!q||matchesFilter(`Miesto stavby Mesto a PSČ ${a.mesto} ${a.psc}`,q),rows=[];
+ if(streetMatch)rows.push(`<tr><td><span class="settings-fixed-label"><span class="ui-label-strong">Miesto stavby</span> – Ulica a číslo</span></td><td>${publicFieldGroup([`<input class="${!String(a.ulica||'').trim()?'field-warning-required':''}" data-required-warning="1" data-public-address="ulica" value="${esc(a.ulica||'')}" placeholder="Ulica">`,`<input data-public-address="supisne_cislo" value="${esc(a.supisne_cislo||'')}" placeholder="Súpisné číslo">`,`<input data-public-address="orientacne_cislo" value="${esc(a.orientacne_cislo||'')}" placeholder="Orientačné číslo">`],'address')}</td><td class="table-action-zone"></td></tr>`);
+ if(cityMatch)rows.push(`<tr><td><span class="settings-fixed-label"><span class="ui-label-strong">Miesto stavby</span> – Mesto a PSČ</span></td><td>${publicFieldGroup([`<input class="${!String(a.mesto||'').trim()?'field-warning-required':''}" data-required-warning="1" data-public-address="mesto" value="${esc(a.mesto||'')}" placeholder="Mesto">`,`<input class="${!String(a.psc||'').trim()?'field-warning-required':''}" data-required-warning="1" data-public-address="psc" value="${esc(formatPscPublic(a.psc||''))}" placeholder="PSČ" inputmode="numeric">`],'city')}</td><td class="table-action-zone"></td></tr>`);
+ return `<table class="objects-table settings-table public-address-table two-zone-table"><colgroup><col class="settings-name-col"><col><col class="action-zone-2"></colgroup><tbody>${rows.join('')}</tbody></table>`
+}
+function publicBuilderTable(q=''){
+ const b=ensurePublicBuilder(),privatePerson=b.typ_subjektu_kod==='S',typeLabel=subjectTypeName(b.typ_subjektu_kod),identityText=privatePerson?[b.akademicky_titul_pred_menom,b.meno,b.priezvisko,b.akademicky_titul_za_menom].join(' '):b.obchodne_meno;
+ const identity=privatePerson?publicFieldGroup([
+  `<input data-public-builder="akademicky_titul_pred_menom" value="${esc(b.akademicky_titul_pred_menom||'')}" placeholder="Titul pred menom">`,
+  `<input class="${!String(b.meno||'').trim()?'field-warning-required':''}" data-required-warning="1" data-public-builder="meno" value="${esc(b.meno||'')}" placeholder="Meno">`,
+  `<input class="${!String(b.priezvisko||'').trim()?'field-warning-required':''}" data-required-warning="1" data-public-builder="priezvisko" value="${esc(b.priezvisko||'')}" placeholder="Priezvisko">`,
+  `<input data-public-builder="akademicky_titul_za_menom" value="${esc(b.akademicky_titul_za_menom||'')}" placeholder="Titul za menom">`,
+  `<button type="button" class="app-select-control public-builder-type" data-public-builder-type>${esc(typeLabel)}</button>`],'identity'):
+  publicFieldGroup([`<input class="${b.typ_subjektu_kod==='P'&&!String(b.obchodne_meno||'').trim()?'field-warning-required':''}" ${b.typ_subjektu_kod==='P'?'data-required-warning="1"':''} data-public-builder="obchodne_meno" value="${esc(b.obchodne_meno||'')}" placeholder="Obchodné meno">`,`<button type="button" class="app-select-control public-builder-type" data-public-builder-type>${esc(typeLabel)}</button>`],'company');
+ const addrLabel=privatePerson?'Trvalý pobyt':'Sídlo',rows=[];
+ if(!q||matchesFilter(`Stavebník ${typeLabel} ${identityText}`,q))rows.push(`<tr class="public-builder-primary-label"><td><span class="settings-fixed-label ui-label-strong">Stavebník</span></td><td>${identity}</td><td class="table-action-zone"></td></tr>`);
+ if(!q||matchesFilter(`${addrLabel} Ulica a číslo ${b.ulica} ${b.supisne_cislo} ${b.orientacne_cislo}`,q))rows.push(`<tr><td><span class="settings-fixed-label">${addrLabel} – Ulica a číslo</span></td><td>${publicFieldGroup([`<input data-public-builder="ulica" value="${esc(b.ulica||'')}" placeholder="Ulica">`,`<input data-public-builder="supisne_cislo" value="${esc(b.supisne_cislo||'')}" placeholder="Súpisné číslo">`,`<input data-public-builder="orientacne_cislo" value="${esc(b.orientacne_cislo||'')}" placeholder="Orientačné číslo">`],'address')}</td><td class="table-action-zone"></td></tr>`);
+ if(!q||matchesFilter(`${addrLabel} Mesto a PSČ ${b.mesto} ${b.psc}`,q))rows.push(`<tr><td><span class="settings-fixed-label">${addrLabel} – Mesto a PSČ</span></td><td>${publicFieldGroup([`<input data-public-builder="mesto" value="${esc(b.mesto||'')}" placeholder="Mesto">`,`<input data-public-builder="psc" value="${esc(formatPscPublic(b.psc||''))}" placeholder="PSČ" inputmode="numeric">`],'city')}</td><td class="table-action-zone"></td></tr>`);
+ return `<table class="objects-table settings-table public-builder-table two-zone-table"><colgroup><col class="settings-name-col"><col><col class="action-zone-2"></colgroup><tbody>${rows.join('')}</tbody></table>`
 }
 function settingsHtml(q=''){
- const rows=projectPropertyRows().filter(x=>matchesFilter(`${x.label} ${projectDisplayValue(x.key,x.value)}`,q));
- const project=rows.filter(x=>x.group==='project');
- const documentation=rows.filter(x=>x.group==='documentation');
- const investor=rows.filter(x=>x.group==='investor');
- return `<div class="settings-table-stack">${projectSettingsTable(project,'settings-table-project')}${projectSettingsTable(documentation,'settings-table-documentation')}${projectSettingsTable(investor,'settings-table-investor')}</div>`
+ const rows=projectPropertyRows().filter(x=>matchesFilter(`${x.label} ${projectDisplayValue(x.key,x.value)}`,q)),project=rows.filter(x=>x.group==='project'),documentation=rows.filter(x=>x.group==='documentation');
+ return `<div class="settings-table-stack">${projectSettingsTable(project,'settings-table-project')}${projectSettingsTable(documentation,'settings-table-documentation')}${publicAddressTable(q)}${publicBuilderTable(q)}</div>`
 }
 function addProjectProperty(){model.projekt.customProperties=model.projekt.customProperties||[];model.projekt.customProperties.push({key:'custom_'+uid(),label:'Nový údaj',value:''});render()}
 function findDoc(id){return allDocs().find(x=>x.d.id===id)?.d} function findProf(id){return allProf().find(x=>x.p.id===id)}
 function findDocContext(id){return allDocs().find(x=>x.d.id===id)||null}
+function fileExtensionFromName(name){const match=String(name||'').match(/\.([^.\/]+)$/);return match?match[1].toLowerCase().replace(/[^a-z0-9]+/g,''):'bin'}
+function absoluteSourcePathFromFile(file){
+ // Standard browsers intentionally do not expose an absolute local filesystem path.
+ // Desktop/webview runtimes may expose one through non-standard File.path/fullPath/mozFullPath.
+ for(const candidate of [file?.path,file?.fullPath,file?.mozFullPath,file?._sourceFullPath]){
+  const value=String(candidate||'').trim();
+  if(/^[A-Za-z]:[\\/]/.test(value)||/^\\\\[^\\/]+[\\/][^\\/]+/.test(value))return value;
+ }
+ return '';
+}
+function sourceDirectoryFromFile(file){
+ const full=absoluteSourcePathFromFile(file);
+ if(!full)return '';
+ const slash=Math.max(full.lastIndexOf('\\'),full.lastIndexOf('/'));
+ return slash>=0?full.slice(0,slash):'';
+}
+function sourceLocationFromFile(file){
+ // Preserve this helper for existing import/recovery logic, but never call a basename a path.
+ // Relative directory selections may still carry webkitRelativePath; this is not an absolute Windows/UNC path.
+ return sourceDirectoryFromFile(file)||String(file?.webkitRelativePath||'').trim();
+}
+function assignDroppedFileToDocument(documentId,file,handle=null){
+ const found=findDocContext(documentId);if(!found||!file)return;
+ const wasAlreadyAssigned=attachedDocumentFiles.has(documentId);
+ const extension=fileExtensionFromName(file.name),sourceDirectory=sourceDirectoryFromFile(file);
+ attachedDocumentFiles.set(documentId,file);if(wasAlreadyAssigned)manuallyReplacedDocumentIds.add(documentId);else manuallyReplacedDocumentIds.delete(documentId);if(handle)attachedDocumentHandles.set(documentId,handle);else attachedDocumentHandles.delete(documentId);
+ if(sourceDirectory)attachedDocumentSourceDirectories.set(documentId,sourceDirectory);else attachedDocumentSourceDirectories.delete(documentId);
+ manuallyDroppedDocumentIds.add(documentId);found.d.pripona=extension||'bin';found.d.priradeny_subor_nazov=file.name||'';found.d.priradeny_subor_povodna_cesta=sourceDirectory;
+ render();
+ if(sourceDirectory)toast(`Priradený súbor: ${file.name||'súbor'}`);else toast(`Priradený súbor: ${file.name||'súbor'} · prehliadač neposkytol úplnú cestu; pole path zostane prázdne`)
+}
+async function validateAttachedDocumentFiles(){
+ let missing=0,checked=0;
+ for(const [documentId,file] of [...attachedDocumentFiles.entries()]){
+  checked++;let current=file,valid=true;const handle=attachedDocumentHandles.get(documentId);
+  try{
+   if(handle&&handle.kind==='file'){current=await handle.getFile();attachedDocumentFiles.set(documentId,current)}
+   else if(file?.slice)await file.slice(0,Math.min(1,file.size||1)).arrayBuffer();
+   else valid=false;
+  }catch(_){valid=false}
+  if(!valid){attachedDocumentFiles.delete(documentId);attachedDocumentHandles.delete(documentId);manuallyReplacedDocumentIds.delete(documentId);missing++;}
+ }
+ if(missing)toast(`Chýbajúce súbory: ${missing}. Označené oranžovou farbou.`);
+ return {checked,missing};
+}
+let documentFileDragHoverRow=null;
+function clearDocumentFileDragHover(){
+ if(documentFileDragHoverRow?.isConnected)documentFileDragHoverRow.classList.remove('document-file-drag-over');
+ documentFileDragHoverRow=null;
+ document.querySelectorAll('.document-file-drag-over').forEach(row=>row.classList.remove('document-file-drag-over'));
+}
+function dataTransferHasFiles(dataTransfer){
+ if(!dataTransfer)return false;
+ if(dataTransfer.files?.length)return true;
+ return Array.from(dataTransfer.types||[]).includes('Files');
+}
+function documentFileDropRowFromEvent(e){
+ let target=e.target instanceof Element?e.target:null;
+ let row=target?.closest?.('[data-document-row]')||null;
+ if(!row&&Number.isFinite(e.clientX)&&Number.isFinite(e.clientY))row=document.elementFromPoint(e.clientX,e.clientY)?.closest?.('[data-document-row]')||null;
+ return row;
+}
+function eventIsMainImportDropZone(e){
+ const target=e.target instanceof Element?e.target:null;
+ return Boolean(target?.closest?.('#dropZone'));
+}
+function setDocumentFileDragHover(row){
+ if(documentFileDragHoverRow===row)return;
+ if(documentFileDragHoverRow?.isConnected)documentFileDragHoverRow.classList.remove('document-file-drag-over');
+ documentFileDragHoverRow=row||null;
+ if(documentFileDragHoverRow)documentFileDragHoverRow.classList.add('document-file-drag-over');
+}
+async function droppedFileAndHandleFromTransfer(dataTransfer){
+ const item=Array.from(dataTransfer?.items||[]).find(x=>x.kind==='file');
+ if(item&&typeof item.getAsFileSystemHandle==='function'){
+  try{const handle=await item.getAsFileSystemHandle();if(handle?.kind==='file')return {file:await handle.getFile(),handle}}catch(_){}
+ }
+ const file=(dataTransfer?.files?.length?dataTransfer.files[0]:item?.getAsFile?.())||null;
+ return {file,handle:null};
+}
+function handleDocumentFileDragCapture(e){
+ if(!documentFileDropMode||currentView!=='documents'||!dataTransferHasFiles(e.dataTransfer)||eventIsMainImportDropZone(e))return;
+ e.preventDefault();
+ if(e.dataTransfer)e.dataTransfer.dropEffect='copy';
+ setDocumentFileDragHover(documentFileDropRowFromEvent(e));
+}
+async function handleDocumentFileDropCapture(e){
+ if(!documentFileDropMode||currentView!=='documents'||!dataTransferHasFiles(e.dataTransfer)||eventIsMainImportDropZone(e))return;
+ // Critical: cancel the browser's native "open dropped file" navigation before any row handler can miss it.
+ e.preventDefault();
+ e.stopPropagation();
+ const row=documentFileDropRowFromEvent(e),{file,handle}=await droppedFileAndHandleFromTransfer(e.dataTransfer);
+ clearDocumentFileDragHover();
+ if(row&&file)assignDroppedFileToDocument(row.dataset.documentRow,file,handle);
+ else if(file)toast('Súbor presuňte priamo na riadok dokumentu');
+}
+document.addEventListener('dragenter',handleDocumentFileDragCapture,true);
+document.addEventListener('dragover',handleDocumentFileDragCapture,true);
+document.addEventListener('drop',handleDocumentFileDropCapture,true);
+document.addEventListener('dragleave',e=>{if(documentFileDropMode&&currentView==='documents'&&(!e.relatedTarget||e.clientX===0&&e.clientY===0))clearDocumentFileDragHover()},true);
+window.addEventListener('blur',clearDocumentFileDragHover);
+function bindDocumentFileDropZones(){
+ if(!documentFileDropMode)return;
+ document.querySelectorAll('[data-document-row]').forEach(row=>{
+  row.classList.add('document-file-drop-row');
+  row.title=attachedDocumentFiles.has(row.dataset.documentRow)?`Priradený súbor: ${attachedDocumentFiles.get(row.dataset.documentRow).name}. Presunutím nového súboru ho nahradíte.`:'Presuňte súbor na tento riadok';
+  row.querySelectorAll('input,textarea,select,button,a,.editable-control,.doc-number-input,.number-dial,.document-selection-zone').forEach(control=>{if('readOnly' in control)control.readOnly=true;control.tabIndex=-1;control.setAttribute('aria-disabled','true')});
+ })
+}
 function orderedSectionDocuments(sectionKey){
  const items=allDocs().filter(({o,d})=>documentSectionKey(o,d)===sectionKey);
  return items.sort((a,b)=>{
@@ -557,6 +947,59 @@ function reorderDocumentBlock(sourceId,targetId,placeAfter=false){
  else remaining.forEach((x,i)=>x.d._displayOrder=i);
  return true;
 }
+function bindProfessionDragSelection(){
+ document.querySelectorAll('[data-profession-drag]').forEach(zone=>{
+  zone.onpointerdown=e=>{
+   if(e.button!==0)return;
+   e.preventDefault();e.stopPropagation();
+   const sourceId=zone.dataset.professionDrag,objectId=zone.dataset.professionObject;
+   const sourceRow=zone.closest('tr.document-profession-subsection');
+   if(!sourceRow)return;
+   const startX=e.clientX,startY=e.clientY;
+   let dragging=false,ghost=null,grabOffsetY=0,targetId=null,after=false;
+   const clear=()=>document.querySelectorAll('.profession-drag-target-before,.profession-drag-target-after').forEach(el=>el.classList.remove('profession-drag-target-before','profession-drag-target-after'));
+   const move=ev=>{
+    if(!dragging&&Math.hypot(ev.clientX-startX,ev.clientY-startY)>=5){
+     dragging=true;
+     const rect=sourceRow.getBoundingClientRect(),table=document.createElement('table'),body=document.createElement('tbody'),clone=sourceRow.cloneNode(true);
+     table.className='documentation-table document-drag-ghost profession-drag-ghost';
+     clone.querySelectorAll('button,input').forEach(el=>el.tabIndex=-1);
+     [...sourceRow.children].forEach((cell,i)=>{if(clone.children[i])clone.children[i].style.width=`${cell.getBoundingClientRect().width}px`});
+     body.appendChild(clone);table.appendChild(body);table.style.left=`${rect.left}px`;table.style.top=`${rect.top}px`;table.style.width=`${rect.width}px`;
+     grabOffsetY=startY-rect.top;document.body.appendChild(table);ghost=table;sourceRow.classList.add('document-drag-source');
+    }
+    if(!dragging)return;
+    ghost.style.top=`${ev.clientY-grabOffsetY}px`;
+    clear();targetId=null;
+    const row=document.elementFromPoint(ev.clientX,ev.clientY)?.closest('tr.document-profession-subsection');
+    if(!row||row===sourceRow)return;
+    const candidate=row.querySelector('[data-profession-drag]');
+    if(!candidate||candidate.dataset.professionObject!==objectId)return;
+    targetId=candidate.dataset.professionDrag;
+    const rect=row.getBoundingClientRect();const ghostMid=ev.clientY-grabOffsetY+sourceRow.getBoundingClientRect().height/2;
+    after=ghostMid>rect.top+rect.height/2;
+    row.classList.add(after?'profession-drag-target-after':'profession-drag-target-before');
+   };
+   const up=()=>{
+    document.removeEventListener('pointermove',move,true);document.removeEventListener('pointerup',up,true);
+    clear();sourceRow.classList.remove('document-drag-source');ghost?.remove();
+    if(!dragging){
+     // A pointer gesture below the drag threshold is an ordinary click.
+     // Delegate to the existing hierarchy toggle so click and drag coexist.
+     sourceRow.querySelector('[data-profession-collapse]')?.click();
+     return;
+    }
+    if(!targetId)return;
+    const object=allObjects().find(o=>o.id===objectId);if(!object)return;
+    const professions=object.profesie||[],from=professions.findIndex(p=>p.id===sourceId),to=professions.findIndex(p=>p.id===targetId);
+    if(from<0||to<0||from===to)return;
+    const [item]=professions.splice(from,1);const targetIndex=professions.findIndex(p=>p.id===targetId);
+    professions.splice(targetIndex+(after?1:0),0,item);render();
+   };
+   document.addEventListener('pointermove',move,true);document.addEventListener('pointerup',up,true);
+  };
+ });
+}
 function bindDocumentDragSelection(){
  document.querySelectorAll('[data-select-document]').forEach(zone=>{
   zone.onpointerdown=e=>{
@@ -576,12 +1019,59 @@ function bindDocumentDragSelection(){
   };
  });
 }
+function normalizedPickerText(value){return String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('sk').trim()}
 function showProjectCodeMenu(input){
  closeFloatingEditor();const key=input.dataset.project,options=projectCodeRegistry[key];if(!options)return;
+ const query=key==='identifikacny_kod_stavby'&&input.dataset.pickerFiltering==='1'?normalizedPickerText(input.value):'';
+ const filtered=[];let section=null;
+ for(const opt of options){if(opt.type==='section'){section=opt;continue}
+  if(query&&!normalizedPickerText(opt.code+' '+opt.name).includes(query))continue;
+  if(section){filtered.push(section);section=null}filtered.push(opt);
+ }
  const menu=document.createElement('div');menu.className='doc-type-menu project-code-menu';menu.setAttribute('role','listbox');
- menu.innerHTML=options.map(x=>x.type==='section'?`<div class="picker-section-header">${esc(x.name)}</div>`:`<button type="button" data-project-code="${esc(x.code)}"><strong>${esc(x.code)}</strong><span>${esc(x.name)}</span></button>`).join('');
- positionFloatingMenu(menu,input);menu.querySelectorAll('[data-project-code]').forEach(b=>b.onclick=()=>{model.projekt[key]=b.dataset.projectCode;if(key==='identifikacny_kod_stavby')syncSingleBuildingSetCodeFromProject();closeFloatingEditor();render()});
+ menu.innerHTML=filtered.map(x=>x.type==='section'?`<div class="picker-section-header">${esc(x.name)}</div>`:`<button type="button" data-project-code="${esc(x.code)}"><strong>${esc(x.code)}</strong><span>${esc(x.name)}</span></button>`).join('');
+ positionFloatingMenu(menu,input);
+ menu.querySelectorAll('[data-project-code]').forEach(b=>b.onpointerdown=e=>{e.preventDefault();e.stopPropagation();model.projekt[key]=b.dataset.projectCode;if(key==='identifikacny_kod_stavby')syncSingleBuildingSetCodeFromProject();closeFloatingEditor();render()});
+ return filtered.filter(x=>x.type==='item');
 }
+const nameTitlesBefore=['Bc.','Mgr.','Mgr. art.','Mgr. arch.','Ing.','Ing. arch.','MUDr.','MDDr.','MVDr.','JUDr.','PhDr.','RNDr.','PaedDr.','PharmDr.','ThDr.','ThLic.','doc.','prof.','BA','B.A.','BSc.','B.Sc.','BEng.','B.Eng.','MA','M.A.','MSc.','M.Sc.','MEng.','M.Eng.','MArch.','M.Arch.','LL.B.','LL.M.','Dr.','Dipl.-Ing.'].sort((a,b)=>a.localeCompare(b,'sk'));
+const nameTitlesAfter=['PhD.','ArtD.','CSc.','DrSc.'].sort((a,b)=>a.localeCompare(b,'sk'));
+function showAcademicTitleMenu(input){
+ document.querySelector('.academic-title-menu')?.remove();
+ const isBefore=(input.dataset.personField||input.dataset.publicBuilder||'').includes('akademicky_titul_pred_menom');
+ const values=(isBefore?nameTitlesBefore:nameTitlesAfter).filter(v=>normalizedPickerText(v).startsWith(normalizedPickerText(input.value)));
+ if(!values.length)return;
+ const menu=document.createElement('div');menu.className='person-menu academic-title-menu';
+ menu.innerHTML=values.map((v,i)=>`<button type="button" data-academic-title-index="${i}">${esc(v)}</button>`).join('');
+ positionFloatingMenu(menu,input);
+ menu.querySelectorAll('[data-academic-title-index]').forEach(btn=>btn.onpointerdown=e=>{e.preventDefault();e.stopPropagation();const chosen=values[Number(btn.dataset.academicTitleIndex)];input.dataset.academicTitleSelected=chosen;input.value=chosen;input.dispatchEvent(new Event('input',{bubbles:true}));menu.remove();input.focus();input.select()});
+}
+function bindAcademicTitles(){document.querySelectorAll('[data-person-field],[data-public-builder]').forEach(input=>{
+ const key=input.dataset.personField||input.dataset.publicBuilder||'';
+ if(!/akademicky_titul_(pred|za)_menom/.test(key))return;
+ input.addEventListener('focus',()=>{if(input.dataset.academicTitleSelected!==input.value)showAcademicTitleMenu(input)});
+ input.addEventListener('input',()=>{if(input.dataset.academicTitleSelected===input.value)return;delete input.dataset.academicTitleSelected;showAcademicTitleMenu(input)});
+ });}
+function bindReliableFormNavigation(){
+ const selector='[data-project]:not([data-project-picker]):not([readonly]),[data-public-address],[data-public-builder],[data-person-field],[data-statement-field],[data-statements-meta]';
+ document.querySelectorAll(selector).forEach(input=>{
+ input.addEventListener('keydown',event=>{
+  if(event.key!=='Tab'&&event.key!=='Enter')return;
+  const fields=[...document.querySelectorAll(selector)].filter(e=>!e.disabled&&e.getClientRects().length);
+  const pos=fields.indexOf(input);if(pos<0)return;
+  const target=event.key==='Tab'?fields[pos+(event.shiftKey?-1:1)]:input;
+  if(!target)return;
+  event.preventDefault();event.stopImmediatePropagation();
+  const identity=(el)=>{for(const attr of ['data-project','data-public-address','data-public-builder','data-person-field','data-statement-field','data-statements-meta'])if(el.hasAttribute(attr))return [attr,el.getAttribute(attr)];return null};
+  const id=identity(target);
+  if(input.onchange)input.dispatchEvent(new Event('change',{bubbles:false}));
+  requestAnimationFrame(()=>{const match=id?[...document.querySelectorAll('['+id[0]+']')].find(el=>el.getAttribute(id[0])===id[1]):null;
+   if(match){match.focus({preventScroll:true});if(typeof match.select==='function')match.select()}
+  });
+ },true);
+ });
+}
+
 function closeObjectTypeMenu(){document.querySelector('.object-type-menu')?.remove()}
 function showObjectTypeMenu(button,id){
  closeObjectTypeMenu();const menu=document.createElement('div');menu.className='object-type-menu';menu.setAttribute('role','listbox');
@@ -696,8 +1186,12 @@ function installDefaultTextSelection(){
   if(input.dataset.selectAllBound)return;input.dataset.selectAllBound='1';
   input.addEventListener('focus',()=>{
    if(input.dataset.suppressSelectOnce==='1'){delete input.dataset.suppressSelectOnce;input.dataset.justFocused='0';return}
-   input.dataset.justFocused='1';requestAnimationFrame(()=>input.select())
+   input.dataset.justFocused='1';
+   // Select immediately: a queued animation-frame selection can occur after
+   // the first keystroke and unexpectedly overwrite newly typed characters.
+   if(typeof input.select==='function')input.select();
   });
+  input.addEventListener('input',()=>{input.dataset.justFocused='0'});
   input.addEventListener('pointerup',e=>{if(input.dataset.justFocused==='1'){e.preventDefault();input.dataset.justFocused='0'}});
   input.addEventListener('blur',()=>{input.dataset.justFocused='0'});
  });
@@ -776,6 +1270,7 @@ function duplicateDocument(id){
  const used=new Set(group.map(({d})=>Math.max(0,Number(d.cislo_dokumentu)||0)));
  let next=Math.max(0,Number(found.d.cislo_dokumentu)||0)+1;while(used.has(next))next++;
  const clone={...structuredClone(found.d),id:uid(),cislo_dokumentu:next};
+ if(attachedDocumentFiles.has(id)){clone.pripona='pdf';delete clone.priradeny_subor_nazov}
  if(section==='D'){
   // Preserve the user's current profession order and append the duplicate.
   found.p.dokumenty=found.p.dokumenty||[];
@@ -885,10 +1380,18 @@ function bindConstructionHierarchyDrag(){
   const up=()=>{document.removeEventListener('pointermove',move,true);document.removeEventListener('pointerup',up,true);ghost?.remove();row.classList.remove('construction-drag-source');clear();if(dragging&&targetSet){moveConstructionBlock(id,targetSet,targetObject,after);render()}else selectConstructionObject(id,e)};document.addEventListener('pointermove',move,true);document.addEventListener('pointerup',up,true)
  })
 }
+function showPublicBuilderTypeMenu(anchor){
+ closePersonMenu?.();const old=document.querySelector('.public-builder-type-menu');if(old)old.remove();const menu=document.createElement('div');menu.className='person-menu public-builder-type-menu';menu.innerHTML=publicSubjectTypeOptions.map(x=>`<button type="button" data-public-builder-type-value="${x.code}">${esc(x.name)}</button>`).join('');document.body.appendChild(menu);positionFloatingMenu(menu,anchor);menu.querySelectorAll('[data-public-builder-type-value]').forEach(b=>b.onpointerdown=e=>{e.preventDefault();if(ensurePublicBuilder().typ_subjektu_kod!==b.dataset.publicBuilderTypeValue){model._builderIdentityDirty=true;model._builderFieldsDirty=true}ensurePublicBuilder().typ_subjektu_kod=b.dataset.publicBuilderTypeValue;menu.remove();render()});setTimeout(()=>document.addEventListener('pointerdown',function closer(e){if(!menu.contains(e.target)&&e.target!==anchor){menu.remove();document.removeEventListener('pointerdown',closer)}},true),0)
+}
 function bindInputs(){
- installDefaultTextSelection();bindHierarchyControls();
- document.querySelectorAll('[data-building-set-collapse]').forEach(el=>el.onclick=e=>{if(e.target.closest('button'))return;const id=el.dataset.buildingSetCollapse;if(collapsedDocumentBuildingSets.has(id))collapsedDocumentBuildingSets.delete(id);else collapsedDocumentBuildingSets.add(id);render()});
+ document.querySelectorAll('.professions-table input[readonly],.attachments-table input[readonly]').forEach(input=>{input.addEventListener('focus',()=>input.select());input.addEventListener('click',()=>input.select())});
+ installDefaultTextSelection();bindHierarchyControls();bindDocumentFileDropZones();
+ document.querySelectorAll('[data-building-set-collapse]').forEach(el=>bindHierarchyClickPair(el,
+  el=>{const id=el.dataset.buildingSetCollapse;collapsedDocumentBuildingSets.has(id)?collapsedDocumentBuildingSets.delete(id):collapsedDocumentBuildingSets.add(id);render()},
+  el=>{const id=el.dataset.buildingSetCollapse;if(collapsedDocumentBuildingSets.has(id)){collapsedDocumentBuildingSets.clear()}else{ensureBuildingSets().forEach(set=>collapsedDocumentBuildingSets.add(set.id))}render()}
+ ));
  bindDocumentDragSelection();
+ bindProfessionDragSelection();
  document.querySelectorAll('[data-person-picker]').forEach(i=>{i.addEventListener('focus',()=>showPersonMenu(i,false));i.addEventListener('input',()=>showPersonMenu(i,true))});
  document.querySelectorAll('.doc-name-input').forEach(i=>{const show=(filterByInput=false)=>showDocumentValueMenu(i,firstDocumentWords(),value=>{i.value=value;i.dispatchEvent(new Event('change',{bubbles:true}))},filterByInput);i.addEventListener('focus',()=>show(false));i.addEventListener('input',()=>show(true));i.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();i.blur()}if(e.key==='Escape')render()})});
  document.querySelectorAll('[data-filename-editor]').forEach(i=>{const original=i.value;alignFilenameEnd(i);i.addEventListener('focus',()=>selectFilename(i));i.addEventListener('pointerup',e=>{if(document.activeElement===i){e.preventDefault();selectFilename(i)}});const restore=()=>{i.value=original;alignFilenameEnd(i);i.blur()};i.addEventListener('blur',()=>{i.value=original;alignFilenameEnd(i)});i.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key==='Escape'){e.preventDefault();restore()}})});
@@ -899,10 +1402,10 @@ function bindInputs(){
  document.querySelectorAll('[data-doc-revision]').forEach(b=>b.onpointerdown=e=>{e.preventDefault();editDocumentRevision(b.dataset.docRevision)});
  document.querySelectorAll('[data-number-dial]').forEach(b=>b.onmousedown=e=>attachNumberDial(e,b.dataset.numberDial));
  document.querySelectorAll('.doc-number-input').forEach(i=>i.oninput=()=>{i.value=i.value.replace(/\D/g,'')});
- document.querySelectorAll('[data-registry-prof]').forEach(i=>i.onchange=()=>{const [id,key]=i.dataset.registryProf.split(':'),p=professionOptions().find(x=>x.id===id);if(!p)return;let value=i.value.trim();if(key==='kod')value=value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,3);if(value)p[key]=value;render()});
+ document.querySelectorAll('[data-registry-prof]').forEach(i=>i.onchange=()=>{const [id,key]=i.dataset.registryProf.split(':'),p=professionOptions().find(x=>x.id===id);if(!p)return;if(p.system){render();return}let value=i.value.trim();if(key==='kod')value=value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,3);if(value)p[key]=value;render()});
  document.querySelectorAll('[data-duplicate-registry-prof]').forEach(b=>b.onclick=()=>{const p=professionOptions().find(x=>x.id===b.dataset.duplicateRegistryProf);if(!p)return;let n=1,k;do{k='X'+String(n++).padStart(2,'0')}while(model.professionRegistry.some(x=>x.kod===k));model.professionRegistry.push({id:uid(),kod:k,nazov:p.nazov+' kópia',system:false});render()});
  document.querySelectorAll('[data-del-registry-prof]').forEach(b=>b.onclick=()=>{const p=professionOptions().find(x=>x.id===b.dataset.delRegistryProf);if(!p||p.system)return;model.professionRegistry=professionOptions().filter(p=>p.id!==b.dataset.delRegistryProf);render()});
- document.querySelectorAll('[data-registry-attachment]').forEach(i=>i.onchange=()=>{const [id,key]=i.dataset.registryAttachment.split(':'),p=ensureAttachmentRegistry().find(x=>x.id===id);if(!p)return;let value=i.value.trim();if(key==='kod')value=value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,3);if(value)p[key]=value;render()});
+ document.querySelectorAll('[data-registry-attachment]').forEach(i=>i.onchange=()=>{const [id,key]=i.dataset.registryAttachment.split(':'),p=ensureAttachmentRegistry().find(x=>x.id===id);if(!p)return;if(p.system){render();return}let value=i.value.trim();if(key==='kod')value=value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,3);if(value)p[key]=value;render()});
  document.querySelectorAll('[data-duplicate-registry-attachment]').forEach(b=>b.onclick=()=>{const p=ensureAttachmentRegistry().find(x=>x.id===b.dataset.duplicateRegistryAttachment);if(!p)return;model.attachmentRegistry.push({id:uid(),kod:p.kod,nazov:p.nazov+' kópia',system:false});render()});
  document.querySelectorAll('[data-del-registry-attachment]').forEach(b=>b.onclick=()=>{const p=ensureAttachmentRegistry().find(x=>x.id===b.dataset.delRegistryAttachment);if(!p||p.system)return;model.attachmentRegistry=ensureAttachmentRegistry().filter(x=>x.id!==p.id);render()});
  document.querySelectorAll('[data-hierarchy-add-set]').forEach(b=>b.onclick=e=>{e.stopPropagation();addObjectGroupWithStarter()});
@@ -919,7 +1422,12 @@ function bindInputs(){
  document.querySelectorAll('[data-building-set-type]').forEach(b=>b.onclick=e=>{e.stopPropagation();showBuildingSetTypeMenu(b,b.dataset.buildingSetType)});
  document.querySelectorAll('[data-building-set-name]').forEach(i=>i.onchange=()=>{const x=ensureBuildingSets().find(v=>v.id===i.dataset.buildingSetName);if(x)x.nazov=i.value.trim()||'Stavebný súbor';render()});
  document.querySelectorAll('[data-building-set-number]').forEach(i=>{i.onfocus=()=>{i.value=String(Number(i.value.replace(/\D/g,''))||1);requestAnimationFrame(()=>i.select())};i.oninput=()=>{i.value=i.value.replace(/\D/g,'').slice(0,2)};i.onblur=()=>{const x=ensureBuildingSets().find(v=>v.id===i.dataset.buildingSetNumber);if(x)x.cislo=Math.max(1,Number(i.value)||1);render()};i.onkeydown=e=>{if(e.key==='Enter')i.blur();if(e.key==='Escape')render()}});
- document.querySelectorAll('[data-project-picker]').forEach(i=>{i.onclick=e=>{e.stopPropagation();showProjectCodeMenu(i)};i.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();showProjectCodeMenu(i)}}});
+ document.querySelectorAll('[data-project-picker]').forEach(i=>{i.onclick=e=>{e.stopPropagation();showProjectCodeMenu(i)};i.onfocus=()=>{i.dataset.pickerFiltering='0';if(i.dataset.project==='identifikacny_kod_stavby')i.select();showProjectCodeMenu(i)};i.oninput=()=>{i.dataset.pickerFiltering='1';showProjectCodeMenu(i)};i.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();e.stopPropagation();const matches=showProjectCodeMenu(i);if(matches?.length===1){model.projekt[i.dataset.project]=matches[0].code;if(i.dataset.project==='identifikacny_kod_stavby')syncSingleBuildingSetCodeFromProject();closeFloatingEditor();render()}}else if(e.key==='Escape'){closeFloatingEditor();i.value=projectDisplayValue(i.dataset.project,model.projekt[i.dataset.project])}}});
+ document.querySelectorAll('[data-project-validation-index]').forEach(b=>b.onclick=()=>flashPublicProjectValidation(Number(b.dataset.projectValidationIndex)));
+ document.querySelectorAll('[data-public-address]').forEach(i=>{i.oninput=()=>{const a=ensurePublicLocation().adresa,key=i.dataset.publicAddress;if(key==='psc'){i.value=formatPscPublic(i.value);a.psc=normalizePscPublic(i.value)}else{a[key]=i.value;if(key==='mesto')a.cityID=''}model._locationAddressDirty=true};i.onchange=()=>render()});
+ document.querySelectorAll('[data-public-builder]').forEach(i=>{i.oninput=()=>{const b=ensurePublicBuilder(),key=i.dataset.publicBuilder;if(key==='psc'){i.value=formatPscPublic(i.value);b.psc=normalizePscPublic(i.value)}else b[key]=i.value;model._builderFieldsDirty=true;if(['obchodne_meno','meno','priezvisko'].includes(key))model._builderIdentityDirty=true};i.onchange=()=>render()});
+ document.querySelectorAll('[data-public-builder-type]').forEach(btn=>btn.onclick=e=>{e.stopPropagation();showPublicBuilderTypeMenu(btn)});
+ bindAcademicTitles();bindReliableFormNavigation();
  const projectInputs=[...document.querySelectorAll('[data-project]')];
  const commitProjectInput=i=>{if(i.dataset.projectPicker||i.dataset.calculatedProject)return;if(i.dataset.customProject==='1'){const x=(model.projekt.customProperties||[]).find(x=>x.key===i.dataset.project);if(x)x.value=i.value}else model.projekt[i.dataset.project]=i.dataset.project==='id_projektu'?normalizeProjectId(i.value):i.value};
  projectInputs.forEach((i,projectInputIndex)=>{
@@ -992,7 +1500,7 @@ function bindInputs(){
  document.querySelectorAll('[data-doc-scale]').forEach(b=>b.onpointerdown=e=>{e.preventDefault();editDocumentScale(b.dataset.docScale)});
  document.querySelectorAll('[data-doc-scale-input]').forEach(i=>{i.oninput=()=>{showDocumentValueMenu(i,documentSuggestionValues('mierka'),i._scaleChoose||(()=>{}),true)};i.onblur=()=>commitDocumentScale(i);i.onkeydown=e=>{if(e.key==='Enter')i.blur();if(e.key==='Escape')render()}});
  document.querySelectorAll('[data-duplicate-object]').forEach(b=>b.onclick=()=>duplicateObject(b.dataset.duplicateObject));
- document.querySelectorAll('[data-del-doc]').forEach(b=>b.onclick=()=>{let x=allDocs().find(x=>x.d.id===b.dataset.delDoc);if(x.p)x.p.dokumenty=x.p.dokumenty.filter(d=>d.id!==x.d.id);else model.prilohy=model.prilohy.filter(d=>d.id!==x.d.id);render()});
+ document.querySelectorAll('[data-del-doc]').forEach(b=>b.onclick=()=>{let x=allDocs().find(x=>x.d.id===b.dataset.delDoc);if(!x)return;attachedDocumentFiles.delete(x.d.id);attachedDocumentHandles.delete(x.d.id);attachedDocumentSourceDirectories.delete(x.d.id);manuallyDroppedDocumentIds.delete(x.d.id);manuallyReplacedDocumentIds.delete(x.d.id);preservedIndexedDocumentIds.delete(x.d.id);if(x.p)x.p.dokumenty=x.p.dokumenty.filter(d=>d.id!==x.d.id);else model.prilohy=model.prilohy.filter(d=>d.id!==x.d.id);render()});
  document.querySelectorAll('[data-del-prof]').forEach(b=>b.onclick=()=>{const x=findProf(b.dataset.delProf);if(!x)return;const documentCount=(x.p.dokumenty||[]).length;if(documentCount===0||confirm(`Vymazať profesiu a ${documentCount} dokumentov?`)){x.o.profesie=x.o.profesie.filter(p=>p.id!==x.p.id);render()}});
  document.querySelectorAll('[data-del-object]').forEach(b=>b.onclick=()=>{const o=allObjects().find(o=>o.id===b.dataset.delObject);if(!o)return;const documentCount=(o.profesie||[]).reduce((sum,p)=>sum+(p.dokumenty||[]).length,0);if(documentCount===0||confirm('Vymazať objekt, všetky profesie a dokumenty?')){model.sekcie.forEach(s=>s.objekty=s.objekty.filter(x=>x.id!==o.id));render()}})
 }
@@ -1022,7 +1530,27 @@ function deleteBuildingSetFromDocuments(id){deleteBuildingSet(id);collapsedDocum
 
 function newDoc(n=1){return{id:uid(),cislo_dokumentu:n,nazov_dokumentu:'Dokument',typ_dokumentu:'TXT',revizia:'00',mierka:'',zodpovedny_projektant:'',pripona:'pdf'}}
 function addObject(){let used=new Set(allObjects().filter(o=>objectKind(o)==='S').map(o=>Number(objectNumber(o)))),n=1;while(used.has(n))n++;let o={id:uid(),kod:'S'+String(n).padStart(2,'0'),nazov:'Stavebný objekt',stavebnySuborId:ensureBuildingSets()[0].id,profesie:[]};const p=addStarterProfessionToObject(o);model.sekcie[0].objekty.push(o);expanded.add(o.id);if(p)expanded.add(p.id);pendingNewObjectId=o.id;render()}function addProfession(oid){if(currentView==='professions'&&!oid){ensureProfessionRegistry();let n=1,k;do{k='X'+String(n).padStart(2,'0');n++}while(model.professionRegistry.some(p=>p.kod===k));model.professionRegistry.push({id:uid(),kod:k,nazov:'Nová profesia',system:false});render();return}let o=allObjects().find(x=>x.id===oid)||allObjects()[0];if(!o)return toast('Najprv pridajte stavebný objekt');let k=professionOptions().map(x=>x.kod).find(k=>!(o.profesie||[]).some(p=>p.kod===k))||'INE',p={id:uid(),kod:k,nazov:professionName(k),dokumenty:[createStarterDocument(1)]};o.profesie.push(p);expanded.add(o.id);expanded.add(p.id);render()}function addDocument(pid){let x=findProf(pid)||allProf()[0];if(!x)return toast('Najprv pridajte profesiu');x.p.dokumenty.push(newDoc(x.p.dokumenty.length+1));expanded.add(x.o.id);expanded.add(x.p.id);render()}
-function normalize(m){m.projekt=m.projekt||{};if(!('miesto_stavby_ulica' in m.projekt))m.projekt.miesto_stavby_ulica=String(m.projekt.miesto_stavby||'');if(!('miesto_stavby_mesto' in m.projekt))m.projekt.miesto_stavby_mesto='';if(!('miesto_stavby_psc' in m.projekt))m.projekt.miesto_stavby_psc='';delete m.projekt.miesto_stavby;if(!('verzia_zoznamu' in m.projekt))m.projekt.verzia_zoznamu='v1.0';if(!('stavebnik' in m.projekt))m.projekt.stavebnik='';if(!('adresa_stavebnika' in m.projekt))m.projekt.adresa_stavebnika='';if(!('zoznam_vypracoval' in m.projekt))m.projekt.zoznam_vypracoval='';m.sekcie=m.sekcie||[{id:uid(),kod:'D',nazov:'Dokumentácia stavebných objektov',objekty:[]}];m.sekcie.forEach(s=>{s.id=s.id||uid();s.objekty=(s.objekty||[]).map(o=>({...o,id:o.id||uid(),profesie:(o.profesie||[]).map(p=>({...p,id:p.id||uid(),dokumenty:(p.dokumenty||[]).map(d=>({...newDoc(),...d,id:d.id||uid()}))}))}))});m.prilohy=(m.prilohy||[]).map(d=>({...newDoc(),...d,id:d.id||uid(),cast:'E00'}));if(!Array.isArray(m.stavebneSubory)||!m.stavebneSubory.length)m.stavebneSubory=[{id:uid(),cislo:1,kod_stavby:String(m.projekt.identifikacny_kod_stavby||'1111').slice(0,4),nazov:'Hlavný stavebný súbor'}];const first=m.stavebneSubory[0].id;m.sekcie.flatMap(s=>s.objekty||[]).filter(o=>o.typ!=='cast').forEach(o=>{if(!m.stavebneSubory.some(x=>x.id===o.stavebnySuborId))o.stavebnySuborId=first});return m}
+function normalize(m){
+ m=m||{};m.verzia_schema=JSON_SCHEMA_VERSION;m.projekt=m.projekt||{};
+ if(!('verzia_zoznamu' in m.projekt))m.projekt.verzia_zoznamu='v1.0';
+ if(!('zoznam_vypracoval' in m.projekt))m.projekt.zoznam_vypracoval='';
+ if(!('stupen_dokumentacie' in m.projekt))m.projekt.stupen_dokumentacie='SZP';
+ if(!('identifikacny_kod_stavby' in m.projekt))m.projekt.identifikacny_kod_stavby='1111';
+ if(!('datum_vydania' in m.projekt))m.projekt.datum_vydania='';
+ if(!('revizia_zoznamu' in m.projekt))m.projekt.revizia_zoznamu='00';
+ // Legacy in-memory shapes are migrated once and no longer serialized in the main JSON.
+ if((m.projekt.miesto_stavby_ulica||m.projekt.miesto_stavby_mesto||m.projekt.miesto_stavby_psc||m.projekt.miesto_stavby)&&!m.lokalita){m.lokalita={adresa:{...blankPublicAddress(),ulica:String(m.projekt.miesto_stavby_ulica||m.projekt.miesto_stavby||''),mesto:String(m.projekt.miesto_stavby_mesto||''),psc:String(m.projekt.miesto_stavby_psc||'')}}}
+ if(!m.lokalita)m.lokalita={adresa:blankPublicAddress()};
+ if(!m.stavebnik&&(m.projekt.stavebnik||m.projekt.stavebnik_meno||m.projekt.adresa_stavebnika||m.projekt.stavebnik_adresa)){const fake={verzia_schema:'1.0',udaje_projektu:{stavebnik_meno:m.projekt.stavebnik_meno||m.projekt.stavebnik||'',stavebnik_adresa:m.projekt.stavebnik_adresa||m.projekt.adresa_stavebnika||''}};m.stavebnik=legacyBuilderFromMainPublic(fake)}
+ delete m.projekt.miesto_stavby_ulica;delete m.projekt.miesto_stavby_mesto;delete m.projekt.miesto_stavby_psc;delete m.projekt.miesto_stavby;delete m.projekt.stavebnik;delete m.projekt.stavebnik_meno;delete m.projekt.adresa_stavebnika;delete m.projekt.stavebnik_adresa;
+ m.lokalita={adresa:{...blankPublicAddress(),...(m.lokalita?.adresa||{})}};m.stavebnik={...newPublicBuilder(),...(m.stavebnik||{})};
+ if(!('_rawPersonsIndex' in m))m._rawPersonsIndex=null;if(!('_rawLocationIndex' in m))m._rawLocationIndex=null;if(!('_opaqueVyjadrenia' in m))m._opaqueVyjadrenia=null;if(!('_builderIdentityDirty' in m))m._builderIdentityDirty=false;if(!('_builderFieldsDirty' in m))m._builderFieldsDirty=false;if(!('_locationAddressDirty' in m))m._locationAddressDirty=false;
+ m.sekcie=m.sekcie||[{id:uid(),kod:'D',nazov:'Dokumentácia stavebných objektov',objekty:[]}];
+ m.sekcie.forEach(sec=>{sec.id=sec.id||uid();sec.objekty=(sec.objekty||[]).map(o=>({...o,id:o.id||uid(),profesie:(o.profesie||[]).map(p=>({...p,id:p.id||uid(),dokumenty:(p.dokumenty||[]).map(d=>({...newDoc(),...d,id:d.id||uid()}))}))}))});
+ m.prilohy=(m.prilohy||[]).map(d=>({...newDoc(),...d,id:d.id||uid(),cast:'E00'}));
+ if(!Array.isArray(m.stavebneSubory)||!m.stavebneSubory.length)m.stavebneSubory=[{id:uid(),cislo:1,kod_stavby:String(m.projekt.identifikacny_kod_stavby||'1111').slice(0,4),nazov:'Hlavný stavebný súbor'}];
+ const first=m.stavebneSubory[0].id;m.sekcie.flatMap(sec=>sec.objekty||[]).filter(o=>o.typ!=='cast').forEach(o=>{if(!m.stavebneSubory.some(x=>x.id===o.stavebnySuborId))o.stavebnySuborId=first});return m
+}
 function cellText(cell){
  const v=cell?.value;
  if(v==null)return '';
@@ -1073,6 +1601,7 @@ async function importXlsx(buf){
  });
  // Prefer the names explicitly maintained on the Udaje sheet.
  for(const [code,name] of Object.entries(objectNames)){const o=getOrCreateObject(objects,code,name,'object');o.nazov=name}
+ attachedDocumentFiles.clear();attachedDocumentHandles.clear();attachedDocumentSourceDirectories.clear();manuallyDroppedDocumentIds.clear();manuallyReplacedDocumentIds.clear();
  model=normalize({verzia_schema:'1.0',projekt:p,sekcie:[{id:uid(),kod:'KOMPLET',nazov:'Kompletný zoznam dokumentácie',objekty:[...objects.values()].sort((a,b)=>{const order=x=>({A00:0,B00:1,C00:2,E00:999}[x]??(/^[SP]\d{2}$/.test(x)?100+Number(x.slice(1)):500));return order(a.kod)-order(b.kod)})}],prilohy:[]});
  expanded=new Set(allObjects().map(o=>o.id));allProf().forEach(x=>expanded.add(x.p.id));setStatus(`Načítané z XLSX · ${allObjects().length} častí/objektov · ${allDocs().length} dokumentov`);toast(`Načítané: ${allObjects().length} častí/objektov, ${allDocs().length} dokumentov`);render()
 }
@@ -1101,12 +1630,264 @@ async function exportXlsx(){
  const e=allObjects().find(x=>x.kod==='E00');if(e){add('section',{2:'E',5:sectionNames.E00,9:'E00'});for(const p of e.profesie||[])for(const d of p.dokumenty||[])writeDoc(e,p,d)}
  let out=await wb.xlsx.writeBuffer();download(new Blob([out]),`${model.projekt.id_projektu}_zoznam_dokumentacie.xlsx`)
 }
-async function exportDocx(){const snapshotModel=JSON.parse(JSON.stringify(model)),snapshotData=JSON.parse(JSON.stringify(serializeJsonModel()));const projectId=normalizeProjectId(snapshotModel.projekt.id_projektu)||'123456',version=asciiFilePart(snapshotModel.projekt.verzia_zoznamu||'v1.0','v1.0');const blob=await window.ZoznamDocx.create(snapshotModel,snapshotData);download(blob,`${projectId}_zoznam_${version}.docx`)}
-$('#fileInput').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{if(f.name.toLowerCase().endsWith('.json')){model=importJsonData(JSON.parse(await f.text()));sourceWorkbook=null;expanded=new Set(allObjects().map(o=>o.id));allProf().forEach(x=>expanded.add(x.p.id));setStatus('Načítané z JSON');toast('JSON bol úspešne načítaný');render()}else await importXlsx(await f.arrayBuffer())}catch(err){console.error(err);alert('Súbor sa nepodarilo načítať: '+err.message)}};
+async function exportDocx(){const snapshotModel=JSON.parse(JSON.stringify(model)),snapshotData=JSON.parse(JSON.stringify(serializeJsonModel()));const builder=ensurePublicBuilder();snapshotModel.projekt.stavebnik=builder.typ_subjektu_kod!=='S'?String(builder.obchodne_meno||'').trim():[builder.akademicky_titul_pred_menom,builder.meno,builder.priezvisko,builder.akademicky_titul_za_menom].map(x=>String(x||'').trim()).filter(Boolean).join(' ');const streetNo=[builder.supisne_cislo,builder.orientacne_cislo].filter(Boolean).join('/');snapshotModel.projekt.adresa_stavebnika=[[builder.ulica,streetNo].filter(Boolean).join(' '),builder.mesto,formatPscPublic(builder.psc)].filter(Boolean).join(', ');const projectId=normalizeProjectId(snapshotModel.projekt.id_projektu)||'123456',version=asciiFilePart(snapshotModel.projekt.verzia_zoznamu||'v1.0','v1.0');const blob=await window.ZoznamDocx.create(snapshotModel,snapshotData);download(blob,`${projectId}_zoznam_${version}.docx`)}
+async function fileFromZipEntry(entry,name){
+ const bytes=await entry.async('uint8array');
+ return new File([bytes],name,{type:'application/octet-stream'});
+}
+function indexKindFromName(name){
+ const base=String(name||'').split(/[\\/]/).pop().toLowerCase();
+ if(/^[a-z0-9]+_dokumenty(?:_.+)?\.json$/.test(base)||base==='documents new.json'||/^[a-z0-9]+[_ -]dokumenty[_ -]exportovane\.json$/.test(base))return'documents';
+ if(/^[a-z0-9]+_osoby(?:_.+)?\.json$/.test(base))return'persons';
+ if(/^[a-z0-9]+_lokalita(?:_.+)?\.json$/.test(base))return'location';
+ if(/^[a-z0-9]+_vyjadrenia(?:_.+)?\.json$/.test(base)||/^vyjadrenie[_ -].*\.json$/.test(base))return'statements';
+ return''
+}
+function documentContextByGeneratedBase(base){
+ const wanted=String(base||'').replace(/\.[^.]+$/,'').toLowerCase();
+ return allDocs().find(({o,p,d})=>filename(d,o,p).replace(/\.[^.]+$/,'').toLowerCase()===wanted)||null;
+}
+function normalizeArchivePath(path){return String(path||'').replace(/\\/g,'/').replace(/^\.\//,'').replace(/^\/+|\/+$/g,'')}
+function documentsIndexFileName(){const projectId=normalizeProjectId(model.projekt.id_projektu)||'123456';return `${projectId}_dokumenty_${listVersionFilePart()}.json`}
+function makeDocumentsIndex(){
+ const names=[];for(const {o,p,d} of allDocs()){if(!attachedDocumentFiles.has(d.id)&&!preservedIndexedDocumentIds.has(d.id))continue;names.push(filename(d,o,p))}
+ return {verzia_schema:JSON_SCHEMA_VERSION,project_id:normalizeProjectId(model.projekt.id_projektu)||'123456',documents:names}
+}
+function expectedExportRelativePath(o,p,d,fileName){
+ const sectionFolders={A:'A - Zoznam dokumentácie',B:'B - Súhrnná správa',C:'C - Situačné výkresy',D:'D - Dokumentácia stavebných objektov',E:'E - Prílohy'};
+ const section=documentSectionKey(o,d),base=asciiFilePart(sectionFolders[section]||section,section);
+ if(section!=='D')return normalizeArchivePath(`${base}/${fileName}`);
+ const sets=ensureBuildingSets(),multipleSets=sets.length>1,set=sets.find(x=>x.id===o?.stavebnySuborId)||sets[0];
+ let path=base;
+ if(multipleSets&&set){const n=`${buildingSetDisplay(set)} - ${asciiFilePart(set.nazov,'Stavebný súbor')}`;path+=`/${n}`}
+ const on=`${objectDisplay(o)} - ${asciiFilePart(o?.nazov,'Stavebný objekt')}`;
+ const pn=`${asciiFilePart(p?.kod,'XXX')} - ${asciiFilePart(p?.nazov||professionName(p?.kod),'Profesia')}`;
+ return normalizeArchivePath(`${path}/${on}/${pn}/${fileName}`)
+}
+function fileRelativePath(file){return normalizeArchivePath(file?._archivePath||file?._dropPath||file?.webkitRelativePath||file?.name||'')}
+function pathMatchesExpected(actual,expected){
+ actual=normalizeArchivePath(actual).toLowerCase();expected=normalizeArchivePath(expected).toLowerCase();
+ return actual===expected||actual.endsWith('/'+expected)
+}
+// ZIP import is filesystem-driven (schema 1.1): zoznam.json defines valid stems,
+// A-E folders provide actual bytes. A PDF wins over any alternate extension.
+function archiveDocumentStem(name){return String(name||'').split(/[\\/]/).pop().replace(/\.[^.]+$/,'').toLocaleLowerCase('sk')}
+function archivePathIsInOfficialTree(path){
+ const official=officialExportFolderNames(),parts=normalizeArchivePath(path).toLowerCase().split('/').filter(Boolean);
+ return parts.length>1&&parts.slice(0,-1).some(part=>official.has(part));
+}
+function validDocumentStems(){
+ const valid=new Set();
+ for(const {o,p,d} of allDocs())for(const stem of generatedDocumentBaseVariants(o,p,d))valid.add(stem.toLocaleLowerCase('sk'));
+ return valid;
+}
+function officialDocumentCandidates(files){
+ const valid=validDocumentStems();
+ return Array.from(files||[]).filter(file=>fileIsInOfficialExportTree(file)&&valid.has(archiveDocumentStem(file.name)));
+}
+function candidatePreference(file,expected){
+ const ext=fileExtensionFromName(file?.name||'').toLowerCase();
+ const path=fileRelativePath(file);
+ return [ext==='pdf'?0:1,pathMatchesExpected(path,expected)?0:1,
+   path.toLocaleLowerCase('sk')];
+}
+function preferCandidate(a,b,expected){
+ const x=candidatePreference(a,expected),y=candidatePreference(b,expected);
+ for(let i=0;i<x.length;i++)if(x[i]!==y[i])return i===2?x[i].localeCompare(y[i],'sk'):x[i]-y[i];
+ return 0;
+}
+function attachDocumentsFromFolders(availableFiles,{reset=true}={}){
+ if(reset){attachedDocumentFiles.clear();attachedDocumentHandles.clear();attachedDocumentSourceDirectories.clear();manuallyDroppedDocumentIds.clear();}
+ const files=officialDocumentCandidates(availableFiles);
+ const eMode=inferESectionToggleFromNames(files.map(f=>f.name));
+ if(eMode!==null)model.eSectionToggle=eMode;
+ const byStem=new Map();for(const file of files){const stem=archiveDocumentStem(file.name);if(!byStem.has(stem))byStem.set(stem,[]);byStem.get(stem).push(file)}
+ let assigned=0,missing=0;
+ const seenFiles=new Set();
+ for(const {o,p,d} of allDocs()){
+  const stem=archiveDocumentStem(filename(d,o,p));
+  const variants=generatedDocumentBaseVariants(o,p,d);
+  const stemOrder=[...new Set([stem,...variants])];
+  const expected=expectedExportRelativePath(o,p,d,filename(d,o,p));
+  let chosen=null;
+  for(const candidateStem of stemOrder){
+   const group=[...(byStem.get(candidateStem)||[])].sort((a,b)=>preferCandidate(a,b,expected));
+   chosen=group.find(f=>!seenFiles.has(f))||null;
+   if(chosen)break;
+  }
+  if(!chosen){if(!attachedDocumentFiles.has(d.id))missing++;continue}
+  seenFiles.add(chosen);
+  attachedDocumentFiles.set(d.id,chosen);
+  d.pripona=fileExtensionFromName(chosen.name)||'pdf';
+  d.priradeny_subor_nazov=chosen.name;
+  d.priradeny_subor_povodna_cesta='';
+  assigned++;
+ }
+ return {assigned,missing,scanned:files.length};
+}
+
+function officialExportFolderNames(){
+ const names=['A - Zoznam dokumentácie','B - Súhrnná správa','C - Situačné výkresy','D - Dokumentácia stavebných objektov','E - Prílohy'];
+ return new Set(names.map(x=>asciiFilePart(x,x[0]).toLowerCase()));
+}
+function fileIsInOfficialExportTree(file){
+ const official=officialExportFolderNames(),parts=fileRelativePath(file).toLowerCase().split('/').filter(Boolean);
+ return parts.some(part=>official.has(part));
+}
+function mergeDocumentCandidateFiles(files,{reset=false}={}){
+ if(reset)droppedDocumentCandidateFiles=[];
+ const merged=[...droppedDocumentCandidateFiles,...Array.from(files||[])],seen=new Set(),out=[];
+ for(const file of merged){
+  const key=`${fileRelativePath(file).toLowerCase()}|${file.size}|${file.lastModified}`;
+  if(seen.has(key))continue;seen.add(key);out.push(file);
+ }
+ droppedDocumentCandidateFiles=out;return droppedDocumentCandidateFiles;
+}
+function bestCandidateForDocument(files,listedName,expected){
+ const sameName=files.filter(f=>String(f.name||'').toLowerCase()===listedName);
+ // Tier 1: exact inverse-export path.
+ const exact=sameName.find(f=>pathMatchesExpected(fileRelativePath(f),expected));if(exact)return exact;
+ // Tier 2: same unique filename anywhere below one of the official exported A/B/C/D/E trees.
+ const official=sameName.find(fileIsInOfficialExportTree);if(official)return official;
+ // Tier 3: same unique filename in any other folder explicitly dropped by the user.
+ return sameName[0]||null;
+}
+async function applyDocumentsIndex(index,availableFiles=[],options={}){
+ const listed=Array.isArray(index?.documents)?index.documents:[],requiredNames=new Set(listed.map(x=>String(typeof x==='string'?x:(x?.file_name||x?.new_file_name||'')).trim()).filter(Boolean).map(x=>x.toLowerCase())),files=Array.from(availableFiles||[]);
+ if(options.reset!==false){attachedDocumentFiles.clear();attachedDocumentHandles.clear();attachedDocumentSourceDirectories.clear();manuallyDroppedDocumentIds.clear();preservedIndexedDocumentIds.clear()}
+ let assigned=0,missing=0;
+ for(const {o,p,d} of allDocs()){
+  const base=filename(d,o,p).replace(/\.[^.]+$/,'').toLowerCase(),listedName=[...requiredNames].find(name=>name.replace(/\.[^.]+$/,'')===base);if(!listedName)continue;
+  preservedIndexedDocumentIds.add(d.id);d.pripona=fileExtensionFromName(listedName)||d.pripona||'pdf';
+  const expected=expectedExportRelativePath(o,p,d,listedName),file=bestCandidateForDocument(files,listedName,expected);
+  if(file){attachedDocumentFiles.set(d.id,file);d.pripona=fileExtensionFromName(file.name);d.priradeny_subor_nazov=file.name;assigned++}else if(!attachedDocumentFiles.has(d.id))missing++
+ }
+ return {assigned,missing,listed:requiredNames.size}
+}
+function unresolvedIndexedDocumentsCount(){
+ if(!pendingDocumentsIndex)return 0;
+ const listed=new Set((Array.isArray(pendingDocumentsIndex.documents)?pendingDocumentsIndex.documents:[]).map(x=>String(x||'').toLowerCase()));
+ let n=0;for(const {o,p,d} of allDocs()){const base=filename(d,o,p).replace(/\.[^.]+$/,'').toLowerCase(),isListed=[...listed].some(x=>x.replace(/\.[^.]+$/,'')===base);if(isListed&&!attachedDocumentFiles.has(d.id))n++}return n
+}
+function publicImportSnapshot(){return{
+ model:deepClone(model),sourceWorkbook,pendingDocumentsIndex,droppedDocumentCandidateFiles:[...droppedDocumentCandidateFiles],
+ attachedDocumentFiles:new Map(attachedDocumentFiles),preservedIndexedDocumentIds:new Set(preservedIndexedDocumentIds),
+ expanded:new Set(expanded)
+}}
+function publicRestoreImportSnapshot(s){
+ model=s.model;sourceWorkbook=s.sourceWorkbook;pendingDocumentsIndex=s.pendingDocumentsIndex;
+ droppedDocumentCandidateFiles=s.droppedDocumentCandidateFiles;
+ attachedDocumentFiles.clear();for(const[k,v]of s.attachedDocumentFiles)attachedDocumentFiles.set(k,v);
+ preservedIndexedDocumentIds.clear();for(const v of s.preservedIndexedDocumentIds)preservedIndexedDocumentIds.add(v);
+ expanded=s.expanded;
+}
+async function publicAtomicImport(task){const previous=publicImportSnapshot();try{return await task()}catch(err){publicRestoreImportSnapshot(previous);throw err}}
+async function importProjectZip(file){return publicAtomicImport(async()=>{
+ const zip=await JSZip.loadAsync(await file.arrayBuffer());
+ const entries=Object.values(zip.files).filter(e=>!e.dir);
+ const jsonEntries=entries.filter(e=>/\.json$/i.test(e.name)&&!archivePathIsInOfficialTree(e.name));
+ const parsed=[];
+ for(const e of jsonEntries){const data=parseJsonTextLenient(await e.async('string'),e.name);parsed.push({name:e.name,data})}
+ const grouped=publicPrepareJsonEntries(parsed);
+ if(!grouped.main)throw new Error('ZIP neobsahuje platný hlavný JSON zoznamu dokumentácie.');
+ // No changes occur before every JSON has parsed successfully.
+ model=importJsonData(grouped.main.data);sourceWorkbook=null;
+ pendingDocumentsIndex=null;droppedDocumentCandidateFiles=[];attachedDocumentFiles.clear();preservedIndexedDocumentIds.clear();
+ model._rawPersonsIndex=null;model._rawLocationIndex=null;model._opaqueVyjadrenia=null;
+ for(const e of grouped.persons)applyPersonsIndexPublic(e.data);
+ for(const e of grouped.locations)applyLocationIndexPublic(e.data,{name:e.name.split('/').pop()});
+ for(const e of grouped.statements)mergeOpaqueStatementsPublic(e.data);
+ const files=[],validStems=validDocumentStems();
+ for(const e of entries){if(!archivePathIsInOfficialTree(e.name)||!validStems.has(archiveDocumentStem(e.name)))continue;
+  const f=await fileFromZipEntry(e,e.name.split('/').pop());f._archivePath=e.name;files.push(f)}
+ const result=attachDocumentsFromFolders(files);
+ expanded=new Set(allObjects().map(o=>o.id));allProf().forEach(x=>expanded.add(x.p.id));
+ setStatus(`Načítané zo ZIP · priradené ${result.assigned}, chýba ${result.missing}`);
+ toast('ZIP bol úspešne načítaný');render();
+})}
+
+async function collectDroppedFiles(dataTransfer){
+ if(!dataTransfer)return [];
+ const out=[];
+ async function walkEntry(entry,prefix=''){
+  if(entry.isFile){
+   await new Promise(resolve=>entry.file(file=>{file._dropPath=normalizeArchivePath(`${prefix}${file.name}`);out.push(file);resolve()},()=>resolve()));
+   return;
+  }
+  if(entry.isDirectory){
+   const reader=entry.createReader(),children=[];
+   while(true){
+    const batch=await new Promise(resolve=>reader.readEntries(resolve,()=>resolve([])));
+    if(!batch.length)break;children.push(...batch);
+   }
+   for(const child of children)await walkEntry(child,`${prefix}${entry.name}/`);
+  }
+ }
+ async function walkHandle(handle,prefix=''){
+  if(handle.kind==='file'){
+   try{const file=await handle.getFile();file._dropPath=normalizeArchivePath(`${prefix}${file.name}`);out.push(file)}catch(_){}
+   return;
+  }
+  if(handle.kind==='directory'&&handle.values){
+   try{for await(const child of handle.values())await walkHandle(child,`${prefix}${handle.name}/`)}catch(_){}
+  }
+ }
+ const items=Array.from(dataTransfer.items||[]).filter(item=>item.kind==='file');
+ if(items.length){
+  for(const item of items){
+   let handled=false;
+   if(typeof item.getAsFileSystemHandle==='function'){
+    try{const handle=await item.getAsFileSystemHandle();if(handle){await walkHandle(handle,'');handled=true}}catch(_){}
+   }
+   if(!handled&&typeof item.webkitGetAsEntry==='function'){
+    try{const entry=item.webkitGetAsEntry();if(entry){await walkEntry(entry,'');handled=true}}catch(_){}
+   }
+   if(!handled){const file=item.getAsFile?.();if(file)out.push(file)}
+  }
+ }
+ if(!out.length)out.push(...Array.from(dataTransfer.files||[]));
+ const seen=new Set();return out.filter(file=>{const key=`${file._dropPath||file.webkitRelativePath||file.name}|${file.size}|${file.lastModified}`;if(seen.has(key))return false;seen.add(key);return true});
+}
+async function importDroppedFiles(files){return publicAtomicImport(async()=>{
+ const list=Array.from(files||[]);if(!list.length)return;
+ const zipFile=list.find(f=>/\.zip$/i.test(f.name));if(zipFile){
+  // Nested transaction protects the calling state as well.
+  await importProjectZip(zipFile);return;
+ }
+ const jsonFiles=list.filter(f=>/\.json$/i.test(f.name)),parsed=[];
+ for(const f of jsonFiles){parsed.push({file:f,name:f.name,data:parseJsonTextLenient(await f.text(),f.name)})}
+ const grouped=publicPrepareJsonEntries(parsed),main=grouped.main;
+ const payloadFiles=list.filter(f=>!/\.(json|xlsx)$/i.test(f.name));
+ if(main){
+  model=importJsonData(main.data);sourceWorkbook=null;pendingDocumentsIndex=null;
+  droppedDocumentCandidateFiles=[];attachedDocumentFiles.clear();preservedIndexedDocumentIds.clear();
+  model._rawPersonsIndex=null;model._rawLocationIndex=null;model._opaqueVyjadrenia=null;
+  expanded=new Set(allObjects().map(o=>o.id));allProf().forEach(x=>expanded.add(x.p.id));
+ }
+ for(const entry of grouped.persons)applyPersonsIndexPublic(entry.data);
+ for(const entry of grouped.locations)applyLocationIndexPublic(entry.data,{name:entry.name});
+ for(const entry of grouped.statements)mergeOpaqueStatementsPublic(entry.data);
+ if(payloadFiles.length)mergeDocumentCandidateFiles(payloadFiles,{reset:!!main});
+ let result=null;if(payloadFiles.length)result=attachDocumentsFromFolders(droppedDocumentCandidateFiles,{reset:!!main});
+ if(main||grouped.persons.length||grouped.locations.length||grouped.statements.length||grouped.items.some(x=>x.kind==='documents')||payloadFiles.length){
+  setStatus(payloadFiles.length?`Načítané podklady · priradené ${result?.assigned||0}, chýba ${result?.missing||0}`:'Načítané z JSON');
+  toast('Podklady boli úspešne načítané');render();return;
+ }
+ const xlsx=list.find(f=>/\.xlsx$/i.test(f.name));if(xlsx){await importXlsx(await xlsx.arrayBuffer());return}
+ throw new Error('Nepodporovaný vstup. Presuňte hlavný JSON, kompatibilné sprievodné JSON, ZIP alebo priečinky/súbory dokumentácie.');
+})}
+
+function reportPublicImportError(err){console.warn(err);if(/(?:lokalita|vyjadrenie|vyjadrenia)[^\/]*\.json/i.test(String(err?.message||'')))return;alert('Súbor sa nepodarilo načítať: '+err.message)}
+$('#fileInput').onchange=async e=>{try{await importDroppedFiles(e.target.files)}catch(err){reportPublicImportError(err)}finally{e.target.value=''}};
 const exportJsonFile=()=>{
  const projectId=normalizeProjectId(model.projekt.id_projektu)||'123456';
  const version=asciiFilePart(model.projekt.verzia_zoznamu,'v1.0');
+ const persons=makePersonsIndexPublic(),location=makeLocationIndexPublic(),statements=makeOpaqueStatementsPublic();
  download(new Blob([JSON.stringify(serializeJsonModel(),null,2)],{type:'application/json'}),`${projectId}_zoznam_${version}.json`);
+ download(new Blob([JSON.stringify(persons,null,2)],{type:'application/json'}),personsIndexFileName());
+ download(new Blob([JSON.stringify(location,null,2)],{type:'application/json'}),locationIndexFileName());
+ if(statements)download(new Blob([JSON.stringify(statements,null,2)],{type:'application/json'}),statementsIndexFileName());
+ commitPublicBuilderAfterSave(persons);
 };
 function asciiFilePart(value,fallback=''){
  const text=String(value??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^\x20-\x7E]/g,'').replace(/[<>:"/\\|?*\x00-\x1F]/g,' ').replace(/\s+/g,' ').trim().replace(/[. ]+$/,'');
@@ -1134,41 +1915,44 @@ function zipPdfName(d,o,p){
  const raw=filename(d,o,p).replace(/\.[^.]+$/,'.pdf');
  return asciiFilePart(raw,'dokument.pdf')
 }
+function zipAttachedFileName(d,o,p){return asciiFilePart(filename(d,o,p),`dokument.${d.pripona||'bin'}`)}
+async function addDocumentFileToZip(folder,d,o,p,blankPdf){
+ const attached=attachedDocumentFiles.get(d.id);
+ if(attached){folder.file(zipAttachedFileName(d,o,p),await attached.arrayBuffer());return}
+ folder.file(zipPdfName(d,o,p),blankPdf)
+}
 async function exportProjectZip(){
+ await validateAttachedDocumentFiles();
  const zip=new JSZip(),projectId=normalizeProjectId(model.projekt.id_projektu)||'123456';
  const root=zip,version=asciiFilePart(model.projekt.verzia_zoznamu||'v1.0','v1.0');
  root.file(`${projectId}_zoznam_${version}.json`,JSON.stringify(serializeJsonModel(),null,2));
- const sectionFolders={
-  A:'A - Zoznam dokumentácie',
-  B:'B - Súhrnná správa',
-  C:'C - Situačné výkresy',
-  D:'D - Dokumentácia stavebných objektov',
-  E:'E - Prílohy'
- };
- const folders=Object.fromEntries(Object.entries(sectionFolders).map(([key,name])=>[key,root.folder(asciiFilePart(name,key))]));
- const blankPdf=blankA4PdfBytes();
- for(const {o,p,d} of allDocs()){
-  const section=documentSectionKey(o,d);
-  if(!['A','B','C','E'].includes(section))continue;
-  folders[section].file(zipPdfName(d,o,p),blankPdf)
- }
+ const sectionFolders={A:'A - Zoznam dokumentácie',B:'B - Súhrnná správa',C:'C - Situačné výkresy',D:'D - Dokumentácia stavebných objektov',E:'E - Prílohy'};
+ const folderPaths=Object.fromEntries(Object.entries(sectionFolders).map(([key,name])=>[key,asciiFilePart(name,key)]));
+ const folders=Object.fromEntries(Object.entries(folderPaths).map(([key,name])=>[key,root.folder(name)]));
+ const blankPdf=blankA4PdfBytes(),zipPaths=new Map();
+ async function addTracked(folder,path,d,o,p){const attached=attachedDocumentFiles.get(d.id),name=attached?zipAttachedFileName(d,o,p):zipPdfName(d,o,p),relative=normalizeArchivePath(`${path}/${name}`);if([...zipPaths.values()].some(x=>archiveDocumentStem(x)===archiveDocumentStem(relative)&&normalizeArchivePath(x).split('/').slice(0,-1).join('/').toLowerCase()===relative.split('/').slice(0,-1).join('/').toLowerCase()))throw new Error(`Kolízia názvov dokumentov v ZIP: ${relative}`);await addDocumentFileToZip(folder,d,o,p,blankPdf);zipPaths.set(d.id,relative)}
+ for(const {o,p,d} of allDocs()){const section=documentSectionKey(o,d);if(!['A','B','C','E'].includes(section))continue;await addTracked(folders[section],folderPaths[section],d,o,p)}
  const sets=ensureBuildingSets(),multipleSets=sets.length>1;
  for(const set of sets){
-  let setFolder=folders.D;
-  if(multipleSets)setFolder=setFolder.folder(`${buildingSetDisplay(set)} - ${asciiFilePart(set.nazov,'Stavebný súbor')}`);
+  let setFolder=folders.D,setPath=folderPaths.D;
+  if(multipleSets){const n=`${buildingSetDisplay(set)} - ${asciiFilePart(set.nazov,'Stavebný súbor')}`;setFolder=setFolder.folder(n);setPath+=`/${n}`}
   for(const o of objectsInSetDisplayOrder(set.id)){
-   const objectFolder=setFolder.folder(`${objectDisplay(o)} - ${asciiFilePart(o.nazov,'Stavebný objekt')}`);
+   const on=`${objectDisplay(o)} - ${asciiFilePart(o.nazov,'Stavebný objekt')}`,objectFolder=setFolder.folder(on),objectPath=`${setPath}/${on}`;
    for(const p of (o.profesie||[])){
-    const professionFolder=objectFolder.folder(`${asciiFilePart(p.kod,'XXX')} - ${asciiFilePart(p.nazov||professionName(p.kod),'Profesia')}`);
-    for(const d of (p.dokumenty||[]))professionFolder.file(zipPdfName(d,o,p),blankPdf)
+    const pn=`${asciiFilePart(p.kod,'XXX')} - ${asciiFilePart(p.nazov||professionName(p.kod),'Profesia')}`,professionFolder=objectFolder.folder(pn),professionPath=`${objectPath}/${pn}`;
+    for(const d of (p.dokumenty||[]))await addTracked(professionFolder,professionPath,d,o,p)
    }
   }
  }
+ const savedPersons=makePersonsIndexPublic();
+ root.file(personsIndexFileName(),JSON.stringify(savedPersons,null,2));
+ root.file(locationIndexFileName(),JSON.stringify(makeLocationIndexPublic(),null,2));
+ const opaqueStatements=makeOpaqueStatementsPublic();if(opaqueStatements)root.file(statementsIndexFileName(),JSON.stringify(opaqueStatements,null,2));
  const blob=await zip.generateAsync({type:'blob',compression:'DEFLATE',compressionOptions:{level:6}});
- download(blob,`${projectId}_${version}.zip`)
+ download(blob,`${projectId}_${version}.zip`);commitPublicBuilderAfterSave(savedPersons)
 }
 $('#exportJson').onclick=()=>{exportJsonFile();closeSaveFlyout()};$('#exportXlsx').onclick=exportXlsx;
-const saveZipMenu=$('#saveZipMenu');if(saveZipMenu)saveZipMenu.onclick=async()=>{closeSaveFlyout();await exportProjectZip()};
+const saveZipMenu=$('#saveZipMenu');if(saveZipMenu)saveZipMenu.onclick=async()=>{closeSaveFlyout();try{await exportProjectZip()}catch(err){console.error(err);alert('ZIP sa nepodarilo vytvoriť: '+err.message)}};
 const saveDocxMenu=$('#saveDocxMenu');if(saveDocxMenu)saveDocxMenu.onclick=async()=>{closeSaveFlyout();try{await exportDocx()}catch(err){console.error(err);alert('DOCX sa nepodarilo vytvoriť: '+err.message)}};
 const saveFlyout=$('#saveFlyout'),saveMenuButton=$('#saveMenuButton');
 function setSaveFlyout(open){if(!saveFlyout)return;saveFlyout.classList.toggle('open',open);saveMenuButton?.setAttribute('aria-expanded',String(open))}
@@ -1197,8 +1981,8 @@ idInput.addEventListener('paste',e=>{
  idInput.setRangeText(inserted,start,end,'end');
  idInput.dispatchEvent(new Event('input',{bubbles:true}));
 });
-idInput.oninput=()=>{const value=normalizeProjectId(idInput.value);if(idInput.value!==value)idInput.value=value};idInput.onchange=commitIdEdit;idInput.onblur=commitIdEdit;idInput.onkeydown=e=>{if(e.key==='Enter')idInput.blur();if(e.key==='Escape'){idInput.value=model.projekt.id_projektu||'';idCell.classList.remove('editing')}};const dz=$('#dropZone');['dragenter','dragover'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.add('drag')}));['dragleave','drop'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.remove('drag')}));dz.addEventListener('drop',e=>{const f=e.dataTransfer.files[0];if(f){const dt=new DataTransfer();dt.items.add(f);$('#fileInput').files=dt.files;$('#fileInput').dispatchEvent(new Event('change'))}});
-document.querySelectorAll('#views button').forEach(b=>b.onclick=()=>{const dz=$('#dropZone');['dragenter','dragover'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.add('drag')}));['dragleave','drop'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.remove('drag')}));dz.addEventListener('drop',e=>{const f=e.dataTransfer.files[0];if(f){const dt=new DataTransfer();dt.items.add(f);$('#fileInput').files=dt.files;$('#fileInput').dispatchEvent(new Event('change'))}});
+idInput.oninput=()=>{const value=normalizeProjectId(idInput.value);if(idInput.value!==value)idInput.value=value};idInput.onchange=commitIdEdit;idInput.onblur=commitIdEdit;idInput.onkeydown=e=>{if(e.key==='Enter')idInput.blur();if(e.key==='Escape'){idInput.value=model.projekt.id_projektu||'';idCell.classList.remove('editing')}};const dz=$('#dropZone');['dragenter','dragover'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.add('drag')}));['dragleave','drop'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.remove('drag')}));dz.addEventListener('drop',async e=>{try{await importDroppedFiles(await collectDroppedFiles(e.dataTransfer))}catch(err){reportPublicImportError(err)}});
+document.querySelectorAll('#views button').forEach(b=>b.onclick=()=>{const dz=$('#dropZone');['dragenter','dragover'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.add('drag')}));['dragleave','drop'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.remove('drag')}));dz.addEventListener('drop',async e=>{try{await importDroppedFiles(await collectDroppedFiles(e.dataTransfer))}catch(err){reportPublicImportError(err)}});
 document.querySelectorAll('#views button').forEach(x=>x.classList.remove('active'));b.classList.add('active');modeSearchValues[currentView]=$('#search').value;currentView=b.dataset.view;$('#search').value=modeSearchValues[currentView]||'';render()});render();
 
 
@@ -1216,8 +2000,8 @@ document.querySelectorAll('#views button').forEach(x=>x.classList.remove('active
   drop.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();e.stopPropagation();input.click();}});
   input.addEventListener('change',()=>{if(input.files&&input.files.length){drop.classList.remove('empty');drop.classList.add('loaded');collapse();}});
   let depth=0;
-  window.addEventListener('dragenter',e=>{if(!Array.from(e.dataTransfer?.types||[]).includes('Files'))return;e.preventDefault();depth++;drop.classList.add('drag-active','expanded');});
-  window.addEventListener('dragover',e=>{if(Array.from(e.dataTransfer?.types||[]).includes('Files')){e.preventDefault();drop.classList.add('drag-active','expanded');}});
+  window.addEventListener('dragenter',e=>{if(!Array.from(e.dataTransfer?.types||[]).includes('Files'))return;if(documentFileDropMode&&currentView==='documents'&&!eventIsMainImportDropZone(e))return;e.preventDefault();depth++;drop.classList.add('drag-active','expanded');});
+  window.addEventListener('dragover',e=>{if(!Array.from(e.dataTransfer?.types||[]).includes('Files'))return;if(documentFileDropMode&&currentView==='documents'&&!eventIsMainImportDropZone(e))return;e.preventDefault();drop.classList.add('drag-active','expanded');});
   window.addEventListener('dragleave',()=>{depth=Math.max(0,depth-1);if(!depth){drop.classList.remove('drag-active');collapse();}});
   window.addEventListener('drop',()=>{depth=0;drop.classList.remove('drag-active','expanded');});
 })();

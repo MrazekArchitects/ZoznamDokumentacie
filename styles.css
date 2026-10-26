@@ -1,4 +1,24 @@
 :root{
+  --ui-table-corner-radius:5px;
+  --ui-table-section-gap:10px; /* Single vertical gap: toolbar -> table and table -> table. */
+  --table-radius:var(--ui-table-corner-radius);
+  --ui-textbox-placeholder-color:#c3c3c3;
+  --ui-select-empty-background:#dcdcdc;
+  --ui-blue-20:#c7d6e8;
+  --ui-blue-10:color-mix(in srgb, var(--ui-gray-20) 50%, var(--ui-blue-20) 50%);
+  --ui-row-separator:var(--ui-gray-0); /* Lightest existing table separator: Údaje projektu / Stupeň dokumentácie. */
+  --ui-blue-40:#9bb6d7;
+  --ui-blue-60:#6e97c7;
+  --ui-blue-80:#4277b6;
+  --ui-blue-100:#1557a5;
+
+  --ui-gray-0:#f4f6f9;
+  --ui-gray-20:#eaebee;
+  --ui-gray-40:#dfe0e2;
+  --ui-gray-60:#d5d6d7;
+  --ui-gray-80:#cacbcb;
+  --ui-gray-100:#c0c0c0;
+
   --gap:8px;
   --button-h:36px;
   --header-h:88px;
@@ -16,8 +36,8 @@
   --line:#cbd5e1;
 }
 *{box-sizing:border-box}
-html,body{margin:0;min-height:100%;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#f4f6f9;color:#172033}
-.pbs-shell{height:var(--header-h);position:sticky;top:0;z-index:50;border-bottom:1px solid #222;background:#fff;display:block;overflow:visible}
+html,body{margin:0;min-height:100%;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:var(--ui-gray-0);color:#172033}
+.pbs-shell{height:var(--header-h);position:sticky;top:0;z-index:50;border-bottom:1px solid var(--ui-row-separator);background:#fff;display:block;overflow:visible}
 .header-base{height:100%;display:grid;grid-template-columns:var(--header-square) minmax(0,1fr) var(--header-square);gap:0;background:#050505}
 .control-panel{width:auto;height:100%;padding:5px 0;display:grid;grid-template-rows:36px 36px;gap:6px;overflow:hidden;background:var(--black);color:#fff}
 .identity-row{--identity-logo-width:clamp(170px,22vw,220px);--identity-pbs-width:190px;display:grid;grid-template-columns:minmax(0,1fr) var(--identity-pbs-width) var(--identity-logo-width) var(--identity-pbs-width) minmax(0,1fr);align-items:center;column-gap:0;width:100%;min-width:0;height:36px;padding:0;overflow:hidden}
@@ -41,7 +61,7 @@ html,body{margin:0;min-height:100%;font-family:'Segoe UI',Tahoma,Geneva,Verdana,
 .drop-inner{width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:8px;white-space:nowrap;border:2px dashed #f97316;border-radius:11px;background:var(--orange);transition:background .18s ease,border-color .18s ease;overflow:hidden}
 .drop-control.loaded:not(.expanded):not(.drag-active) .drop-inner{border-color:#fff;background:#9ca3af}.drop-control.drag-active .drop-inner{border-color:#f97316;background:var(--orange-hover)}
 .drop-icon{position:relative;width:40px;height:40px;display:inline-flex;align-items:center;justify-content:center;flex:0 0 40px;color:#7c2d12}.drop-icon svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}.drop-icon .drop-loaded-icon{display:none}.drop-control.loaded .drop-icon .drop-upload-icon{display:none}.drop-control.loaded .drop-icon .drop-loaded-icon{display:block}.drop-control.loaded:not(.expanded):not(.drag-active) .drop-icon{color:#fff}.drop-copy{display:flex;flex-direction:column;min-width:0}.drop-copy small{margin-top:4px;overflow:hidden;text-overflow:ellipsis}.drop-control:not(.expanded):not(.drag-active) .drop-copy{display:none}
-main{padding:14px 18px 40px}#toolbar{display:flex;gap:7px;align-items:center;margin-bottom:10px;flex-wrap:wrap}#toolbar input{margin-left:auto;min-width:280px}button{border:0;border-radius:5px;background:var(--navy);color:#fff;padding:8px 12px;font-weight:700;cursor:pointer}button:hover{filter:brightness(1.18)}input,select{padding:6px 8px;border:1px solid var(--line);border-radius:4px;background:#fff}table{width:100%;border-collapse:collapse;background:#fff;box-shadow:0 2px 8px #0001}th{background:var(--navy);color:#fff;text-align:left;padding:7px;position:sticky;top:var(--header-h);z-index:10}td{padding:5px 7px;border-bottom:1px solid #e5e7eb;vertical-align:middle}.row-object{background:var(--red2);border-left:6px solid var(--red)}.row-profession{background:var(--orange2);border-left:6px solid var(--orange-row)}.row-document{background:var(--yellow2);border-left:6px solid var(--yellow)}.tree-toggle{width:28px;height:28px;padding:0;background:transparent;color:#111;font-size:17px}.indent-1{padding-left:30px}.indent-2{padding-left:58px}.filename{font-family:Consolas,monospace;font-size:12px;word-break:break-all}.actions{white-space:nowrap;text-align:right}.actions button{padding:5px 8px;margin-left:3px}.danger{background:#dc2626}.copy{background:#475569}.muted{color:#64748b}.badge{display:inline-block;padding:2px 7px;border-radius:12px;background:#fff8;font-weight:700}.empty{padding:50px;text-align:center;background:#fff;border:2px dashed var(--line)}.settings{max-width:980px;background:#fff;padding:20px;display:grid;grid-template-columns:220px 1fr;gap:10px;border-radius:8px}.settings label{font-weight:700}.settings input,.settings select{width:100%}#toast{position:fixed;right:20px;bottom:20px;background:#111827;color:#fff;padding:10px 15px;border-radius:6px;opacity:0;pointer-events:none;transition:.2s}#toast.show{opacity:1}
+main{padding:14px 18px 40px}#toolbar{display:flex;gap:7px;align-items:center;margin-bottom:var(--ui-table-section-gap);flex-wrap:wrap}#toolbar input{margin-left:auto;min-width:280px}button{border:0;border-radius:5px;background:var(--navy);color:#fff;padding:8px 12px;font-weight:700;cursor:pointer}button:hover{filter:brightness(1.18)}input,select{padding:6px 8px;border:1px solid var(--line);border-radius:4px;background:#fff}table{width:100%;border-collapse:collapse;background:#fff;box-shadow:0 2px 8px #0001}th{background:var(--navy);color:#fff;text-align:left;padding:7px;position:sticky;top:var(--header-h);z-index:10}td{padding:5px 7px;border-bottom:1px solid var(--ui-row-separator);vertical-align:middle}.row-object{background:var(--red2);border-left:6px solid var(--red)}.row-profession{background:var(--orange2);border-left:6px solid var(--orange-row)}.row-document{background:var(--yellow2);border-left:6px solid var(--yellow)}.tree-toggle{width:28px;height:28px;padding:0;background:transparent;color:#111;font-size:17px}.indent-1{padding-left:30px}.indent-2{padding-left:58px}.filename{font-family:Consolas,monospace;font-size:12px;word-break:break-all}.actions{white-space:nowrap;text-align:right}.actions button{padding:5px 8px;margin-left:3px}.danger{background:#dc2626}.copy{background:#475569}.muted{color:#64748b}.badge{display:inline-block;padding:2px 7px;border-radius:12px;background:#fff8;font-weight:700}.empty{padding:50px;text-align:center;background:#fff;border:2px dashed var(--line)}.settings{max-width:980px;background:#fff;padding:20px;display:grid;grid-template-columns:220px 1fr;gap:10px;border-radius:8px}.settings label{font-weight:700}.settings input,.settings select{width:100%}#toast{position:fixed;right:20px;bottom:20px;background:#111827;color:#fff;padding:10px 15px;border-radius:6px;opacity:0;pointer-events:none;transition:.2s}#toast.show{opacity:1}
 @media(max-width:900px){.identity-row{--identity-logo-width:150px;--identity-pbs-width:145px}.identity-logo{max-height:27px}.mode-btn{font-size:12px;padding-inline:5px}.drop-control.expanded,.drop-control.loaded.expanded,.drop-control.empty.expanded,.drop-control.drag-active{width:82%}#toolbar input{margin-left:0;min-width:100%}}
 
 
@@ -50,7 +70,7 @@ main{padding:14px 18px 40px}#toolbar{display:flex;gap:7px;align-items:center;mar
   height:var(--header-h);
   position:relative;
   z-index:50;
-  border-bottom:1px solid #222;
+  border-bottom:1px solid var(--ui-row-separator);
   background:#fff;
   display:block;
   overflow:visible;
@@ -148,10 +168,10 @@ main{padding:14px 18px 40px}#toolbar{display:flex;gap:7px;align-items:center;mar
 @media(prefers-reduced-motion:reduce){.drop-control{transition:none}}
 
 /* v1.1.9 – Stavebné objekty view mirrors Rooms–Openings including action icons. */
-.objects-table{width:100%;border-collapse:collapse;margin-top:10px;background:#fff;border-radius:6px;overflow:hidden;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);table-layout:fixed;font-size:14px}
+.objects-table{width:100%;border-collapse:collapse;margin-top:0;background:#fff;border-radius:6px;overflow:hidden;box-shadow:0 4px 6px -1px rgba(0,0,0,.1);table-layout:fixed;font-size:14px}
 .objects-table th{background:#001f3f;color:#fff;padding:3px;text-align:left;position:sticky;top:var(--header-h);z-index:10}
-.objects-table td{padding:2px 3px;border-bottom:1px solid #e2e8f0;height:31px}
-.objects-table .object-number-col{width:150px;text-align:center}.objects-table .object-actions-col{width:92px;text-align:center}
+.objects-table td{padding:2px 3px;border-bottom:1px solid var(--ui-row-separator);height:31px}
+.objects-table .object-number-col{width:150px;text-align:center}.objects-table .object-actions-col{width:var(--table-action-zone-2);text-align:center}
 .object-list-row{cursor:default;transition:background .15s ease-in-out;user-select:none;background:rgb(225,255,192)}
 .object-list-row:hover{background:rgb(172,225,128)}
 .object-number-cell{text-align:center}
@@ -163,12 +183,12 @@ main{padding:14px 18px 40px}#toolbar{display:flex;gap:7px;align-items:center;mar
 .object-list-row.editing-number .object-number-display{display:none}.object-list-row.editing-number .object-number-input{display:inline-block}
 .object-name-input{display:block;width:100%;height:25px;padding:2px 6px;border:1px solid transparent;border-radius:3px;background:transparent;color:#1e293b;font:400 14px/1.2 'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
 .object-name-input:hover{background:rgba(255,255,255,.6);border-color:#94a3b8}.object-name-input:focus{background:#fff;border-color:#001f3f;outline:none}
-.icon-btn{border:none;padding:6px 8px;border-radius:4px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;margin:0 2px;min-width:32px;height:30px;box-sizing:border-box}
+.icon-btn{border:none;padding:6px 8px;border-radius:4px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;margin:0;min-width:32px;height:30px;box-sizing:border-box}
 .icon-btn.btn-copy{background:#4b5563;color:white}.icon-btn.btn-copy:hover{background:#374151;filter:none}
 .icon-btn.btn-danger{background:#dc2626;color:white;border:1px solid #b91c1c}.icon-btn.btn-danger:hover{background:#b91c1c;filter:none}
 .icon-btn svg{display:block;width:14px;height:14px;pointer-events:none}
 .object-type-menu{position:fixed;z-index:99999;min-width:170px;padding:0;background:#fff;border:1px solid #cbd5e1;border-radius:4px;box-shadow:0 10px 25px -5px rgba(0,0,0,.15),0 8px 10px -6px rgba(0,0,0,.1);overflow:hidden}
-.object-type-menu button{display:block;width:100%;padding:8px 12px;border:0;border-bottom:1px solid #f1f5f9;border-radius:0;background:#fff;color:#1e293b;text-align:left;font:400 13px/1.2 'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
+.object-type-menu button{display:block;width:100%;padding:8px 12px;border:0;border-bottom:1px solid var(--ui-row-separator);border-radius:0;background:#fff;color:#1e293b;text-align:left;font:400 13px/1.2 'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
 .object-type-menu button:last-child{border-bottom:0}.object-type-menu button:hover{background:#e2e8f0;filter:none}
 
 /* Unified in-place editors and compact document columns. */
@@ -212,17 +232,17 @@ input:not([type="file"]),textarea,select{box-sizing:border-box;outline:none}
 .documentation-table .doc-location-cell{padding-left:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .documentation-table td input{width:100%;min-width:0}
 .documentation-table .doc-number-input{width:100%;min-width:0}
-.documentation-table .doc-actions{padding-left:2px;padding-right:2px;text-align:center}
-.documentation-table .doc-actions .icon-btn{margin:0 1px}
-.document-section td{height:32px;padding:6px 10px;border-bottom:1px solid #c0c0c0;font-size:14px}
+.documentation-table .doc-actions{padding-left:var(--ui-control-half-gap);padding-right:var(--ui-control-half-gap);text-align:center}
+.documentation-table .doc-actions .icon-btn{margin:0}
+.document-section td{height:32px;padding:6px 10px;border-bottom:1px solid var(--ui-row-separator);font-size:14px}
 .doc-type-menu{width:max-content;max-width:calc(100vw - 24px);padding:0;background:#fff;border:1px solid #c0c0c0;border-radius:6px;overflow:auto}
-.doc-type-menu button{display:grid;grid-template-columns:max-content max-content;column-gap:12px;width:max-content;min-width:100%;padding:8px 10px;border:0;border-bottom:1px solid #c0c0c0;border-radius:0;background:#fff}
+.doc-type-menu button{display:grid;grid-template-columns:max-content max-content;column-gap:12px;width:max-content;min-width:100%;padding:8px 10px;border:0;border-bottom:1px solid var(--ui-row-separator);border-radius:0;background:#fff}
 .doc-type-menu button:last-child{border-bottom:0}.doc-type-menu strong{text-align:right;white-space:nowrap}.doc-type-menu span{white-space:nowrap}
 
 
 /* v0.0.012 — centralized table geometry, typography and editors. */
 :root{
- --documentation-row-height:32px;
+ --documentation-row-height:33px;
  --documentation-control-size:28px;
  --documentation-cell-padding:2px;
  --documentation-font-family:"Segoe UI",Tahoma,Geneva,Verdana,sans-serif;
@@ -235,7 +255,7 @@ input:not([type="file"]),textarea,select{box-sizing:border-box;outline:none}
 .objects-table th,.documentation-table th,.document-section td,.document-subsection td{font-weight:600!important;}.objects-table td,.documentation-table .row-document td{font-weight:400!important;}
 .objects-table .object-number-col{width:clamp(60px,8vw,112.5px)!important;min-width:60px!important;max-width:112.5px!important;text-align:left!important;}
 .objects-table .object-number-cell{text-align:left!important;}.object-code-control{justify-content:flex-start!important;}
-.icon-btn,.objects-table .icon-btn,.documentation-table .icon-btn{width:var(--documentation-control-size)!important;height:var(--documentation-control-size)!important;min-width:var(--documentation-control-size)!important;max-width:var(--documentation-control-size)!important;min-height:var(--documentation-control-size)!important;max-height:var(--documentation-control-size)!important;padding:0!important;margin:0 1px!important;}
+.icon-btn,.objects-table .icon-btn,.documentation-table .icon-btn{width:var(--documentation-control-size)!important;height:var(--documentation-control-size)!important;min-width:var(--documentation-control-size)!important;max-width:var(--documentation-control-size)!important;min-height:var(--documentation-control-size)!important;max-height:var(--documentation-control-size)!important;padding:0!important;margin:0!important;}
 .icon-btn svg,.objects-table .icon-btn svg,.documentation-table .icon-btn svg{width:16px!important;height:16px!important;}
 .documentation-table{border-collapse:separate!important;border-spacing:0!important;}
 .documentation-table .col-location{width:7%}.documentation-table .col-label{width:20%}.documentation-table .col-person{width:18%}.documentation-table .col-filename{width:34%}.documentation-table .col-actions{width:64px}
@@ -267,7 +287,7 @@ input:not([type="file"]),textarea,select{box-sizing:border-box;outline:none}
  --doc-label-min:220px;
  --doc-person-min:180px;
  --doc-filename-min:420px;
- --doc-actions-fixed:94px;
+ --doc-actions-fixed:var(--table-action-zone-3);
 }
 #content{min-width:0;container-type:inline-size;}
 .objects-table{width:100%;min-width:var(--objects-table-min-width)!important;table-layout:fixed!important;}
@@ -287,7 +307,7 @@ input:not([type="file"]),textarea,select{box-sizing:border-box;outline:none}
 .doc-person-input,.filename-input{width:100%;height:28px;padding:2px 6px;color:#1e293b;}
 .filename-cell{padding-left:3px!important;padding-right:3px!important}.filename-input{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .person-menu{position:fixed;z-index:100001;width:max-content;min-width:180px;max-width:min(520px,calc(100vw - 16px));max-height:300px;overflow:auto;background:#fff;border:1px solid #808080;border-radius:6px;box-shadow:0 12px 30px rgba(15,23,42,.25);padding:0;}
-.person-menu button{display:block;width:100%;height:32px;padding:4px 9px;border:0;border-bottom:1px solid #c0c0c0;border-radius:0;background:#fff;color:#172033;text-align:left;font:400 14px/1.2 var(--documentation-font-family)!important;white-space:nowrap;}
+.person-menu button{display:block;width:100%;height:32px;padding:4px 9px;border:0;border-bottom:1px solid var(--ui-row-separator);border-radius:0;background:#fff;color:#172033;text-align:left;font:400 14px/1.2 var(--documentation-font-family)!important;white-space:nowrap;}
 .person-menu button:last-child{border-bottom:0}.person-menu button:hover{background:#e2e8f0;filter:none}
 .documentation-table .doc-actions{width:var(--doc-actions-fixed)!important;min-width:var(--doc-actions-fixed)!important;max-width:var(--doc-actions-fixed)!important;padding:2px!important;white-space:nowrap!important;}
 .suffix-toggle{background:#fff!important;color:#111!important;border:1px solid #111!important}.suffix-toggle.active{background:#dbeafe!important;box-shadow:inset 0 0 0 2px #2563eb}.suffix-toggle:hover{background:#eef6ff!important;filter:none!important}
@@ -396,7 +416,7 @@ input:not([type="file"]),textarea,select{box-sizing:border-box;outline:none}
 .documentation-table .col-location{width:var(--doc-location-min)!important}
 
 .doc-location-cell .editable-affordance,.documentation-table td>input,.doc-type-button,.doc-revision-display,.doc-revision-input,.doc-scale-display,.doc-scale-input,.doc-person-input,.filename-input{width:100%!important;max-width:100%!important;box-sizing:border-box!important;margin:0!important}
-.doc-number-cell{padding:2px!important}.doc-number-wrap{display:grid!important;grid-template-columns:minmax(0,1fr) 28px!important;gap:2px!important;width:100%!important;padding:0!important;box-sizing:border-box!important}.doc-number-input{width:100%!important;min-width:0!important;max-width:none!important;margin:0!important}.number-dial{margin:0!important}
+.doc-number-cell{padding:2px!important}.doc-number-wrap{display:grid!important;grid-template-columns:minmax(0,1fr) 28px!important;gap:var(--ui-control-gap)!important;width:100%!important;padding:0!important;box-sizing:border-box!important}.doc-number-input{width:100%!important;min-width:0!important;max-width:none!important;margin:0!important}.number-dial{margin:0!important}
 .doc-type-cell,.doc-revision-cell,.doc-scale-cell{padding:2px!important}
 .doc-type-menu{overflow-x:hidden!important;overflow-y:auto!important;box-sizing:border-box!important;scrollbar-gutter:stable!important;padding-right:0!important}
 .doc-type-menu button{grid-template-columns:max-content max-content!important;column-gap:12px!important;box-sizing:border-box!important}
@@ -409,7 +429,7 @@ input:not([type="file"]),textarea,select{box-sizing:border-box;outline:none}
 .pbs-shell{position:static!important;top:auto!important}
 .documentation-table thead th,.objects-table thead th,.professions-table thead th{position:static!important;top:auto!important;z-index:auto!important}
 .objects-table th,.objects-table td{padding-left:var(--table-cell-padding,6px)!important;padding-right:var(--table-cell-padding,6px)!important}
-:root{--table-cell-padding:6px;--documentation-actions-width:94px}
+:root{--table-cell-padding:6px;--documentation-actions-width:var(--table-action-zone-3)}
 .professions-table .profession-code-col{width:93px!important;text-align:right!important;font-weight:600!important}
 .professions-table .profession-code-input{font-weight:600!important;text-align:right!important;padding-left:var(--table-cell-padding)!important;padding-right:var(--table-cell-padding)!important}
 .professions-table thead th:nth-child(2),.objects-table thead th:nth-child(2){padding-left:calc(var(--table-cell-padding) + 6px)!important}
@@ -420,7 +440,7 @@ input:not([type="file"]),textarea,select{box-sizing:border-box;outline:none}
 .subheader-layout{display:flex;align-items:center;width:100%;height:var(--documentation-row-height);gap:4px;padding:0 2px}
 .subheader-layout>strong{flex:1;min-width:0;font-weight:600!important}
 .subheader-layout .profession-subheader-button{flex:1;min-width:0}
-.subheader-actions{display:flex;align-items:center;gap:2px;flex:0 0 auto}
+.subheader-actions{display:flex;align-items:center;gap:var(--ui-control-gap);flex:0 0 auto}
 .subheader-actions .icon-btn{width:28px!important;height:28px!important;min-width:28px!important;margin:0!important;padding:4px!important}
 .header-action.btn-white{background:#fff!important;color:#111!important;border:1px solid #808080!important}
 .header-action.btn-white:hover{background:#eef6ff!important;filter:none!important}
@@ -429,9 +449,9 @@ input:not([type="file"]),textarea,select{box-sizing:border-box;outline:none}
 /* v0.0.018 — universal two-zone tables, filter rows and single-action toolbars. */
 :root{
   --table-icon-size:28px;
-  --table-zone-padding:2px;
-  --table-action-zone-2:62px; /* 2 × 28 + 3 × 2 */
-  --table-action-zone-3:92px; /* 3 × 28 + 4 × 2 */
+  --table-zone-padding:var(--ui-control-half-gap);
+  --table-action-zone-2:calc(2 * var(--table-icon-size) + 2 * var(--ui-control-gap)); /* 2 icons and 2 shared gaps */
+  --table-action-zone-3:calc(3 * var(--table-icon-size) + 3 * var(--ui-control-gap)); /* 3 icons and 3 shared gaps */
   --table-row-height:32px;
 }
 .context-toolbar{
@@ -468,7 +488,7 @@ input:not([type="file"]),textarea,select{box-sizing:border-box;outline:none}
 .two-zone-table .table-action-zone .icon-btn,
 .two-zone-table .object-actions-col .icon-btn{
   width:var(--table-icon-size)!important;height:var(--table-icon-size)!important;min-width:var(--table-icon-size)!important;
-  padding:4px!important;margin:0 0 0 2px!important;vertical-align:middle!important;
+  padding:4px!important;margin:0!important;vertical-align:middle!important;
 }
 .two-zone-table .table-action-zone .icon-btn:first-child,
 .two-zone-table .object-actions-col .icon-btn:first-child{margin-left:0!important}
@@ -518,7 +538,7 @@ input:not([type="file"]),textarea,select{box-sizing:border-box;outline:none}
 
 .documentation-table .col-label{width:var(--doc-label-min)!important}
 .settings-table thead tr{height:var(--table-row-height)!important}
-.settings-table .settings-fixed-label{display:block;width:100%;padding:2px 6px;font:400 14px var(--documentation-font-family);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.settings-table .settings-fixed-label{display:block;width:100%;padding:2px var(--ui-field-label-inset);font:400 14px var(--documentation-font-family);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .settings-table tbody td:first-child{background:transparent!important}
 
 
@@ -535,18 +555,18 @@ input:not([type="file"]),textarea,select{box-sizing:border-box;outline:none}
 .project-code-menu button span{text-align:left!important;}
 
 /* v0.0.022 registry sections */
-.registry-section-row td{height:32px!important;background:#d9e6d9!important;font-family:var(--documentation-font-family)!important;font-size:14px!important;font-weight:600!important;padding:0 8px!important;border-bottom:1px solid #a0a0a0!important}
+.registry-section-row td{height:32px!important;background:#d9e6d9!important;font-family:var(--documentation-font-family)!important;font-size:14px!important;font-weight:600!important;padding:0 8px!important;border-bottom:1px solid var(--ui-row-separator)!important}
 .attachments-table .registry-section-row td{background:#d9e3f0!important}
 .professions-table .profession-list-row.profession-emphasized .profession-code-input,
 .professions-table .profession-list-row.profession-emphasized .object-name-input{font-weight:800!important}
-.picker-section-header{display:block;padding:7px 10px;background:#e5e7eb;font:600 14px var(--documentation-font-family);border-bottom:1px solid #c0c0c0;white-space:nowrap}
+.picker-section-header{display:block;padding:7px 10px;background:#e5e7eb;font:600 14px var(--documentation-font-family);border-bottom:1px solid var(--ui-row-separator);white-space:nowrap}
 
 
 /* v0.0.022 — profession color hierarchy and code-only emphasis. */
 :root{
-  --profession-row-green:hsl(89 100% 88%);
-  --profession-used-green:hsl(89 82% 76%);
-  --profession-section-green:hsl(89 68% 64%);
+  --profession-row-green:var(--ui-gray-60);
+  --profession-used-green:var(--ui-gray-60);
+  --profession-section-green:var(--ui-gray-100);
 }
 .professions-table .profession-list-row td{background:var(--profession-row-green)!important;}
 .professions-table .profession-list-row.profession-used td{background:var(--profession-used-green)!important;}
@@ -595,7 +615,7 @@ input:not([type="file"]),textarea,select{box-sizing:border-box;outline:none}
 
 /* v0.0.030 — fixed document geometry and project-data visibility. */
 :root{
-  --documentation-actions-width:92px; /* 3 × 28 px + 4 × 2 px */
+  --documentation-actions-width:var(--table-action-zone-3); /* 3 × 28 px + 4 × 2 px */
 }
 .documentation-table{
   table-layout:fixed!important;
@@ -647,10 +667,10 @@ input:not([type="file"]),textarea,select{box-sizing:border-box;outline:none}
 .documentation-table thead tr:not(.table-filter-row) th:nth-child(7){text-align:center!important}
 /* Project Data: distinct table body and permanently visible white editors. */
 .settings-table tbody td{
-  background:#c0c0c0!important;
+  background:var(--ui-gray-100)!important;
 }
 .settings-table tbody td:first-child{
-  background:#c0c0c0!important;
+  background:var(--ui-gray-100)!important;
 }
 .settings-table td>input,
 .settings-table input[data-project-picker]{
@@ -694,7 +714,7 @@ input:not([type="file"]),textarea,select{box-sizing:border-box;outline:none}
 .profession-subheader-button{flex:0 0 auto!important;width:max-content!important;max-width:calc(100% - 24px)!important;padding:2px 6px!important}
 .profession-collapse-space{flex:1 1 auto;border:0;background:transparent;padding:0;min-width:18px;filter:none!important;cursor:pointer}
 .profession-collapse-space:hover{background:rgba(0,0,0,.05)}
-.doc-type-section{display:grid;grid-template-columns:max-content max-content;column-gap:12px;align-items:center;width:max-content;min-width:100%;padding:8px 10px;border-bottom:1px solid #c0c0c0;background:#e5e7eb;font:600 14px/1.25 var(--documentation-font-family)}
+.doc-type-section{display:grid;grid-template-columns:max-content max-content;column-gap:12px;align-items:center;width:max-content;min-width:100%;padding:8px 10px;border-bottom:1px solid var(--ui-row-separator);background:#e5e7eb;font:600 14px/1.25 var(--documentation-font-family)}
 .doc-type-section strong{text-align:right;white-space:nowrap}.doc-type-section span{text-align:left;white-space:nowrap}
 .doc-type-menu .level-family-row{background:#eef0f2!important;font-weight:600!important}
 .doc-type-menu .level-family-row strong{font-weight:800!important}
@@ -713,11 +733,11 @@ input:not([type="file"]),textarea,select{box-sizing:border-box;outline:none}
   --doc-type-fixed:47px;
   --doc-revision-fixed:47px;
   --doc-scale-fixed:67px;
-  --section-a-row:#e9f4ea; --section-a-header:#9fc8a2;
-  --section-b-row:#e8f1f8; --section-b-header:#9dbdd8;
-  --section-c-row:#f8eadc; --section-c-header:#d9aa79;
-  --section-e-row:#eee8f6; --section-e-header:#aa96c7;
-  --section-d-row:#fff7cf; --section-d-profession:#f4df87; --section-d-object:#e8c752; --section-d-header:#d2a91f;
+  --section-a-row:var(--ui-gray-20); --section-a-header:var(--ui-gray-60);
+  --section-b-row:var(--ui-gray-20); --section-b-header:var(--ui-gray-80);
+  --section-c-row:var(--ui-gray-20); --section-c-header:var(--ui-gray-60);
+  --section-e-row:var(--ui-gray-20); --section-e-header:var(--ui-gray-60);
+  --section-d-row:var(--ui-gray-20); --section-d-profession:var(--ui-gray-40); --section-d-object:var(--ui-gray-60); --section-d-header:var(--ui-gray-80);
 }
 .documentation-table{table-layout:fixed!important}
 
@@ -755,7 +775,7 @@ input:not([type="file"]),textarea,select{box-sizing:border-box;outline:none}
 
 
 
-.documentation-table col.action-zone-3{width:92px!important;min-width:92px!important;max-width:92px!important}
+.documentation-table col.action-zone-3{width:var(--table-action-zone-3)!important;min-width:var(--table-action-zone-3)!important;max-width:var(--table-action-zone-3)!important}
 .documentation-table th:first-child,.documentation-table td.doc-number-cell{width:77px!important;min-width:77px!important;max-width:77px!important;box-sizing:border-box!important;overflow:hidden!important}
 
 
@@ -770,7 +790,7 @@ input:not([type="file"]),textarea,select{box-sizing:border-box;outline:none}
   --doc-type-fixed:47px;
   --doc-revision-fixed:47px;
   --doc-scale-fixed:67px;
-  --documentation-actions-width:92px;
+  --documentation-actions-width:var(--table-action-zone-3);
   --documents-grid-columns:
     var(--doc-number-fixed)
     minmax(130px,1fr)
@@ -857,7 +877,7 @@ input:not([type="file"]),textarea,select{box-sizing:border-box;outline:none}
 .documentation-table thead .documents-filter-row>.table-action-zone{grid-column:8!important;width:var(--documentation-actions-width)!important;min-width:var(--documentation-actions-width)!important;max-width:var(--documentation-actions-width)!important;background:var(--navy)!important;border-radius:0 var(--table-radius) 0 0!important}
 
 /* v0.0.039 — empty projectant placeholder. */
-.doc-person-input::placeholder{color:rgb(192,192,192);opacity:1;font-weight:400}
+.doc-person-input::placeholder{color:var(--ui-textbox-placeholder-color);opacity:1;font-weight:400}
 .doc-person-input:focus::placeholder{color:transparent}
 
 /* v0.0.045 — per-mode filter result feedback. */
@@ -891,12 +911,12 @@ input:not([type="file"]),textarea,select{box-sizing:border-box;outline:none}
   padding:2px!important;
   display:grid!important;
   grid-template-columns:repeat(3,28px)!important;
-  column-gap:2px!important;
+  column-gap:var(--ui-control-gap)!important;
   justify-content:start!important;
   align-items:center!important;
-  width:92px!important;
-  min-width:92px!important;
-  max-width:92px!important;
+  width:var(--table-action-zone-3)!important;
+  min-width:var(--table-action-zone-3)!important;
+  max-width:var(--table-action-zone-3)!important;
 }
 .documentation-table .document-section > .table-action-zone .icon-btn,
 .documentation-table .document-subsection > .table-action-zone .icon-btn,
@@ -945,12 +965,12 @@ input:not([type="file"]),textarea,select{box-sizing:border-box;outline:none}
   padding:2px!important;
   display:grid!important;
   grid-template-columns:repeat(3,28px)!important;
-  column-gap:2px!important;
+  column-gap:var(--ui-control-gap)!important;
   justify-content:start!important;
   align-items:center!important;
-  width:92px!important;
-  min-width:92px!important;
-  max-width:92px!important;
+  width:var(--table-action-zone-3)!important;
+  min-width:var(--table-action-zone-3)!important;
+  max-width:var(--table-action-zone-3)!important;
   text-align:left!important;
 }
 .documentation-table .row-document > .doc-actions .icon-btn {margin:0!important;}
@@ -1194,7 +1214,7 @@ input:not([type="file"]),textarea,select{box-sizing:border-box;outline:none}
 .save-json,.save-xlsx,.save-docx{background:#050505!important}
 
 /* v0.0.096 — split Project Data into two matching rounded tables. */
-.settings-table-stack{display:flex;flex-direction:column;gap:12px;width:100%}
+.settings-table-stack{display:flex;flex-direction:column;gap:var(--ui-table-section-gap);width:100%}
 .settings-table-stack .settings-table{border-collapse:separate!important;border-spacing:0!important;overflow:hidden;border-radius:5px!important}
 .settings-table-stack .settings-table tbody tr:first-child td:first-child{border-top-left-radius:5px!important}
 .settings-table-stack .settings-table tbody tr:first-child td:last-child{border-top-right-radius:5px!important}
@@ -1223,9 +1243,9 @@ input:not([type="file"]),textarea,select{box-sizing:border-box;outline:none}
 /* v0.0.096 — nested construction hierarchy */
 .construction-hierarchy-scroll{overflow-x:auto}
 .construction-hierarchy-table{min-width:520px;width:100%;table-layout:fixed}
-.construction-hierarchy-table .hierarchy-prefix-col{width:86px}.construction-hierarchy-table .hierarchy-type-col{width:92px}.construction-hierarchy-table .action-zone-3{width:92px}
+.construction-hierarchy-table .hierarchy-prefix-col{width:86px}.construction-hierarchy-table .hierarchy-type-col{width:92px}.construction-hierarchy-table .action-zone-3{width:var(--table-action-zone-3)}
 .construction-hierarchy-table th,.construction-hierarchy-table td{height:32px;padding:2px;vertical-align:middle}
-.construction-hierarchy-table .table-action-zone{width:92px;min-width:92px;max-width:92px;display:grid;grid-template-columns:repeat(3,28px);gap:2px;padding:2px!important;box-sizing:border-box;border-left:0}
+.construction-hierarchy-table .table-action-zone{width:var(--table-action-zone-3);min-width:var(--table-action-zone-3);max-width:var(--table-action-zone-3);display:grid;grid-template-columns:repeat(3,var(--table-icon-size));gap:var(--ui-control-gap);padding:var(--ui-control-half-gap)!important;box-sizing:border-box;border-left:0}
 .construction-group-row{background:#f3c56b}.construction-object-nested-row{background:#dff2df}.construction-object-nested-row.is-selected{background:#b9ddb9}
 .hierarchy-prefix-cell{text-align:right}.hierarchy-set-number,.hierarchy-set-type,.hierarchy-name-input,.object-prefix,.object-number-display,.object-number-input{height:28px;border:1px solid transparent;border-radius:4px;background:transparent;font:400 14px var(--documentation-font-family);box-sizing:border-box}
 .hierarchy-set-number{width:100%;text-align:right;padding:2px 6px}.hierarchy-set-type{width:100%;text-align:left;padding:2px 6px;color:#000}.object-prefix{width:100%;text-align:right;padding:2px 6px}.object-number-display,.object-number-input{width:100%;text-align:left;padding:2px 6px}
@@ -1283,12 +1303,12 @@ input:not([type="file"]),textarea,select{box-sizing:border-box;outline:none}
  display:grid!important;
  grid-template-columns:repeat(3,28px)!important;
  grid-auto-rows:28px!important;
- gap:2px!important;
+ gap:var(--ui-control-gap)!important;
  align-items:center!important;
  justify-content:start!important;
- width:92px!important;
- min-width:92px!important;
- max-width:92px!important;
+ width:var(--table-action-zone-3)!important;
+ min-width:var(--table-action-zone-3)!important;
+ max-width:var(--table-action-zone-3)!important;
  padding:2px!important;
  overflow:visible!important;
  box-sizing:border-box!important;
@@ -1310,7 +1330,7 @@ input:not([type="file"]),textarea,select{box-sizing:border-box;outline:none}
 /* v0.0.102 — reddish document building-group hierarchy and standard delete action */
 .documentation-table .document-building-set-subsection>td:first-child,
 .documentation-table .document-building-set-subsection .subheader-actions{
- background:#d98787!important;
+ background:var(--ui-blue-40)!important;
 }
 .documentation-table .document-building-set-subsection .subheader-actions .btn-down-action,
 .documentation-table .document-building-set-subsection .subheader-actions .btn-copy{
@@ -1328,7 +1348,7 @@ input:not([type="file"]),textarea,select{box-sizing:border-box;outline:none}
 }
 
 /* v0.0.105 — save-format icons match the main Save icon size. */
-.save-format-button{flex-direction:column!important;gap:2px!important;padding:4px!important}
+.save-format-button{flex-direction:column!important;gap:var(--ui-control-row-gap)!important;padding:4px!important}
 .save-format-disk{width:38px!important;height:38px!important;flex:0 0 38px!important;fill:none!important;stroke:currentColor!important;stroke-width:1.75!important;stroke-linecap:round!important;stroke-linejoin:round!important}
 .save-format-icon{display:block!important;font:700 10px/11px 'Segoe UI',Tahoma,Geneva,Verdana,sans-serif!important;letter-spacing:.02em!important}
 .save-json,.save-zip,.save-docx{background:#050505!important}
@@ -1407,3 +1427,753 @@ input:not([type="file"]),textarea,select{box-sizing:border-box;outline:none}
 
 /* Ondrej Miklanek © 2026 */
 .hierarchy-set-type.building-code-mismatch{color:#c62828!important;font-weight:700}
+
+/* v0.0.148 — robust per-document OS file drop interception. */
+.context-toolbar #contextTertiaryAction{height:32px;white-space:nowrap;display:inline-flex;align-items:center;gap:7px}
+.context-toolbar #contextTertiaryAction[hidden]{display:none!important}
+.context-toolbar #contextTertiaryAction .file-drop-checkbox{font-size:16px;line-height:1;font-weight:400}
+.context-toolbar #contextTertiaryAction.file-drop-mode-toggle.active{background:#f97316;color:#111}
+.context-toolbar.documents-context-actions{grid-template-columns:max-content max-content max-content minmax(0,1fr)!important}
+.documentation-table.document-file-drop-active .row-document{cursor:copy}
+.documentation-table.document-file-drop-active .row-document td,
+.documentation-table.document-file-drop-active .row-document .table-action-zone{background:#f97316!important;transition:background-color .12s ease}
+.documentation-table.document-file-drop-active .row-document.document-file-drag-over td,
+.documentation-table.document-file-drop-active .row-document.document-file-drag-over .table-action-zone{background:#ea580c!important}
+.documentation-table.document-file-drop-active .row-document input:disabled,
+.documentation-table.document-file-drop-active .row-document .editable-control:disabled,
+.documentation-table.document-file-drop-active .row-document .number-dial:disabled,
+.documentation-table.document-file-drop-active .row-document .document-selection-zone:disabled{
+  opacity:1!important;
+  color:#172033!important;
+  -webkit-text-fill-color:#172033!important;
+  background:transparent!important;
+  border-color:transparent!important;
+  cursor:copy!important;
+  filter:none!important;
+}
+.documentation-table.document-file-drop-active .row-document .number-dial:disabled{border-color:#7c2d12!important;background:rgba(255,255,255,.28)!important}
+.documentation-table.document-file-drop-active .row-document .icon-btn{cursor:pointer}
+
+/* In file-add mode, row contents do not intercept OS drag events. The table row itself is the drop target. */
+.documentation-table.document-file-drop-active .row-document input,
+.documentation-table.document-file-drop-active .row-document textarea,
+.documentation-table.document-file-drop-active .row-document select,
+.documentation-table.document-file-drop-active .row-document button,
+.documentation-table.document-file-drop-active .row-document a,
+.documentation-table.document-file-drop-active .row-document .document-selection-zone{pointer-events:none!important;user-select:none!important}
+.documentation-table.document-file-drop-active .row-document input[aria-disabled="true"],
+.documentation-table.document-file-drop-active .row-document textarea[aria-disabled="true"],
+.documentation-table.document-file-drop-active .row-document select[aria-disabled="true"],
+.documentation-table.document-file-drop-active .row-document .editable-control[aria-disabled="true"],
+.documentation-table.document-file-drop-active .row-document .document-selection-zone[aria-disabled="true"]{
+  opacity:1!important;color:#172033!important;-webkit-text-fill-color:#172033!important;
+}
+
+/* v0.0.157 — unresolved rows use white text only; action icons keep their normal visual styling. */
+.documentation-table.document-file-drop-active .row-document.document-file-missing td:not(.table-action-zone){
+  color:#fff!important;
+}
+.documentation-table.document-file-drop-active .row-document.document-file-missing td:not(.table-action-zone) input,
+.documentation-table.document-file-drop-active .row-document.document-file-missing td:not(.table-action-zone) textarea,
+.documentation-table.document-file-drop-active .row-document.document-file-missing td:not(.table-action-zone) select,
+.documentation-table.document-file-drop-active .row-document.document-file-missing td:not(.table-action-zone) .editable-control,
+.documentation-table.document-file-drop-active .row-document.document-file-missing td:not(.table-action-zone) .doc-revision-display,
+.documentation-table.document-file-drop-active .row-document.document-file-missing td:not(.table-action-zone) .doc-scale-display,
+.documentation-table.document-file-drop-active .row-document.document-file-missing td:not(.table-action-zone) .doc-type-button{
+  color:#fff!important;
+  -webkit-text-fill-color:#fff!important;
+}
+.documentation-table.document-file-drop-active .row-document.document-file-missing .table-action-zone .icon-btn{
+  -webkit-text-fill-color:initial!important;
+}
+
+/* v0.0.150 — orange means unresolved file; assigned rows return to their normal section background while remaining drop targets. */
+.documentation-table.document-file-drop-active .row-document.document-file-assigned.section-row-a td{background:var(--section-a-row)!important}
+.documentation-table.document-file-drop-active .row-document.document-file-assigned.section-row-b td{background:var(--section-b-row)!important}
+.documentation-table.document-file-drop-active .row-document.document-file-assigned.section-row-c td{background:var(--section-c-row)!important}
+.documentation-table.document-file-drop-active .row-document.document-file-assigned.section-row-d td{background:var(--section-d-row)!important}
+.documentation-table.document-file-drop-active .row-document.document-file-assigned.section-row-e td{background:var(--section-e-row)!important}
+.documentation-table.document-file-drop-active .row-document.document-file-missing td,
+.documentation-table.document-file-drop-active .row-document.document-file-missing .table-action-zone{background:#f97316!important}
+.documentation-table.document-file-drop-active .row-document.document-file-drag-over td,
+.documentation-table.document-file-drop-active .row-document.document-file-drag-over .table-action-zone{background:#ea580c!important}
+
+
+/* v0.0.158 — mapped document manually replaced by the user: keep normal row background, mark row text orange. */
+.documentation-table.document-file-drop-active .row-document.document-file-assigned.document-file-replaced td:not(.table-action-zone){
+  color:#f97316!important;
+}
+.documentation-table.document-file-drop-active .row-document.document-file-assigned.document-file-replaced td:not(.table-action-zone) input,
+.documentation-table.document-file-drop-active .row-document.document-file-assigned.document-file-replaced td:not(.table-action-zone) textarea,
+.documentation-table.document-file-drop-active .row-document.document-file-assigned.document-file-replaced td:not(.table-action-zone) select,
+.documentation-table.document-file-drop-active .row-document.document-file-assigned.document-file-replaced td:not(.table-action-zone) .editable-control,
+.documentation-table.document-file-drop-active .row-document.document-file-assigned.document-file-replaced td:not(.table-action-zone) .doc-revision-display,
+.documentation-table.document-file-drop-active .row-document.document-file-assigned.document-file-replaced td:not(.table-action-zone) .doc-scale-display,
+.documentation-table.document-file-drop-active .row-document.document-file-assigned.document-file-replaced td:not(.table-action-zone) .doc-type-button{
+  color:#f97316!important;
+  -webkit-text-fill-color:#f97316!important;
+}
+.documentation-table.document-file-drop-active .row-document.document-file-assigned.document-file-replaced .table-action-zone .icon-btn{
+  -webkit-text-fill-color:initial!important;
+}
+
+
+/* v0.1.211 shared compatibility/settings overrides */
+:root{--warning-field-border:#dc2626;--warning-field-background:#fee2e2;--table-action-zone-2:62px}
+.settings-table .table-action-zone{min-width:var(--table-action-zone-2)!important;width:var(--table-action-zone-2)!important;max-width:var(--table-action-zone-2)!important}
+.settings-table .action-zone-2{width:var(--table-action-zone-2)!important}
+.settings-table input.field-warning-required,.public-builder-table input.field-warning-required,.public-address-table input.field-warning-required{border:1px solid var(--warning-field-border)!important;background:var(--warning-field-background)!important}
+.validation-flash-red{background:var(--warning-field-background)!important;border-color:var(--warning-field-border)!important}
+.validation-flash-invert{background:#fff!important;border-color:var(--line)!important}
+.public-field-group{display:grid;width:100%;column-gap:0;row-gap:var(--ui-control-row-gap);align-items:center}
+.public-field-address{grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr)}
+.public-field-city{grid-template-columns:minmax(0,3fr) minmax(0,1fr)}
+.public-field-identity{grid-template-columns:minmax(0,15fr) minmax(0,25fr) minmax(0,25fr) minmax(0,10fr) minmax(0,25fr)}
+.public-field-company{grid-template-columns:minmax(0,3fr) minmax(0,1fr)}
+.public-field-group>input,.public-field-group>.app-select-control{width:100%;min-width:0;box-sizing:border-box;height:32px}
+.app-select-control{position:relative;border:1px solid var(--line);border-radius:4px;background:#fff;color:#1e293b!important;padding:6px 24px 6px 8px!important;text-align:left;font:400 14px/1.2 var(--documentation-font-family)!important}
+.app-select-control::after{content:'▾';position:absolute;right:7px;top:50%;transform:translateY(-50%);color:#475569;font-size:12px;pointer-events:none}
+.public-builder-type-menu{z-index:100010}
+.attachments-table{--attachment-row-green:var(--ui-gray-60);--attachment-section-green:hsl(151 42% 72%)}
+.attachments-table .profession-list-row td{background:var(--attachment-row-green)!important}
+.attachments-table .registry-section-row td{background:var(--attachment-section-green)!important}
+.attachments-table .profession-list-row{--duplicate-row-color:var(--attachment-row-green)!important}
+@media(max-width:900px){.public-field-identity{grid-template-columns:1fr 1fr}.public-field-identity>.public-builder-type{grid-column:1/-1}.public-field-address,.public-field-city,.public-field-company{grid-template-columns:1fr}}
+
+
+/* v0.1.212 — public/private UI primitive parity. */
+.public-address-table tbody tr,
+.public-builder-table tbody tr{
+  height:var(--table-row-height)!important;
+}
+.public-address-table td,
+.public-builder-table td{
+  padding:2px 6px!important;
+}
+.public-field-group>input,
+.public-field-group>.app-select-control{
+  width:calc(100% - var(--ui-control-gap))!important;
+  min-width:0!important;
+  height:28px!important;
+  box-sizing:border-box!important;
+  margin:0 var(--ui-control-half-gap)!important;
+  padding:2px 6px!important;
+  border:1px solid #808080!important;
+  border-radius:4px!important;
+  background:#fff!important;
+  color:#111!important;
+  font:400 14px var(--documentation-font-family)!important;
+  line-height:1.2!important;
+  outline:0!important;
+  filter:none!important;
+}
+.public-field-group>input:hover,
+.public-field-group>input:focus,
+.public-field-group>.app-select-control:hover,
+.public-field-group>.app-select-control:focus{
+  background:#fff!important;
+  border-color:#606060!important;
+  outline:0!important;
+  filter:none!important;
+}
+.public-field-group>input::placeholder,
+.public-address-table input::placeholder,
+.public-builder-table input::placeholder{
+  color:var(--ui-textbox-placeholder-color)!important;
+  opacity:1!important;
+  font-weight:400!important;
+}
+.public-field-group>input:focus::placeholder,
+.public-address-table input:focus::placeholder,
+.public-builder-table input:focus::placeholder{
+  color:transparent!important;
+}
+.public-builder-table .app-select-control.public-builder-type{
+  position:relative!important;
+  padding:2px 24px 2px 6px!important;
+  background:rgb(220,220,220)!important;
+  border:1px solid #808080!important;
+  color:#1e293b!important;
+  text-align:left!important;
+}
+.public-builder-table .app-select-control.public-builder-type:hover,
+.public-builder-table .app-select-control.public-builder-type:focus{
+  background:rgb(220,220,220)!important;
+  border-color:#606060!important;
+}
+.public-builder-table .app-select-control.public-builder-type::after{
+  content:'▾';position:absolute;right:7px;top:50%;transform:translateY(-50%);
+  color:#475569;font-size:12px;pointer-events:none;
+}
+/* Keep the two contextual buttons content-sized; the filter consumes all remainder. */
+.context-toolbar.documents-context-actions{
+  display:grid!important;
+  grid-template-columns:max-content max-content minmax(0,1fr)!important;
+  width:100%!important;
+}
+.context-toolbar.documents-context-actions #contextAction{grid-column:1!important;width:max-content!important}
+.context-toolbar.documents-context-actions #contextSecondaryAction{grid-column:2!important;width:max-content!important}
+.context-toolbar.documents-context-actions #contextTertiaryAction{display:none!important}
+.context-toolbar.documents-context-actions #search{
+  grid-column:3!important;
+  width:100%!important;
+  min-width:0!important;
+  justify-self:stretch!important;
+}
+
+
+/* v0.1.214 — centralized emphasized labels + project section parity. */
+:root{
+  --ui-label-strong-weight:600;
+  --ui-value-emphasis-weight:400;
+}
+.ui-label-strong,
+.settings-table-project .settings-row-id_projektu .settings-fixed-label,
+.settings-table-project .settings-row-nazov_projektu .settings-fixed-label,
+.settings-table-documentation .settings-row-stupen_dokumentacie .settings-fixed-label,
+.public-builder-table .public-builder-primary-label .settings-fixed-label{
+  font-weight:var(--ui-label-strong-weight)!important;
+}
+
+/* Header metadata: centralized lightweight typography, reusable across the app. */
+:root{--app-meta-color:#969696;--app-meta-font-size:11px;--app-meta-font-weight:500;--app-meta-letter-spacing:.015em}
+.app-meta-text{font-family:inherit;font-size:var(--app-meta-font-size);font-weight:var(--app-meta-font-weight);letter-spacing:var(--app-meta-letter-spacing);line-height:1.2;color:var(--app-meta-color)}
+.identity-row .identity-flex-left{display:flex;align-items:center;justify-content:flex-start;padding-inline-start:6px;min-width:0;overflow:hidden}
+.identity-row .app-version{display:inline-block;white-space:nowrap;user-select:text}
+
+
+/* v219 — shared linear grayscale scale. The immutable endpoints are the
+   existing Udaje stavby canvas (#f4f6f9) and data rows (#c0c0c0).
+   RGB(grayN) = RGB(gray0) * (1-N/100) + RGB(gray100) * (N/100),
+   rounded to the nearest 8-bit channel. No separate green section palette. */
+
+/* Stavebne objekty: top level groups = gray100, SO/PS = gray60. */
+.construction-hierarchy-table .construction-group-row,
+.construction-hierarchy-table .construction-group-row>td{
+  background:var(--ui-gray-100)!important;
+}
+.construction-hierarchy-table .construction-object-nested-row,
+.construction-hierarchy-table .construction-object-nested-row>td,
+.construction-hierarchy-table .construction-object-nested-row.is-selected,
+.construction-hierarchy-table .construction-object-nested-row.is-selected>td{
+  background:var(--ui-gray-60)!important;
+}
+.construction-hierarchy-table .construction-drag-ghost{background:var(--ui-gray-60)!important}
+
+/* Profesie a doplnky: all section heading rows gray100; ordinary items
+   gray60 and the ASR profession row gray80. Selection and hover must not
+   reintroduce the previous green fills. */
+.professions-table .registry-section-row>td,
+.attachments-table .registry-section-row>td{background:var(--ui-gray-100)!important}
+.professions-table .profession-list-row,
+.professions-table .profession-list-row.profession-used,
+.attachments-table .profession-list-row,
+.professions-table .profession-list-row>td,
+.professions-table .profession-list-row.profession-used>td,
+.attachments-table .profession-list-row>td{
+  background:var(--ui-gray-60)!important;
+  --duplicate-row-color:var(--ui-gray-60)!important;
+}
+.professions-table .profession-list-row.profession-asr,
+.professions-table .profession-list-row.profession-asr>td{
+  background:var(--ui-gray-80)!important;
+  --duplicate-row-color:var(--ui-gray-80)!important;
+}
+.professions-table .registry-section-row,
+.attachments-table .registry-section-row{--duplicate-row-color:var(--ui-gray-100)!important}
+
+/* Documents: A/C/E and B/D section headers 60 and 80 respectively;
+   D building groups 100, objects 60, professions 40, documents 20. */
+.documentation-table .document-section.section-a>td,
+.documentation-table .document-section.section-c>td,
+.documentation-table .document-section.section-e>td{background:var(--ui-gray-60)!important}
+.documentation-table .document-section.section-b>td,
+.documentation-table .document-section.section-d>td{background:var(--ui-gray-80)!important}
+.documentation-table .document-building-set-subsection>td{
+  background:var(--ui-gray-100)!important;
+}
+.documentation-table .document-subsection.section-d-subsection>td{
+  background:var(--ui-gray-60)!important;
+}
+.documentation-table .document-profession-subsection>td{
+  background:var(--ui-gray-40)!important;
+}
+.documentation-table .row-document>td{background:var(--ui-gray-20)!important}
+.documentation-table .document-building-set-subsection{
+  --action-row-color:var(--ui-gray-100);
+  --duplicate-row-color:var(--ui-gray-100);
+}
+.documentation-table .document-building-set-subsection .subheader-actions .btn-down-action,
+.documentation-table .document-building-set-subsection .subheader-actions .btn-copy{
+  background:color-mix(in srgb,var(--ui-gray-100) 60%,#000)!important;
+}
+.documentation-table .document-building-set-subsection .subheader-actions .btn-down-action:hover,
+.documentation-table .document-building-set-subsection .subheader-actions .btn-copy:hover{
+  background:color-mix(in srgb,var(--ui-gray-100) 50%,#000)!important;
+}
+/* Construction controls are also monochrome relative to their host row. */
+.construction-group-row .btn-plus-action,
+.construction-group-row .btn-copy{
+  background:color-mix(in srgb,var(--ui-gray-100) 60%,#000)!important;
+}
+.construction-object-nested-row .btn-plus-action,
+.construction-object-nested-row .btn-copy{
+  background:color-mix(in srgb,var(--ui-gray-60) 60%,#000)!important;
+}
+/* The orange file-drop state and red missing-file/validation states are
+   deliberately kept stronger than gray row shading. */
+.documentation-table.document-file-drop-active .row-document.document-file-missing>td,
+.documentation-table.document-file-drop-active .row-document.document-file-missing>.table-action-zone{
+  background:#f97316!important;
+}
+.documentation-table.document-file-drop-active .row-document.document-file-drag-over>td,
+.documentation-table.document-file-drop-active .row-document.document-file-drag-over>.table-action-zone{
+  background:#ea580c!important;
+}
+
+
+/* v220 — targeted row-tone refinements. All tokens are centralized in :root. */
+:root{--ui-gray-60-blue:#d1d7df}
+/* Stavebne objekty: construction objects remain gray60 (including selection). */
+.construction-hierarchy-table tr.construction-object-nested-row,
+.construction-hierarchy-table tr.construction-object-nested-row>td,
+.construction-hierarchy-table tr.construction-object-nested-row.is-selected,
+.construction-hierarchy-table tr.construction-object-nested-row.is-selected>td{background:var(--ui-gray-60)!important}
+/* Lokalita: only parcel rows, not project address. */
+.location-repeat-table tbody td,
+.location-repeat-table .location-drag-ghost td{background:var(--ui-gray-60)!important}
+/* Professions and attachments: item rows gray20, ASR retains gray80. */
+.professions-table .profession-list-row,
+.professions-table .profession-list-row.profession-used,
+.attachments-table .profession-list-row,
+.professions-table .profession-list-row>td,
+.professions-table .profession-list-row.profession-used>td,
+.attachments-table .profession-list-row>td{background:var(--ui-gray-20)!important;--duplicate-row-color:var(--ui-gray-20)!important}
+.professions-table .profession-list-row.profession-asr,
+.professions-table .profession-list-row.profession-asr>td{background:var(--ui-gray-80)!important;--duplicate-row-color:var(--ui-gray-80)!important}
+/* Documents: A/B/C/D/E headings gray100; profession gray80; D objects subtly blue gray60. */
+.documentation-table .document-section.section-a>td,
+.documentation-table .document-section.section-b>td,
+.documentation-table .document-section.section-c>td,
+.documentation-table .document-section.section-d>td,
+.documentation-table .document-section.section-e>td{background:var(--ui-gray-100)!important}
+.documentation-table .document-profession-subsection>td{background:var(--ui-gray-80)!important}
+.documentation-table .document-subsection.section-d-subsection>td{background:var(--ui-gray-60-blue)!important}
+
+
+/* v221: Project table hierarchy, central blue scale, and consistent registry editors. */
+.settings-table-stack .settings-table-project tbody td{background:var(--ui-blue-80)!important}
+.settings-table-stack .settings-table-documentation tbody td{background:var(--ui-blue-60)!important}
+.settings-table-stack .public-address-table tbody td{background:var(--ui-blue-40)!important}
+.settings-table-stack .public-builder-table tbody td{background:var(--ui-blue-20)!important}
+.professions-table .profession-list-row .profession-code-input,
+.professions-table .profession-list-row .object-name-input,
+.attachments-table .profession-list-row .profession-code-input,
+.attachments-table .profession-list-row .object-name-input{
+ height:28px!important;min-height:28px!important;max-height:28px!important;
+ box-sizing:border-box!important;margin:0!important;padding-top:2px!important;padding-bottom:2px!important;
+ border:1px solid transparent!important;border-radius:4px!important;background:transparent!important;
+}
+.professions-table .profession-list-row input[readonly],
+.attachments-table .profession-list-row input[readonly]{cursor:text!important;user-select:text!important}
+.professions-table .profession-list-row input[readonly]:hover,
+.attachments-table .profession-list-row input[readonly]:hover{
+ background:transparent!important;border-color:#808080!important;
+}
+.professions-table .profession-list-row input[readonly]:focus,
+.attachments-table .profession-list-row input[readonly]:focus{
+ background:transparent!important;border-color:#808080!important;outline:0!important;
+}
+.professions-table .profession-list-row input:not([readonly]):hover,
+.attachments-table .profession-list-row input:not([readonly]):hover{
+ background:var(--ui-gray-20)!important;border-color:#808080!important;
+}
+.professions-table .profession-list-row input:not([readonly]):focus,
+.attachments-table .profession-list-row input:not([readonly]):focus{
+ background:#fff!important;border-color:#808080!important;outline:0!important;
+}
+
+/* v222 — targeted table-row palette updates. */
+/* Project metadata returns to the established gray palette. */
+.settings-table-stack .settings-table-project tbody td,
+.settings-table-stack .settings-table-documentation tbody td{background:var(--ui-gray-100)!important}
+/* Construction groups retain gray100; construction object cells use blue20. */
+.construction-hierarchy-table tr.construction-object-nested-row,
+.construction-hierarchy-table tr.construction-object-nested-row>td,
+.construction-hierarchy-table tr.construction-object-nested-row.is-selected,
+.construction-hierarchy-table tr.construction-object-nested-row.is-selected>td{background:var(--ui-blue-20)!important}
+/* Both registries: blue40 section headings; ordinary system rows gray20. */
+.professions-table .registry-section-row,
+.professions-table .registry-section-row>td,
+.attachments-table .registry-section-row,
+.attachments-table .registry-section-row>td{background:var(--ui-blue-40)!important;--duplicate-row-color:var(--ui-blue-40)!important}
+/* ASR uses the same row shade as all other system professions. */
+.professions-table .profession-list-row.profession-asr,
+.professions-table .profession-list-row.profession-asr>td{background:var(--ui-gray-20)!important;--duplicate-row-color:var(--ui-gray-20)!important}
+/* User-defined items only: system items have readonly three-letter code inputs. */
+.professions-table .profession-list-row:has(.profession-code-input:not([readonly])),
+.professions-table .profession-list-row:has(.profession-code-input:not([readonly]))>td,
+.attachments-table .profession-list-row:has(.profession-code-input:not([readonly])),
+.attachments-table .profession-list-row:has(.profession-code-input:not([readonly]))>td{background:var(--ui-blue-20)!important;--duplicate-row-color:var(--ui-blue-20)!important}
+/* Reuse the profession-code typography; only the weight changes. */
+.professions-table .profession-list-row.profession-emphasized .profession-code-input{font-weight:600!important}
+/* Public: location and builder, not the first two project tables. */
+.settings-table-stack .public-address-table tbody td,
+.settings-table-stack .public-builder-table tbody td{background:var(--ui-gray-40)!important}
+
+/* v223: shared code typography and requested row tones. */
+:root{--ui-registry-emphasis-weight:700}
+.professions-table .profession-list-row.profession-emphasized .profession-code-input{font-weight:var(--ui-registry-emphasis-weight)!important}
+.attachments-table .profession-list-row .profession-code-input[data-fixed-emphasis="1"]{font-weight:var(--ui-registry-emphasis-weight)!important}
+.settings-table-stack .public-address-table tbody td,
+.settings-table-stack .public-builder-table tbody td{background:var(--ui-blue-40)!important}
+.public-address-table .settings-fixed-label .ui-label-strong{font-weight:var(--ui-label-strong-weight)!important}
+
+/* Selected catalog additions share the same centralized emphasized code typography. */
+.attachments-table .profession-list-row .profession-code-input[readonly][value="SZS"],
+.attachments-table .profession-list-row .profession-code-input[readonly][value="PBS"],
+.attachments-table .profession-list-row .profession-code-input[readonly][value="POV"],
+.attachments-table .profession-list-row .profession-code-input[readonly][value="EHB"]{font-weight:var(--ui-registry-emphasis-weight)!important}
+
+/* v225 — targeted palette adjustments. */
+ .settings-table-stack .public-address-table tbody td, .settings-table-stack .public-builder-table tbody td{background:var(--ui-blue-20)!important}
+ .documentation-table .document-building-set-subsection>td{background:var(--ui-blue-40)!important}
+ .documentation-table .document-subsection.section-d-subsection>td{background:var(--ui-blue-20)!important}
+ .documentation-table .document-building-set-subsection{--action-row-color:var(--ui-blue-40);--duplicate-row-color:var(--ui-blue-40)}
+ .documentation-table .document-subsection.section-d-subsection{--action-row-color:var(--ui-blue-20);--duplicate-row-color:var(--ui-blue-20)}
+
+/* v226: consistent document hierarchy colors, including action zones and hover variants. */
+.documentation-table tr.document-section.section-a>td,
+.documentation-table tr.document-section.section-c>td,
+.documentation-table tr.document-section.section-e>td{background:var(--ui-gray-40)!important}
+.documentation-table tr.document-subsection.section-d-subsection>td,
+.documentation-table tr.document-subsection.section-d-subsection>td.table-action-zone,
+.documentation-table tr.document-object-subsection>td{background:var(--ui-blue-20)!important}
+.documentation-table tr.document-subsection.section-d-subsection{--action-row-color:var(--ui-blue-20);--duplicate-row-color:var(--ui-blue-20)}
+
+/* v227: shared textbox placeholder and header palette references. */
+input::placeholder,textarea::placeholder{color:var(--ui-textbox-placeholder-color);opacity:1}
+input:focus::placeholder,textarea:focus::placeholder{color:transparent}
+
+.documentation-table tr.document-section.section-a>td{background:var(--section-a-header)!important}
+.documentation-table tr.document-section.section-c>td{background:var(--section-c-header)!important}
+.documentation-table tr.document-section.section-e>td{background:var(--section-e-header)!important}
+
+/* v228: unify building-set hierarchy surfaces, including high-specificity action cell rules. */
+.documentation-table tr.document-building-set-subsection>td:first-child,
+.documentation-table tr.document-building-set-subsection>td.table-action-zone,
+.documentation-table tr.document-building-set-subsection .subheader-actions{
+ background:var(--ui-blue-40)!important;
+}
+.documentation-table tr.document-building-set-subsection{
+ --action-row-color:var(--ui-blue-40);
+ --duplicate-row-color:var(--ui-blue-40);
+}
+/* Construction-object action cells use the same box height and border geometry as data cells. */
+.construction-hierarchy-table tbody tr>td.table-action-zone{
+ height:32px!important;min-height:32px!important;
+ padding:2px!important;box-sizing:border-box!important;
+ border-top:0!important;border-bottom:0!important;
+ align-content:center;align-items:center;
+}
+.construction-hierarchy-table tbody tr>td:not(.table-action-zone){
+ box-sizing:border-box;
+}
+
+
+/* v229 — row surfaces are the single source for action-zone colors.
+   Do not assign independent background colors to right-side cells. */
+.documentation-table tr.document-section.section-a{--ui-row-surface:var(--section-a-header)}
+.documentation-table tr.document-section.section-b{--ui-row-surface:var(--ui-gray-100)}
+.documentation-table tr.document-section.section-c{--ui-row-surface:var(--section-c-header)}
+.documentation-table tr.document-section.section-d{--ui-row-surface:var(--ui-gray-100)}
+.documentation-table tr.document-section.section-e{--ui-row-surface:var(--section-e-header)}
+.documentation-table tr.document-building-set-subsection{--ui-row-surface:var(--ui-blue-40)}
+.documentation-table tr.document-subsection.section-d-subsection,
+.documentation-table tr.document-object-subsection{--ui-row-surface:var(--ui-blue-20)}
+.documentation-table tr.document-profession-subsection{--ui-row-surface:var(--ui-gray-80)}
+.documentation-table tr.row-document{--ui-row-surface:var(--ui-gray-20)}
+.construction-hierarchy-table tr.construction-group-row{--ui-row-surface:var(--ui-gray-100)}
+.construction-hierarchy-table tr.construction-object-nested-row{--ui-row-surface:var(--ui-blue-20)}
+.professions-table tr.registry-section-row,
+.attachments-table tr.registry-section-row{--ui-row-surface:var(--ui-blue-40)}
+.professions-table tr.profession-list-row,
+.attachments-table tr.profession-list-row{--ui-row-surface:var(--ui-gray-20)}
+.professions-table tr.profession-list-row:has(.profession-code-input:not([readonly])),
+.attachments-table tr.profession-list-row:has(.profession-code-input:not([readonly])){--ui-row-surface:var(--ui-blue-20)}
+.statements-table tr.statement-summary-row{--ui-row-surface:var(--ui-blue-40)}
+/* Inherit the row's one semantic surface token in both zones. */
+.two-zone-table tbody tr[style],
+.two-zone-table tbody tr{background-color:var(--ui-row-surface,transparent)}
+.two-zone-table tbody tr > td.table-action-zone,
+.two-zone-table tbody tr > td.object-actions-col,
+.documentation-table tbody tr > td.subheader-actions{
+ background-color:var(--ui-row-surface,inherit)!important;
+}
+/* File-drop indicators are transient interaction states, not row surface colors. */
+.documentation-table.document-file-drop-active .row-document.document-file-missing > .table-action-zone{background-color:#f97316!important}
+.documentation-table.document-file-drop-active .row-document.document-file-drag-over > .table-action-zone{background-color:#ea580c!important}
+
+/* Higher-specificity bridge for historical document-cell overrides. */
+.documentation-table.two-zone-table tbody tr.document-profession-subsection > td.table-action-zone.subheader-actions,
+.documentation-table.two-zone-table tbody tr.document-profession-subsection > td.table-action-zone,
+.documentation-table.two-zone-table tbody tr.document-building-set-subsection > td.table-action-zone.subheader-actions,
+.documentation-table.two-zone-table tbody tr.document-subsection > td.table-action-zone,
+.documentation-table.two-zone-table tbody tr.document-section > td.table-action-zone,
+.documentation-table.two-zone-table tbody tr.row-document > td.table-action-zone{
+ background:var(--ui-row-surface)!important;
+}
+
+/* v230 — construction hierarchy separators span the entire row, including actions. */
+.construction-hierarchy-table tbody tr > td,
+.construction-hierarchy-table tbody tr > td.table-action-zone {
+  height:32px!important;box-sizing:border-box!important;
+  border-bottom:1px solid var(--ui-row-separator)!important;border-top:0!important;
+}
+.construction-hierarchy-table tbody tr > td.table-action-zone {
+  display:table-cell!important;vertical-align:middle!important;
+  text-align:right!important;white-space:nowrap!important;
+  padding:1px 2px!important;
+}
+.construction-hierarchy-table tbody tr > td.table-action-zone > button{
+  display:inline-flex!important;vertical-align:middle!important;margin:0!important;
+}
+/* Profession ordering: a dedicated drag target inside the profession header. */
+.documentation-table .profession-header-layout{position:relative}
+.documentation-table .profession-drag-zone{flex:1 1 auto;min-width:20px;align-self:stretch;cursor:grab}
+.documentation-table .profession-drag-zone:hover{background:rgba(0,0,0,.08)}
+body.document-row-dragging .profession-drag-zone{cursor:grabbing}
+.documentation-table tr.profession-drag-target-before > td{box-shadow:inset 0 3px #111!important}
+.documentation-table tr.profession-drag-target-after > td{box-shadow:inset 0 -3px #111!important}
+
+.documentation-table .profession-header-layout .profession-collapse-space{flex:0 0 24px!important;min-width:24px!important}
+
+/* v231: right-hand action cells share their row's semantic surface.
+   Selectors cover project settings, private location address and parcel tables. */
+.settings-table-stack .settings-table tbody tr{--ui-row-surface:var(--ui-gray-100)}
+.settings-table-stack .public-address-table tbody tr,
+.settings-table-stack .public-builder-table tbody tr{--ui-row-surface:var(--ui-blue-20)}
+.settings-table-stack .settings-table tbody tr > td.table-action-zone{
+ background:var(--ui-row-surface)!important;
+}
+.location-address-table tbody tr{--ui-row-surface:var(--ui-blue-20)}
+.location-repeat-table tbody tr{--ui-row-surface:var(--ui-gray-60)}
+.location-table tbody tr > td.table-action-zone{
+ background:var(--ui-row-surface)!important;
+}
+
+
+
+
+
+/* v237 — Shared geometry for all table editors and their action columns.
+   Geometry: each 100%-based track is preserved; an input occupies its track
+   minus a symmetrical half gap. The same token spaces adjacent action icons.
+   Controls in the narrow action column align to its left control boundary.
+   No horizontal padding is stacked between the track and the control. */
+:root {
+  --ui-control-gap: 4px;
+  --ui-control-row-gap: 6px; /* Vertical spacing remains unchanged. */
+  --ui-field-label-inset: 6px; /* Preserve the existing label indentation. */
+  --ui-control-half-gap: calc(var(--ui-control-gap) / 2);
+  --ui-horizontal-control-gap: var(--ui-control-gap);
+  --ui-action-icon-gap: var(--ui-control-gap);
+  --ui-field-track-inset: var(--ui-control-half-gap);
+  --table-action-zone-2: calc(2 * var(--table-icon-size) + 2 * var(--ui-control-gap));
+  --table-action-zone-3: calc(3 * var(--table-icon-size) + 3 * var(--ui-control-gap));
+}
+/* Preserve percentage boundaries: unlike CSS grid-gap, insets do not alter
+   the grid's distribution of fractional columns. */
+.person-field-group, .public-field-group, .location-address-inputs,
+.statement-meta-grid, .statement-company-grid, .statement-three-grid,
+.statement-half-grid, .statement-detail-grid {
+  width:100%;column-gap:0!important;box-sizing:border-box;
+}
+.person-field-group > *, .public-field-group > *, .location-address-inputs > *,
+.statement-meta-grid > *, .statement-company-grid > *,
+.statement-three-grid > *, .statement-half-grid > *, .statement-detail-grid > * {
+  box-sizing:border-box!important;min-width:0!important;
+  width:calc(100% - var(--ui-control-gap))!important;
+  margin-inline:var(--ui-control-half-gap)!important;
+}
+/* Use only control insets (not cell + control padding), leaving vertical
+   padding from the mode's native rows unchanged. */
+.persons-table tbody td:not(.settings-name-col):not(.table-action-zone),
+.location-address-table tbody td:not(.location-label-col):not(.table-action-zone),
+.location-repeat-table tbody td:not(.table-action-zone),
+.statements-meta-table tbody td:not(.settings-name-col):not(.table-action-zone),
+.statements-company-table tbody td:not(.settings-name-col):not(.table-action-zone),
+.settings-table tbody td:not(.settings-name-col):not(.table-action-zone){
+  padding-inline:0!important;
+}
+/* Direct single-field cells, with the same outer insets as grouped fields. */
+.persons-table tbody td:not(.table-action-zone):not(:has(> .person-field-group)) > :is(input,select,textarea,.app-select-control),
+.location-address-table tbody td:not(.table-action-zone):not(:has(> .location-address-inputs)) > :is(input,select,textarea,.app-select-control),
+.location-repeat-table tbody td:not(.table-action-zone) > :is(input,select,textarea),
+.statements-meta-table tbody td:not(.table-action-zone):not(:has(> [class$="-grid"])) > :is(input,select,textarea),
+.statements-company-table tbody td:not(.table-action-zone):not(:has(> [class$="-grid"])) > :is(input,select,textarea),
+.settings-table tbody td:not(.table-action-zone):not(:has(> .public-field-group)) > :is(input,select,textarea,.app-select-control){
+  box-sizing:border-box!important;
+  width:calc(100% - var(--ui-control-gap))!important;
+  margin-inline:var(--ui-control-half-gap)!important;
+}
+/* Parcel area is an editing/display composite, not a normal input.
+   Inset the outer composite once, never its internal overlay independently. */
+.location-repeat-table tbody td:not(.table-action-zone) > :is(.location-area-tagged,.location-combo-wrap){
+  width:calc(100% - var(--ui-control-gap))!important;
+  max-width:calc(100% - var(--ui-control-gap))!important;
+  box-sizing:border-box!important;
+  margin-inline:var(--ui-control-half-gap)!important;
+}
+.location-repeat-table .location-area-tagged > :is(.location-area-display,.location-area-editor){
+  margin-inline:0!important;width:100%!important;max-width:100%!important;
+}
+/* Requirement/implementation subtable: same shared horizontal gap as all other
+   input fields; no extra inset added by the cell. */
+.statement-demands-table tbody td:not(.table-action-zone){padding-inline:0!important}
+.statement-demands-table tbody td:not(.table-action-zone) > textarea{
+  margin-inline:var(--ui-control-half-gap)!important;
+  width:calc(100% - var(--ui-control-gap))!important;
+}
+/* All right-hand action columns reserve the same outer half-gap and use the
+   common 28px square icon. The action zone is still an actual table cell. */
+.two-zone-table tbody td.table-action-zone,
+.objects-table tbody td.object-actions-col,
+.construction-hierarchy-table tbody td.table-action-zone {
+  padding-inline:var(--ui-control-half-gap)!important;
+  text-align:left!important;
+  white-space:nowrap!important;
+}
+.two-zone-table tbody td.table-action-zone.action-zone-2,
+.two-zone-table tbody td.table-action-zone:not(.action-zone-3):not(.doc-actions):not(.subheader-actions):not(.statement-row-actions),
+.objects-table tbody td.object-actions-col{
+  width:var(--table-action-zone-2)!important;
+  min-width:var(--table-action-zone-2)!important;
+  max-width:var(--table-action-zone-2)!important;
+}
+.two-zone-table tbody td.table-action-zone.action-zone-3,
+.documentation-table tbody td.table-action-zone,
+.construction-hierarchy-table tbody td.table-action-zone,
+.statements-company-table tbody td.table-action-zone,
+.statements-table tbody td.table-action-zone.statement-row-actions,
+.statement-demands-table tbody td.statement-row-actions{
+  width:var(--table-action-zone-3)!important;
+  min-width:var(--table-action-zone-3)!important;
+  max-width:var(--table-action-zone-3)!important;
+}
+/* Table action buttons are adjacent inline controls, not an independent
+   two-pixel grid. One shared rule controls the visible button-to-button gap. */
+#content :is(.two-zone-table,.objects-table,.construction-hierarchy-table)
+ tbody td:is(.table-action-zone,.object-actions-col) > .icon-btn{
+  margin:0!important;
+  vertical-align:middle!important;
+}
+#content :is(.two-zone-table,.objects-table,.construction-hierarchy-table)
+ tbody td:is(.table-action-zone,.object-actions-col) > .icon-btn ~ .icon-btn{
+  margin-left:var(--ui-control-gap)!important;
+}
+/* Requirements actions render as a true grid: column-gap alone supplies
+   the spacing, so these buttons must have no additional margin. */
+#content .statement-demands-table tbody td.statement-row-actions{
+  display:grid!important;
+  grid-template-columns:repeat(3,var(--table-icon-size))!important;
+  column-gap:var(--ui-control-gap)!important;
+  align-items:center!important;justify-content:start!important;
+  padding-inline:var(--ui-control-half-gap)!important;
+}
+#content .statement-demands-table tbody td.statement-row-actions > .icon-btn{
+  margin:0!important;
+}
+/* Use the same geometry in any genuine flex-based action button wrapper. */
+#content .subheader-actions:not(td),
+#content .doc-actions:not(td){gap:var(--ui-control-gap)!important}
+/* Shared row surface, never a separate white action-cell color. */
+.settings-table-stack .settings-table tbody tr > td.table-action-zone,
+.location-table tbody tr > td.table-action-zone,
+.statements-table tbody tr > td.table-action-zone,
+.statements-company-table tbody tr > td.table-action-zone,
+.statements-meta-table tbody tr > td.table-action-zone{
+  background-color:var(--ui-row-surface,inherit)!important;
+}
+/* Default full-row surface for statement header rows stays blue40. */
+.statements-table tbody tr.statement-summary-row > td.table-action-zone {
+  background-color:var(--ui-row-surface)!important;
+}
+/* Profession/addition list: remove the extra 6px-per-cell inset that
+   previously made code↔name 12px and name↔actions 9px. */
+.professions-table tbody tr.profession-list-row > td:not(.table-action-zone),
+.attachments-table tbody tr.profession-list-row > td:not(.table-action-zone){
+  padding-inline:var(--ui-control-half-gap)!important;
+}
+
+/* Document cells are grid children rather than conventional table cells.
+   All ordinary document editors receive the same half-gap inset as other modes.
+   The action cells are flex containers; flex gap is the sole icon spacer. */
+.documentation-table tbody tr.row-document > td:not(.table-action-zone){
+  padding-inline:var(--ui-control-half-gap)!important;
+}
+#content .documentation-table tbody td.table-action-zone{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  column-gap:var(--ui-control-gap)!important;
+}
+#content .documentation-table tbody td.table-action-zone > .icon-btn,
+#content .documentation-table tbody td.table-action-zone > .icon-btn ~ .icon-btn{
+  margin:0!important;
+}
+#content .statement-demands-table tbody td.statement-row-actions > .icon-btn ~ .icon-btn{
+  margin-left:0!important;
+}
+
+/* v238: action cells share the enclosing person-card row surface. */
+.persons-table tbody tr { --ui-row-surface:var(--ui-gray-100); }
+.person-card[data-primary-builder="1"] .persons-table tbody tr { --ui-row-surface:var(--ui-blue-20); }
+.persons-table tbody tr > td.table-action-zone {background:var(--ui-row-surface)!important;}
+/* v238: one row-separator token in all blue20 forms. */
+.person-card[data-primary-builder="1"] .persons-table tbody tr > td,
+.location-address-table tbody tr > td,
+.construction-hierarchy-table tbody tr > td,
+.settings-table-stack .public-address-table tbody tr > td,
+.settings-table-stack .public-builder-table tbody tr > td {
+ border-bottom-color:var(--ui-row-separator)!important;
+}
+/* v238: document selection uses a shared midpoint shade. */
+.documentation-table tr.row-document:hover > td,
+.documentation-table tr.row-document:has(.document-selection-zone:hover) > td { --ui-document-hover-surface:var(--ui-blue-10); }
+.documentation-table tr.row-document .document-selection-zone:hover {background:var(--ui-blue-10)!important;}
+
+/* v241 — one neutral separator for every data table. No outer table-row rules.
+   A row is the entire width, including action cells. Navy headers are excluded. */
+#content table:is(.objects-table,.settings-table,.construction-hierarchy-table,
+  .location-table,.persons-table,.statements-table,.statements-meta-table,
+  .statements-company-table,.statement-demands-table,.professions-table,
+  .attachments-table,.documentation-table) > tbody > tr > td {
+  border-top:0!important;
+  border-bottom:0!important;
+}
+#content table:is(.objects-table,.settings-table,.construction-hierarchy-table,
+  .location-table,.persons-table,.statements-table,.statements-meta-table,
+  .statements-company-table,.statement-demands-table,.professions-table,
+  .attachments-table,.documentation-table) > tbody > tr:not(:last-child) > td {
+  border-bottom:1px solid var(--ui-row-separator)!important;
+}
+/* The title bars do not introduce a second separator above the first data row. */
+#content table:is(.objects-table,.settings-table,.construction-hierarchy-table,
+  .location-table,.persons-table,.statements-table,.statements-meta-table,
+  .statements-company-table,.statement-demands-table,.professions-table,
+  .attachments-table,.documentation-table) > thead > tr:last-child > th {
+  border-bottom:0!important;
+}
+/* The hover is applied to actual table cells. The old v238 declaration set
+   --ui-document-hover-surface without using it in any cell's background. */
+#content .documentation-table:not(.document-file-drop-active) > tbody > tr.row-document:hover > td {
+  background-color:var(--ui-blue-10)!important;
+}
+#content .documentation-table:not(.document-file-drop-active) > tbody > tr.row-document:hover > td.table-action-zone {
+  background-color:var(--ui-blue-10)!important;
+}
+
+/* v247: identical two-button toolbar geometry for Stavebné objekty in both apps. */
+.context-toolbar.construction-renumber-context-actions{grid-template-columns:max-content max-content minmax(0,1fr)!important}
+.context-toolbar.construction-renumber-context-actions #search{grid-column:3!important;min-width:0!important;width:100%!important}
