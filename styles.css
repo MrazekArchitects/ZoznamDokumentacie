@@ -2177,3 +2177,18 @@ body.document-row-dragging .profession-drag-zone{cursor:grabbing}
 /* v247: identical two-button toolbar geometry for Stavebné objekty in both apps. */
 .context-toolbar.construction-renumber-context-actions{grid-template-columns:max-content max-content minmax(0,1fr)!important}
 .context-toolbar.construction-renumber-context-actions #search{grid-column:3!important;min-width:0!important;width:100%!important}
+
+/* v248: interactive logo preserves the existing centered header geometry. */
+.identity-logo-link{display:flex;align-items:center;justify-content:center;width:100%;height:100%;min-width:0;text-decoration:none;cursor:pointer;}
+.identity-logo-link:focus-visible{outline:2px solid var(--ui-blue-40);outline-offset:-2px;border-radius:3px;}
+
+/* v248: fourth Public save tile, square and same dimensions as the original three. */
+.save-flyout-menu{height:calc((var(--header-square) - 12px) * 4)!important;grid-template-rows:repeat(4,minmax(0,1fr))!important;}
+.save-format-button.save-app{text-decoration:none!important;}
+.save-format-button.save-app .save-format-icon{color:var(--ui-blue-40)!important;}
+.save-format-button.save-app:focus-visible{outline:2px solid var(--ui-blue-40)!important;outline-offset:-3px!important;}
+
+/* APP icon and label match the active mode button blue. */
+.save-format-button.save-app,
+.save-format-button.save-app .save-format-icon,
+.save-format-button.save-app .save-format-disk { color: var(--ui-blue-80) !important; }
