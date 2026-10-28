@@ -515,12 +515,12 @@ function renderInternal(){
  }
  if(currentView==='professions'){
    const rows=catalogRows(professionCatalog,ensureProfessionRegistry(),'profession').filter(x=>x.type==='section'||matchesFilter(`${x.item.kod||''} ${x.item.nazov||''}`,q));
-   c.innerHTML=`<table class="objects-table professions-table two-zone-table"><colgroup><col class="profession-code-col"><col><col class="action-zone-2"></colgroup><thead><tr><th class="profession-code-col">Kód</th><th>Názov</th><th class="table-action-zone">Akcie</th></tr></thead><tbody>${rows.map(x=>x.type==='section'?registrySectionRow(x.name):professionModeRow(x.item)).join('')}</tbody></table>`;
+   c.innerHTML=`<table class="objects-table professions-table two-zone-table"><colgroup><col class="profession-code-col"><col><col class="action-zone-2"></colgroup><thead><tr><th class="profession-code-col">Kód</th><th>Názov</th><th class="table-action-zone">Akcie</th></tr></thead><tbody>${rows.map(x=>x.type==='section'?registrySectionRow(x.name,'profession'):professionModeRow(x.item)).join('')}</tbody></table>`;
    bindInputs();updateContextFilterFeedback(q,rows.filter(x=>x.type!=='section').length);return;
  }
  if(currentView==='all'){
    const rows=catalogRows(attachmentCatalog,ensureAttachmentRegistry(),'attachment').filter(x=>x.type==='section'||matchesFilter(`${x.item.kod||''} ${x.item.nazov||''}`,q));
-   c.innerHTML=`<table class="objects-table professions-table attachments-table two-zone-table"><colgroup><col class="profession-code-col"><col><col class="action-zone-2"></colgroup><thead><tr><th class="profession-code-col">Kód</th><th>Názov</th><th class="table-action-zone">Akcie</th></tr></thead><tbody>${rows.map(x=>x.type==='section'?registrySectionRow(x.name):attachmentModeRow(x.item)).join('')}</tbody></table>`;
+   c.innerHTML=`<table class="objects-table professions-table attachments-table two-zone-table"><colgroup><col class="profession-code-col"><col><col class="action-zone-2"></colgroup><thead><tr><th class="profession-code-col">Kód</th><th>Názov</th><th class="table-action-zone">Akcie</th></tr></thead><tbody>${rows.map(x=>x.type==='section'?registrySectionRow(x.name,'attachment'):attachmentModeRow(x.item)).join('')}</tbody></table>`;
    bindInputs();updateContextFilterFeedback(q,rows.filter(x=>x.type!=='section').length);return;
  }
  let rows='';
@@ -671,7 +671,7 @@ function constructionSubsectionRow(o){
 function professionSubsectionRow(o,p){
  const code=String(p?.kod||'INE').toUpperCase(),name=p?.nazov||professionName(code),empty=(p.dokumenty||[]).length===0?'<span class="empty-suffix">&nbsp;&nbsp;&nbsp;(prázdne)</span>':'';
  const actions=headerIcon('btn-down-action','Pridať dokument',`data-add-prof-doc="${p.id}"`,iconDown)+headerIcon('btn-white','Presunúť profesiu',`data-move-prof="${p.id}"`,iconMove)+headerIcon('btn-danger','Zmazať profesiu',`data-del-prof="${p.id}"`,iconTrash);
- return `<tr class="document-profession-subsection"><td colspan="7"><div class="profession-header-layout"><button type="button" class="profession-subheader-button" data-profession-header="${p.id}" title="Zmeniť profesiu"><strong>${esc(code)} – ${esc(name)}</strong>${empty}<span class="profession-dropdown-mark" aria-hidden="true">▾</span></button><span class="profession-drag-zone" data-profession-drag="${p.id}" data-profession-object="${o.id}" title="Presunúť profesiu v rámci stavebného objektu"></span><button type="button" class="profession-collapse-space" data-profession-collapse="${p.id}" data-object-id="${o.id}" aria-label="Zbaliť alebo rozbaliť profesiu"></button></div></td><td class="table-action-zone subheader-actions">${actions}</td></tr>`
+ return `<tr class="document-profession-subsection"><td colspan="7"><div class="profession-header-layout"><button type="button" class="profession-subheader-button" data-profession-header="${p.id}" title="Zmeniť profesiu"><strong>${esc(code)} – ${esc(name)}</strong>${empty}<span class="profession-dropdown-mark" aria-hidden="true">▾</span></button><span class="profession-drag-zone" data-profession-drag="${p.id}" data-profession-collapse="${p.id}" data-profession-object="${o.id}" data-object-id="${o.id}" title="Klik: zbaliť/rozbaliť profesiu; dvojklik: všetky profesie; ťahanie: presunúť profesiu" role="button" tabindex="0" aria-label="Zbaliť, rozbaliť alebo presunúť profesiu"></span></div></td><td class="table-action-zone subheader-actions">${actions}</td></tr>`
 }
 function documentRowsBySection(q=''){
  const grouped=new Map(documentSections.map(x=>[x.key,[]]));
@@ -730,8 +730,20 @@ function objectAddRow(){return `<tr class="object-add-row"><td colspan="2"><butt
 function focusNewObjectRow(){if(!pendingNewObjectId)return;const id=pendingNewObjectId;pendingNewObjectId=null;requestAnimationFrame(()=>{const row=document.querySelector(`[data-object-row="${id}"]`);if(!row)return;row.classList.add('object-row-created');row.scrollIntoView({block:'center',behavior:'smooth'});setTimeout(()=>row.classList.remove('object-row-created'),2600)})}
 function usedProfessionCodes(){return new Set(allProf().map(({p})=>String(p.kod||'').toUpperCase()))}
 
-function registrySectionRow(name){return `<tr class="registry-section-row"><td colspan="2">${esc(name)}</td><td class="table-action-zone"></td></tr>`}
-function attachmentModeRow(p){return `<tr class="object-list-row profession-list-row"><td><input class="profession-code-input" data-registry-attachment="${p.id}:kod" value="${esc(p.kod)}" maxlength="3" ${p.system?'readonly':''}></td><td><input class="object-name-input registry-name-input" data-registry-attachment="${p.id}:nazov" value="${esc(p.nazov)}" ${p.system?'readonly':''}></td><td class="object-actions-col table-action-zone"><button type="button" class="icon-btn btn-copy" data-duplicate-registry-attachment="${p.id}" title="Duplikovať prílohu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">${iconCopy}</svg></button><button type="button" class="icon-btn btn-danger" data-del-registry-attachment="${p.id}" title="Zmazať prílohu" ${p.system?'disabled':''}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">${iconTrash}</svg></button></td></tr>`}
+function registrySectionShadeByName(name){
+ const key=String(name||'').replace(/^-+\s*|\s*-+$/g,'').trim().toLocaleLowerCase('sk');
+ const map={
+  'profesie základné':'p1','profesie areálové':'p2','profesie špecializované':'p3',
+  'inžiniering':'a1','posúdenia':'a2','stavba':'a3'
+ };
+ return map[key]||'p4';
+}
+function registrySectionShade(kind,name){
+ if(String(name||'').replace(/^-+\s*|\s*-+$/g,'').trim()==='Užívateľské')return kind==='attachment'?'a4':'p4';
+ return registrySectionShadeByName(name);
+}
+function registrySectionRow(name,kind){return `<tr class="registry-section-row" data-section-shade="${registrySectionShade(kind,name)}"><td colspan="2">${esc(name)}</td><td class="table-action-zone"></td></tr>`}
+function attachmentModeRow(p){return `<tr class="object-list-row profession-list-row ${p.system?'registry-attachment-system':'registry-attachment-custom'}"><td><input class="profession-code-input" data-registry-attachment="${p.id}:kod" value="${esc(p.kod)}" maxlength="3" ${p.system?'readonly':''}></td><td><input class="object-name-input registry-name-input" data-registry-attachment="${p.id}:nazov" value="${esc(p.nazov)}" ${p.system?'readonly':''}></td><td class="object-actions-col table-action-zone"><button type="button" class="icon-btn btn-copy" data-duplicate-registry-attachment="${p.id}" title="Duplikovať prílohu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">${iconCopy}</svg></button><button type="button" class="icon-btn btn-danger" data-del-registry-attachment="${p.id}" title="Zmazať prílohu" ${p.system?'disabled':''}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">${iconTrash}</svg></button></td></tr>`}
 // v249: Reveal newly created registry rows only after the table has been rebuilt.
 // Use the PAGE scrollbar (not the table's horizontal scrollbar).
 function revealAddedRegistryEntry(kind,id,placement){
@@ -748,13 +760,16 @@ function revealAddedRegistryEntry(kind,id,placement){
   const field=Array.from(document.querySelectorAll(selector)).find(el=>el.getAttribute(kind==='profession'?'data-registry-prof':'data-registry-attachment')===id+':kod');
   if(!field)return;
   const row=field.closest('tr');if(!row)return;
-  const scroller=document.scrollingElement||document.documentElement;
+  const scroller=document.querySelector('body > main');
+  if(!scroller)return;
   const limit=Math.max(0,scroller.scrollHeight-scroller.clientHeight);
-  if(limit<=0)return; // No vertical scrollbar: no movement needed.
+  if(limit<=0)return; // All rows fit inside the main viewport.
+  const viewportRect=scroller.getBoundingClientRect();
+  const rowRect=row.getBoundingClientRect();
   const position=placement==='center'
-   ?scroller.scrollTop+row.getBoundingClientRect().top+row.getBoundingClientRect().height/2-scroller.clientHeight/2
+   ?scroller.scrollTop+rowRect.top-viewportRect.top+rowRect.height/2-scroller.clientHeight/2
    :limit;
-  window.scrollTo(0,Math.max(0,Math.min(limit,position)));
+  scroller.scrollTo({top:Math.max(0,Math.min(limit,position)),behavior:'auto'});
  });
 }
 function addAttachment(){ensureAttachmentRegistry();let n=1,k;do{k='X'+String(n++).padStart(2,'0')}while(model.attachmentRegistry.some(p=>p.kod===k));const entry={id:uid(),kod:k,nazov:'Nová príloha',system:false};model.attachmentRegistry.push(entry);revealAddedRegistryEntry('attachment',entry.id,'bottom')}
@@ -972,20 +987,61 @@ function reorderDocumentBlock(sourceId,targetId,placeAfter=false){
  else remaining.forEach((x,i)=>x.d._displayOrder=i);
  return true;
 }
+// One shared profession surface: single click, group double click, or reorder by drag.
+// Keep click state outside the rendered nodes: render() replaces the table DOM.
+let pendingProfessionTap=null;
+function toggleProfessionSingle(id){
+ collapsedDocumentProfessions.has(id)?collapsedDocumentProfessions.delete(id):collapsedDocumentProfessions.add(id);
+ render();
+}
+function toggleProfessionGroup(id,objectId,forceExpand){
+ const object=allObjects().find(o=>o.id===objectId);if(!object)return;
+ const shouldExpand=typeof forceExpand==='boolean'?forceExpand:collapsedDocumentProfessions.has(id);
+ (object.profesie||[]).forEach(p=>shouldExpand?collapsedDocumentProfessions.delete(p.id):collapsedDocumentProfessions.add(p.id));
+ render();
+}
+// A first completed click changes its profession immediately. A second click
+// within the existing double-click window propagates that first direction.
+function queueProfessionTap(id,objectId,x,y){
+ const now=performance.now(),prior=pendingProfessionTap;
+ if(prior&&prior.id===id&&prior.objectId===objectId&&now-prior.time<=340&&Math.hypot(x-prior.x,y-prior.y)<=10){
+  pendingProfessionTap=null;
+  toggleProfessionGroup(id,objectId,prior.expand);
+  return;
+ }
+ const expand=collapsedDocumentProfessions.has(id);
+ pendingProfessionTap={id,objectId,x,y,time:now,expand};
+ toggleProfessionSingle(id);
+}
 function bindProfessionDragSelection(){
  document.querySelectorAll('[data-profession-drag]').forEach(zone=>{
+  zone.addEventListener('keydown',e=>{
+   if(e.key!=='Enter'&&e.key!==' ')return;
+   e.preventDefault();
+   // Keyboard activation is intentionally immediate; group toggle uses Shift+Enter.
+   if(e.shiftKey)toggleProfessionGroup(zone.dataset.professionDrag,zone.dataset.professionObject);
+   else toggleProfessionSingle(zone.dataset.professionDrag);
+  });
   zone.onpointerdown=e=>{
-   if(e.button!==0)return;
+   if(e.button!==0||!e.isPrimary)return;
    e.preventDefault();e.stopPropagation();
    const sourceId=zone.dataset.professionDrag,objectId=zone.dataset.professionObject;
-   const sourceRow=zone.closest('tr.document-profession-subsection');
-   if(!sourceRow)return;
-   const startX=e.clientX,startY=e.clientY;
-   let dragging=false,ghost=null,grabOffsetY=0,targetId=null,after=false;
+   const sourceRow=zone.closest('tr.document-profession-subsection');if(!sourceRow)return;
+   const startX=e.clientX,startY=e.clientY,pointerId=e.pointerId;
+   let dragging=false,ghost=null,grabOffsetY=0,targetId=null,after=false,finished=false;
    const clear=()=>document.querySelectorAll('.profession-drag-target-before,.profession-drag-target-after').forEach(el=>el.classList.remove('profession-drag-target-before','profession-drag-target-after'));
+   const cleanup=()=>{
+    document.removeEventListener('pointermove',move,true);
+    document.removeEventListener('pointerup',up,true);
+    document.removeEventListener('pointercancel',cancel,true);
+    clear();sourceRow.classList.remove('document-drag-source');ghost?.remove();
+   };
    const move=ev=>{
+    if(ev.pointerId!==pointerId||finished)return;
     if(!dragging&&Math.hypot(ev.clientX-startX,ev.clientY-startY)>=5){
      dragging=true;
+     // A drag takes precedence over a pending single click.
+     if(pendingProfessionTap){pendingProfessionTap=null}
      const rect=sourceRow.getBoundingClientRect(),table=document.createElement('table'),body=document.createElement('tbody'),clone=sourceRow.cloneNode(true);
      table.className='documentation-table document-drag-ghost profession-drag-ghost';
      clone.querySelectorAll('button,input').forEach(el=>el.tabIndex=-1);
@@ -1001,27 +1057,24 @@ function bindProfessionDragSelection(){
     const candidate=row.querySelector('[data-profession-drag]');
     if(!candidate||candidate.dataset.professionObject!==objectId)return;
     targetId=candidate.dataset.professionDrag;
-    const rect=row.getBoundingClientRect();const ghostMid=ev.clientY-grabOffsetY+sourceRow.getBoundingClientRect().height/2;
+    const rect=row.getBoundingClientRect(),ghostMid=ev.clientY-grabOffsetY+sourceRow.getBoundingClientRect().height/2;
     after=ghostMid>rect.top+rect.height/2;
     row.classList.add(after?'profession-drag-target-after':'profession-drag-target-before');
    };
-   const up=()=>{
-    document.removeEventListener('pointermove',move,true);document.removeEventListener('pointerup',up,true);
-    clear();sourceRow.classList.remove('document-drag-source');ghost?.remove();
-    if(!dragging){
-     // A pointer gesture below the drag threshold is an ordinary click.
-     // Delegate to the existing hierarchy toggle so click and drag coexist.
-     sourceRow.querySelector('[data-profession-collapse]')?.click();
-     return;
-    }
+   const cancel=ev=>{if(ev.pointerId!==pointerId||finished)return;finished=true;cleanup()};
+   const up=ev=>{
+    if(ev.pointerId!==pointerId||finished)return;finished=true;cleanup();
+    if(!dragging){queueProfessionTap(sourceId,objectId,ev.clientX,ev.clientY);return}
     if(!targetId)return;
     const object=allObjects().find(o=>o.id===objectId);if(!object)return;
     const professions=object.profesie||[],from=professions.findIndex(p=>p.id===sourceId),to=professions.findIndex(p=>p.id===targetId);
     if(from<0||to<0||from===to)return;
-    const [item]=professions.splice(from,1);const targetIndex=professions.findIndex(p=>p.id===targetId);
+    const [item]=professions.splice(from,1),targetIndex=professions.findIndex(p=>p.id===targetId);
     professions.splice(targetIndex+(after?1:0),0,item);render();
    };
-   document.addEventListener('pointermove',move,true);document.addEventListener('pointerup',up,true);
+   document.addEventListener('pointermove',move,true);
+   document.addEventListener('pointerup',up,true);
+   document.addEventListener('pointercancel',cancel,true);
   };
  });
 }
@@ -1404,11 +1457,7 @@ function bindHierarchyControls(){
   el=>{const id=el.dataset.objectCollapse;collapsedDocumentObjects.has(id)?collapsedDocumentObjects.delete(id):collapsedDocumentObjects.add(id);render()},
   el=>{const id=el.dataset.objectCollapse;if(collapsedDocumentObjects.has(id)){collapsedDocumentObjects.clear();collapsedDocumentProfessions.clear()}else{sortedConstructionObjects().forEach(o=>collapsedDocumentObjects.add(o.id))}render()}
  ));
- document.querySelectorAll('[data-profession-collapse]').forEach(el=>bindHierarchyClickPair(el,
-  el=>{const id=el.dataset.professionCollapse;collapsedDocumentProfessions.has(id)?collapsedDocumentProfessions.delete(id):collapsedDocumentProfessions.add(id);render()},
-  el=>{const objectId=el.dataset.objectId,object=allObjects().find(o=>o.id===objectId),clickedId=el.dataset.professionCollapse;if(collapsedDocumentProfessions.has(clickedId)){(object?.profesie||[]).forEach(p=>collapsedDocumentProfessions.delete(p.id))}else{(object?.profesie||[]).forEach(p=>collapsedDocumentProfessions.add(p.id))}render()},
-  {ignoreNestedControls:false}
- ));
+
 }
 
 const selectedConstructionObjectIds=new Set();let lastSelectedConstructionObjectId='';
@@ -1457,7 +1506,7 @@ function moveBuildingSetBlock(sourceSetId,targetSetId,after=false){
 function bindBuildingSetDrag(){
  document.querySelectorAll('[data-group-drag]').forEach(zone=>zone.onpointerdown=e=>{if(e.button!==0)return;e.preventDefault();e.stopPropagation();const sourceId=zone.dataset.groupDrag,row=zone.closest('[data-building-group-row]'),startX=e.clientX,startY=e.clientY;let dragging=false,targetId='',after=false,ghost=null;
   const clear=()=>document.querySelectorAll('.construction-group-drag-before,.construction-group-drag-after').forEach(x=>x.classList.remove('construction-group-drag-before','construction-group-drag-after'));
-  const move=ev=>{if(!dragging&&Math.hypot(ev.clientX-startX,ev.clientY-startY)>5){dragging=true;const r=row.getBoundingClientRect();ghost=row.cloneNode(true);ghost.className+=' construction-drag-ghost';ghost.style.cssText=`position:fixed;left:${r.left}px;top:${r.top}px;width:${r.width}px;z-index:9999;pointer-events:none;opacity:.88`;document.body.appendChild(ghost);row.classList.add('construction-drag-source')}if(!dragging)return;ghost.style.top=`${ev.clientY-16}px`;clear();const tr=document.elementFromPoint(ev.clientX,ev.clientY)?.closest('[data-building-group-row]');if(!tr||tr===row)return;targetId=tr.dataset.buildingGroupRow;const r=tr.getBoundingClientRect();after=ev.clientY>r.top+r.height/2;tr.classList.add(after?'construction-group-drag-after':'construction-group-drag-before')};
+  const move=ev=>{if(!dragging&&Math.hypot(ev.clientX-startX,ev.clientY-startY)>5){dragging=true;const r=row.getBoundingClientRect();ghost=row.cloneNode(true);ghost.className+=' construction-drag-ghost';ghost.style.cssText=`position:fixed;left:${r.left}px;top:${r.top}px;width:${r.width}px;z-index:9999;pointer-events:none;opacity:.88`;ghost.style.setProperty('--ui-drag-source-surface',getComputedStyle(row.querySelector('td')||row).backgroundColor);document.body.appendChild(ghost);row.classList.add('construction-drag-source')}if(!dragging)return;ghost.style.top=`${ev.clientY-16}px`;clear();const tr=document.elementFromPoint(ev.clientX,ev.clientY)?.closest('[data-building-group-row]');if(!tr||tr===row)return;targetId=tr.dataset.buildingGroupRow;const r=tr.getBoundingClientRect();after=ev.clientY>r.top+r.height/2;tr.classList.add(after?'construction-group-drag-after':'construction-group-drag-before')};
   const up=()=>{document.removeEventListener('pointermove',move,true);document.removeEventListener('pointerup',up,true);ghost?.remove();row?.classList.remove('construction-drag-source');clear();if(dragging&&targetId&&moveBuildingSetBlock(sourceId,targetId,after))render()};document.addEventListener('pointermove',move,true);document.addEventListener('pointerup',up,true)
  })
 }
@@ -1465,7 +1514,7 @@ function bindConstructionHierarchyDrag(){
  bindBuildingSetDrag();
  document.querySelectorAll('[data-object-drag]').forEach(zone=>zone.onpointerdown=e=>{if(e.button!==0)return;e.preventDefault();e.stopPropagation();const id=zone.dataset.objectDrag,startX=e.clientX,startY=e.clientY,row=zone.closest('tr');let dragging=false,targetSet='',targetObject='',after=false,ghost=null;
   const clear=()=>document.querySelectorAll('.construction-drop-before,.construction-drop-after,.construction-group-drop').forEach(x=>x.classList.remove('construction-drop-before','construction-drop-after','construction-group-drop'));
-  const move=ev=>{if(!dragging&&Math.hypot(ev.clientX-startX,ev.clientY-startY)>5){dragging=true;const r=row.getBoundingClientRect();ghost=row.cloneNode(true);ghost.className+=' construction-drag-ghost';ghost.style.cssText=`position:fixed;left:${r.left}px;top:${r.top}px;width:${r.width}px;z-index:9999;pointer-events:none;opacity:.88`;document.body.appendChild(ghost);row.classList.add('construction-drag-source')}if(!dragging)return;ghost.style.top=`${ev.clientY-16}px`;clear();const el=document.elementFromPoint(ev.clientX,ev.clientY);const tr=el?.closest('tr');if(!tr)return;if(tr.dataset.objectRow){targetObject=tr.dataset.objectRow;targetSet=tr.dataset.objectSet;const r=tr.getBoundingClientRect();after=ev.clientY>r.top+r.height/2;tr.classList.add(after?'construction-drop-after':'construction-drop-before')}else if(tr.dataset.buildingGroupRow){targetSet=tr.dataset.buildingGroupRow;targetObject='';tr.classList.add('construction-group-drop')}};
+  const move=ev=>{if(!dragging&&Math.hypot(ev.clientX-startX,ev.clientY-startY)>5){dragging=true;const r=row.getBoundingClientRect();ghost=row.cloneNode(true);ghost.className+=' construction-drag-ghost';ghost.style.cssText=`position:fixed;left:${r.left}px;top:${r.top}px;width:${r.width}px;z-index:9999;pointer-events:none;opacity:.88`;ghost.style.setProperty('--ui-drag-source-surface',getComputedStyle(row.querySelector('td')||row).backgroundColor);document.body.appendChild(ghost);row.classList.add('construction-drag-source')}if(!dragging)return;ghost.style.top=`${ev.clientY-16}px`;clear();const el=document.elementFromPoint(ev.clientX,ev.clientY);const tr=el?.closest('tr');if(!tr)return;if(tr.dataset.objectRow){targetObject=tr.dataset.objectRow;targetSet=tr.dataset.objectSet;const r=tr.getBoundingClientRect();after=ev.clientY>r.top+r.height/2;tr.classList.add(after?'construction-drop-after':'construction-drop-before')}else if(tr.dataset.buildingGroupRow){targetSet=tr.dataset.buildingGroupRow;targetObject='';tr.classList.add('construction-group-drop')}};
   const up=()=>{document.removeEventListener('pointermove',move,true);document.removeEventListener('pointerup',up,true);ghost?.remove();row.classList.remove('construction-drag-source');clear();if(dragging&&targetSet){moveConstructionBlock(id,targetSet,targetObject,after);render()}else selectConstructionObject(id,e)};document.addEventListener('pointermove',move,true);document.addEventListener('pointerup',up,true)
  })
 }

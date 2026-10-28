@@ -1,4 +1,9 @@
 :root{
+  --ui-green-20:#ccffcc;
+  --ui-green-40:#99ff99;
+  --ui-green-60:#99cc99;
+  --ui-green-80:#66cc99;
+  --ui-green-100:#66cc66;
   --ui-table-corner-radius:5px;
   --ui-table-section-gap:10px; /* Single vertical gap: toolbar -> table and table -> table. */
   --table-radius:var(--ui-table-corner-radius);
@@ -172,8 +177,8 @@ main{padding:14px 18px 40px}#toolbar{display:flex;gap:7px;align-items:center;mar
 .objects-table th{background:#001f3f;color:#fff;padding:3px;text-align:left;position:sticky;top:var(--header-h);z-index:10}
 .objects-table td{padding:2px 3px;border-bottom:1px solid var(--ui-row-separator);height:31px}
 .objects-table .object-number-col{width:150px;text-align:center}.objects-table .object-actions-col{width:var(--table-action-zone-2);text-align:center}
-.object-list-row{cursor:default;transition:background .15s ease-in-out;user-select:none;background:rgb(225,255,192)}
-.object-list-row:hover{background:rgb(172,225,128)}
+.object-list-row{cursor:default;transition:background .15s ease-in-out;user-select:none;background:var(--ui-legacy-object-row-surface)}
+.object-list-row:hover{background-image:linear-gradient(var(--ui-interaction-hover-overlay),var(--ui-interaction-hover-overlay))}
 .object-number-cell{text-align:center}
 .object-code-control{display:inline-flex;align-items:center;justify-content:center;font-weight:500;line-height:1;white-space:nowrap}
 .object-prefix,.object-number-display{border:1px solid transparent;background:transparent;color:#1e293b;padding:3px 0;border-radius:4px;font:500 14px/1 'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;min-height:24px}
@@ -981,7 +986,7 @@ input:not([type="file"]),textarea,select{box-sizing:border-box;outline:none}
 }
 .object-list-row:hover,
 .object-list-row.object-row-created{
-  --duplicate-row-color:rgb(172,225,128);
+  --duplicate-row-color:color-mix(in srgb,var(--ui-legacy-object-row-surface) var(--ui-tone-hover-retain),black);
 }
 .professions-table .profession-list-row{
   --duplicate-row-color:var(--profession-row-green);
@@ -2192,3 +2197,419 @@ body.document-row-dragging .profession-drag-zone{cursor:grabbing}
 .save-format-button.save-app,
 .save-format-button.save-app .save-format-icon,
 .save-format-button.save-app .save-format-disk { color: var(--ui-blue-80) !important; }
+
+/* v251: five web-safe greens for profession/addition section title rows.
+   data-section-shade is assigned from the catalog group order, never row position. */
+.professions-table tr.registry-section-row[data-section-shade]{
+  --ui-row-surface:var(--registry-section-surface)!important;
+  --duplicate-row-color:var(--registry-section-surface)!important;
+}
+.professions-table tr.registry-section-row[data-section-shade] > td,
+.professions-table tr.registry-section-row[data-section-shade] > td.table-action-zone{
+  background:var(--registry-section-surface)!important;
+  --duplicate-row-color:var(--registry-section-surface)!important;
+}
+.professions-table tr.registry-section-row[data-section-shade="20"]{--registry-section-surface:var(--ui-green-20)}
+.professions-table tr.registry-section-row[data-section-shade="40"]{--registry-section-surface:var(--ui-green-40)}
+.professions-table tr.registry-section-row[data-section-shade="60"]{--registry-section-surface:var(--ui-green-60)}
+.professions-table tr.registry-section-row[data-section-shade="80"]{--registry-section-surface:var(--ui-green-80)}
+.professions-table tr.registry-section-row[data-section-shade="100"]{--registry-section-surface:var(--ui-green-100)}
+
+/* v252: eight distinct web-safe softer registry headers (four per catalog). */
+:root{
+  --ui-registry-p1:#CCFFCC;
+  --ui-registry-p2:#99FFCC;
+  --ui-registry-p3:#99FF99;
+  --ui-registry-p4:#99CCCC;
+  --ui-registry-a1:#CCFF99;
+  --ui-registry-a2:#99CC99;
+  --ui-registry-a3:#CCFF66;
+  --ui-registry-a4:#99FF66;
+}
+/* The profession/addition active tabs alone use the reference green100. */
+.mode-btn[data-view="professionsAttachments"].active,
+.mode-btn[data-view="professions"].active,
+.mode-btn[data-view="all"].active{background:var(--ui-green-100)!important;border-color:var(--ui-green-100)!important;color:#172717!important;}
+.mode-btn[data-view="professionsAttachments"].active:hover,
+.mode-btn[data-view="professions"].active:hover,
+.mode-btn[data-view="all"].active:hover{background:var(--ui-green-100)!important;filter:brightness(.95);}
+/* Documents: the entire profession row, including the action zone, is green60. */
+.documentation-table tr.document-profession-subsection{--ui-row-surface:var(--ui-green-60)!important;}
+.documentation-table tr.document-profession-subsection > td,
+.documentation-table tr.document-profession-subsection > td.table-action-zone{background:var(--ui-green-60)!important;}
+/* Use one row surface for both professions and additions, overriding legacy blue. */
+.professions-table tr.registry-section-row[data-section-shade],
+.attachments-table tr.registry-section-row[data-section-shade]{
+ --ui-row-surface:var(--registry-section-surface)!important;
+ --duplicate-row-color:var(--registry-section-surface)!important;
+}
+.professions-table tr.registry-section-row[data-section-shade]>td,
+.attachments-table tr.registry-section-row[data-section-shade]>td{
+ background:var(--registry-section-surface)!important;
+ --duplicate-row-color:var(--registry-section-surface)!important;
+}
+.professions-table tr.registry-section-row[data-section-shade="p1"]{--registry-section-surface:var(--ui-registry-p1);}
+.professions-table tr.registry-section-row[data-section-shade="p2"]{--registry-section-surface:var(--ui-registry-p2);}
+.professions-table tr.registry-section-row[data-section-shade="p3"]{--registry-section-surface:var(--ui-registry-p3);}
+.professions-table tr.registry-section-row[data-section-shade="p4"]{--registry-section-surface:var(--ui-registry-p4);}
+.professions-table tr.registry-section-row[data-section-shade="a1"]{--registry-section-surface:var(--ui-registry-a1);}
+.professions-table tr.registry-section-row[data-section-shade="a2"]{--registry-section-surface:var(--ui-registry-a2);}
+.professions-table tr.registry-section-row[data-section-shade="a3"]{--registry-section-surface:var(--ui-registry-a3);}
+.professions-table tr.registry-section-row[data-section-shade="a4"]{--registry-section-surface:var(--ui-registry-a4);}
+
+/* v253: consistent profession/addition greens and section-D document rows. */
+:root{--ui-registry-light-green:#DDFFDD;}
+/* Keep the active registry navigation label white. */
+.mode-btn[data-view="professionsAttachments"].active,
+.mode-btn[data-view="professions"].active,
+.mode-btn[data-view="all"].active{color:#FFFFFF!important;}
+/* All profession and addition section titles share Green60. */
+.professions-table tr.registry-section-row[data-section-shade],
+.attachments-table tr.registry-section-row[data-section-shade]{
+ --registry-section-surface:var(--ui-green-60)!important;
+ --ui-row-surface:var(--ui-green-60)!important;
+ --duplicate-row-color:var(--ui-green-60)!important;
+}
+.professions-table tr.registry-section-row[data-section-shade]>td,
+.attachments-table tr.registry-section-row[data-section-shade]>td{
+ background:var(--ui-green-60)!important;
+ --duplicate-row-color:var(--ui-green-60)!important;
+}
+/* All individual profession and addition entries, including editable custom entries. */
+.professions-table tr.profession-list-row,
+.attachments-table tr.profession-list-row{
+ --ui-row-surface:var(--ui-registry-light-green)!important;
+ --duplicate-row-color:var(--ui-registry-light-green)!important;
+ background:var(--ui-registry-light-green)!important;
+}
+.professions-table tr.profession-list-row>td,
+.attachments-table tr.profession-list-row>td{
+ background:var(--ui-registry-light-green)!important;
+ --duplicate-row-color:var(--ui-registry-light-green)!important;
+}
+/* In Documents, only section D individual document rows receive the light green. */
+.documentation-table tr.row-document.section-row-d{
+ --ui-row-surface:var(--ui-registry-light-green)!important;
+}
+.documentation-table tr.row-document.section-row-d>td,
+.documentation-table tr.row-document.section-row-d>td.table-action-zone{
+ background:var(--ui-registry-light-green)!important;
+}
+
+
+/* v254: document hover uses the previous light-green swatch in all sections.
+   Only section D has the new light-green resting document background. */
+#content .documentation-table:not(.document-file-drop-active) > tbody > tr.row-document:hover > td,
+#content .documentation-table:not(.document-file-drop-active) > tbody > tr.row-document:hover > td.table-action-zone,
+#content .documentation-table:not(.document-file-drop-active) > tbody > tr.row-document:has(.document-selection-zone:hover) > td {
+  background-color:#BBEEBB!important;
+  --ui-document-hover-surface:#BBEEBB;
+}
+#content .documentation-table tr.row-document .document-selection-zone:hover {
+  background-color:#BBEEBB!important;
+}
+/* Normalize ASR, used, system, and custom rows to the same registry surface. */
+#content .professions-table tr.profession-list-row > td,
+#content .attachments-table tr.profession-list-row > td {
+  background-color:var(--ui-registry-light-green)!important;
+  --duplicate-row-color:var(--ui-registry-light-green)!important;
+}
+
+
+/* v255 — registry color refinements.
+   Palette 007: Green60 #99CC99 and #DDFFDD.
+   Custom entries deliberately use neutral gray20 (not the registry green). */
+:root {
+  --ui-registry-custom-surface:var(--ui-gray-20);
+  --ui-registry-active-green:#339933;
+}
+.mode-btn[data-view="professionsAttachments"].active,
+.mode-btn[data-view="professions"].active,
+.mode-btn[data-view="all"].active,
+.mode-btn[data-view="professionsAttachments"].active:hover,
+.mode-btn[data-view="professions"].active:hover,
+.mode-btn[data-view="all"].active:hover {
+  background:var(--ui-registry-active-green)!important;
+  border-color:var(--ui-registry-active-green)!important;
+  color:#FFFFFF!important;
+}
+#content .professions-table tr.profession-list-row:has(.profession-code-input:not([readonly])),
+#content .attachments-table tr.profession-list-row:has(.profession-code-input:not([readonly])) {
+  --ui-row-surface:var(--ui-registry-custom-surface)!important;
+  --duplicate-row-color:var(--ui-registry-custom-surface)!important;
+  background:var(--ui-registry-custom-surface)!important;
+}
+#content .professions-table tr.profession-list-row:has(.profession-code-input:not([readonly])) > td,
+#content .attachments-table tr.profession-list-row:has(.profession-code-input:not([readonly])) > td {
+  background:var(--ui-registry-custom-surface)!important;
+  --duplicate-row-color:var(--ui-registry-custom-surface)!important;
+}
+/* Construction group headings blue40; individual construction objects unchanged. */
+.construction-hierarchy-table tr.construction-group-row,
+.construction-hierarchy-table tr.construction-group-row > td {
+  --ui-row-surface:var(--ui-blue-40)!important;
+  background:var(--ui-blue-40)!important;
+}
+
+
+/* v256 — restore historical violet E palette from archived v212 stylesheet.
+   The requested v210 archive was unavailable; v212 contains these original
+   section-E values. */
+:root{
+  --section-e-header:#AA96C7;
+  --section-e-row:#EEE8F6;
+  --ui-additions-violet:#AA96C7;
+  --ui-additions-light-violet:#EEE8F6;
+}
+/* Document section E: title, document rows and their action zones. */
+#content .documentation-table tr.document-section.section-row-e > td,
+#content .documentation-table tr.document-section[data-section="E"] > td {
+  background-color:var(--section-e-header)!important;
+}
+#content .documentation-table tr.row-document.section-row-e:not(:hover) > td,
+#content .documentation-table tr.row-document.section-row-e:not(:hover) > td.table-action-zone{
+  background-color:var(--section-e-row)!important;
+  --ui-row-surface:var(--section-e-row)!important;
+}
+/* Additions: all section headers including user-defined additions. */
+#content .professions-table tr.registry-section-row[data-section-shade^="a"] > td,
+#content .attachments-table tr.registry-section-row[data-section-shade^="a"] > td{
+  background-color:var(--ui-additions-violet)!important;
+  --duplicate-row-color:var(--ui-additions-violet)!important;
+}
+/* Additions: system rows light violet; custom rows differ by edition. */
+#content .professions-table tr.profession-list-row:has([data-registry-attachment]):not(:has(.profession-code-input:not([readonly]))) > td,
+#content .attachments-table tr.profession-list-row:has([data-registry-attachment]):not(:has(.profession-code-input:not([readonly]))) > td{
+  background-color:var(--ui-additions-light-violet)!important;
+  --duplicate-row-color:var(--ui-additions-light-violet)!important;
+}
+
+#content .professions-table tr.profession-list-row:has([data-registry-attachment]):has(.profession-code-input:not([readonly])) > td,
+#content .attachments-table tr.profession-list-row:has([data-registry-attachment]):has(.profession-code-input:not([readonly])) > td{
+ background-color:var(--ui-gray-20)!important;
+ --duplicate-row-color:var(--ui-gray-20)!important;
+}
+/* Public additions navigation button: violet while active. */
+.mode-btn[data-view="attachments"].active,
+.mode-btn[data-view="attachments"].active:hover,
+.mode-btn[data-view="attachments"].active:focus-visible{
+ background-color:var(--ui-additions-violet)!important;
+ border-color:var(--ui-additions-violet)!important;
+ color:#FFFFFF!important;
+}
+
+
+/* v257: fix actual Public Additions button data-view="all".
+   Override the older Green100 and green registry-header declarations. */
+#content ~ .mode-btn[data-view="all"].active,
+.mode-btn[data-view="all"].active,
+.mode-btn[data-view="all"].active:hover,
+.mode-btn[data-view="all"].active:focus-visible{
+  background:var(--ui-additions-violet)!important;
+  border-color:var(--ui-additions-violet)!important;
+  color:#FFFFFF!important;
+}
+#content .professions-table tr.registry-section-row[data-section-shade="a4"],
+#content .professions-table tr.registry-section-row[data-section-shade="a4"] > td,
+#content .professions-table tr.registry-section-row[data-section-shade="a4"] > td.table-action-zone,
+#content .attachments-table tr.registry-section-row[data-section-shade="a4"],
+#content .attachments-table tr.registry-section-row[data-section-shade="a4"] > td{
+  --registry-section-surface:var(--ui-additions-violet)!important;
+  --ui-row-surface:var(--ui-additions-violet)!important;
+  --duplicate-row-color:var(--ui-additions-violet)!important;
+  background:var(--ui-additions-violet)!important;
+}
+
+
+/* v258 — Combination 043: violet20 #EEE8F6, middle #BCA5D2,
+   dark #7956A3. Scoped to additions and document section E. */
+:root {
+ --section-e-header:#BCA5D2;
+ --section-e-row:#EEE8F6;
+ --ui-additions-violet:#BCA5D2;
+ --ui-additions-light-violet:#EEE8F6;
+ --ui-additions-button-violet:#7956A3;
+}
+#content .documentation-table tr.document-section.section-row-e > td,
+#content .documentation-table tr.document-section[data-section="E"] > td{
+ background:#BCA5D2!important;
+}
+#content .documentation-table tr.row-document.section-row-e:not(:hover)>td,
+#content .documentation-table tr.row-document.section-row-e:not(:hover)>td.table-action-zone{
+ background:#EEE8F6!important;
+ --ui-row-surface:#EEE8F6!important;
+}
+#content .professions-table tr.registry-section-row[data-section-shade^="a"],
+#content .professions-table tr.registry-section-row[data-section-shade^="a"]>td,
+#content .attachments-table tr.registry-section-row[data-section-shade^="a"],
+#content .attachments-table tr.registry-section-row[data-section-shade^="a"]>td{
+ --registry-section-surface:#BCA5D2!important;
+ --ui-row-surface:#BCA5D2!important;
+ --duplicate-row-color:#BCA5D2!important;
+ background:#BCA5D2!important;
+}
+#content .attachments-table tr.profession-list-row>td,
+#content .attachments-table tr.profession-list-row>td.table-action-zone{
+ --duplicate-row-color:#EEE8F6!important;
+ background:#EEE8F6!important;
+}
+
+.mode-btn[data-view="all"].active,
+.mode-btn[data-view="all"].active:hover,
+.mode-btn[data-view="all"].active:focus-visible{
+ background:#7956A3!important;
+ border-color:#7956A3!important;
+ color:#FFFFFF!important;
+}
+#content .attachments-table tr.profession-list-row:has(.profession-code-input:not([readonly]))>td{
+ background:var(--ui-gray-20)!important;
+ --duplicate-row-color:var(--ui-gray-20)!important;
+}
+
+/* v259: explicit class on custom Additions rows, including all action cells. */
+#content table.attachments-table tr.registry-attachment-custom,
+#content table.attachments-table tr.registry-attachment-custom > td,
+#content table.attachments-table tr.registry-attachment-custom > td.table-action-zone {
+ background:#EAEBEE!important;
+ background-color:#EAEBEE!important;
+ --ui-row-surface:#EAEBEE!important;
+ --duplicate-row-color:#EAEBEE!important;
+}
+
+/* v261: merged profession drag/click/double-click surface; same rounded hover as former small button. */
+.documentation-table .profession-header-layout .profession-drag-zone{
+ flex:1 1 auto!important;min-width:24px!important;align-self:stretch;
+ border-radius:6px!important;background:transparent;cursor:grab;
+ transition:background-color .12s ease;
+}
+.documentation-table .profession-header-layout .profession-drag-zone:hover,
+.documentation-table .profession-header-layout .profession-drag-zone:focus-visible{
+ background:rgba(0,0,0,.05)!important;
+ outline-offset:-2px;
+}
+.documentation-table .profession-header-layout .profession-drag-zone:active{cursor:grabbing}
+
+
+/* v263 — fixed black header + independently scrolling main content.
+   The scrollbar gutter is reserved in the MAIN viewport, even when it
+   does not need to scroll; growing a table cannot shift action icons. */
+html {
+  height: 100%;
+  overflow: hidden;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* fallback for browsers without dynamic viewport units */
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
+}
+body > header.pbs-shell {
+  position: relative !important; /* ensures save flyout overlays the scroller */
+  z-index: 50;
+  flex: 0 0 var(--header-h);
+  height: var(--header-h);
+  min-height: var(--header-h);
+}
+body > main {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0; /* permits the flex child to scroll instead of expanding body */
+  overflow-x: auto;
+  overflow-y: auto;
+  scrollbar-gutter: stable; /* same table width before and after overflow */
+  overscroll-behavior-y: contain;
+}
+/* Reserve a classic scrollbar on engines lacking scrollbar-gutter support. */
+@supports not (scrollbar-gutter: stable) {
+  body > main { overflow-y: scroll; }
+}
+:root{--ui-legacy-object-row-surface:rgb(225,255,192)}
+
+
+/* v264 — color-relative interaction surfaces in the MAIN (lower) application.
+   One set of darkening strengths; the resting surface is the only hue source.
+   Hover: 10% black mix. Selected: 20%. Dragged: 12%.
+   Keep warning/validation colors, file-drop orange, destructive action buttons,
+   editor focus states, and the black navigation header semantically distinct. */
+:root {
+  --ui-tone-hover-retain:90%;
+  --ui-tone-selected-retain:80%;
+  --ui-tone-drag-retain:88%;
+  --ui-tone-hover-alpha:10%;
+  --ui-interaction-hover-overlay:rgb(0 0 0 / var(--ui-tone-hover-alpha));
+}
+/* All document sections A–E share the same hover algorithm, never a green swatch.
+   The variables below are the SAME resting palette tokens used by the document rows. */
+#content .documentation-table tr.row-document.section-row-a {--ui-row-surface:var(--section-a-row)}
+#content .documentation-table tr.row-document.section-row-b {--ui-row-surface:var(--section-b-row)}
+#content .documentation-table tr.row-document.section-row-c {--ui-row-surface:var(--section-c-row)}
+#content .documentation-table tr.row-document.section-row-d {--ui-row-surface:var(--ui-registry-light-green)!important}
+#content .documentation-table tr.row-document.section-row-e {--ui-row-surface:var(--section-e-row)!important}
+/* Remove the legacy literal #EEE8F6: changing the E palette token must
+   recolor its resting cells as well as the relative hover/selection colors. */
+#content .documentation-table tr.row-document.section-row-e:not(:hover) > td {
+  background-color:var(--section-e-row)!important;
+}
+#content .documentation-table:not(.document-file-drop-active) > tbody > tr.row-document:hover > td,
+#content .documentation-table:not(.document-file-drop-active) > tbody > tr.row-document:has(.document-selection-zone:hover) > td {
+  background-color:color-mix(in srgb, var(--ui-row-surface) var(--ui-tone-hover-retain), black)!important;
+  --ui-document-hover-surface:color-mix(in srgb, var(--ui-row-surface) var(--ui-tone-hover-retain), black)!important;
+}
+/* One stronger relative shade for selected documents, including hover. */
+#content .documentation-table:not(.document-file-drop-active) > tbody > tr.row-document.document-selected > td,
+#content .documentation-table:not(.document-file-drop-active) > tbody > tr.row-document.document-selected:hover > td {
+  background-color:color-mix(in srgb, var(--ui-row-surface) var(--ui-tone-selected-retain), black)!important;
+  box-shadow:none!important; /* remove old fixed blue selection wash */
+}
+#content .documentation-table tr.row-document .document-selection-zone:hover {
+  background:var(--ui-interaction-hover-overlay)!important;
+}
+/* The document ghost preserves the source section's surface and adds a darker
+   overlay. File-drop warnings are intentionally not converted. */
+body > table.documentation-table.document-drag-ghost tbody tr.row-document > td,
+body > table.documentation-table.document-drag-ghost tbody tr.document-profession-subsection > td {
+  background-color:color-mix(in srgb, var(--ui-row-surface, #eee) var(--ui-tone-drag-retain), black)!important;
+  box-shadow:none!important;
+}
+/* Generic/legacy object table row, also preserving its own starting shade. */
+#content .objects-table tr.object-list-row:hover {
+  /* Background-color remains the row's normal CSS color. */
+  background-image:linear-gradient(var(--ui-interaction-hover-overlay),var(--ui-interaction-hover-overlay))!important;
+}
+/* Drag surfaces are transparent overlays, not prescribed green or blue. */
+#content .construction-hierarchy-table :is(.hierarchy-drag-zone,.hierarchy-object-drag-zone):hover,
+#content .construction-hierarchy-table :is(.hierarchy-drag-zone,.hierarchy-object-drag-zone):focus-visible,
+#content .documentation-table .profession-header-layout .profession-drag-zone:hover,
+#content .documentation-table .profession-header-layout .profession-drag-zone:focus-visible {
+  background:var(--ui-interaction-hover-overlay)!important;
+}
+/* A construction ghost is detached from its table. JS records the first
+   rendered source-cell background, so future palette changes follow it. */
+tr.construction-drag-ghost,
+tr.construction-drag-ghost > td {
+  background:color-mix(in srgb,var(--ui-drag-source-surface,#e4e4e4) var(--ui-tone-drag-retain),black)!important;
+}
+/* For selected construction object, shade rather than switch to green/blue. */
+#content .construction-hierarchy-table tr.construction-object-nested-row.is-selected > td {
+  background:color-mix(in srgb,var(--ui-row-surface) var(--ui-tone-selected-retain),black)!important;
+}
+/* All dropdown OPTION rows inherit their base shade from one menu token.
+   A future violet menu only needs to change --ui-option-surface. */
+:is(.doc-type-menu,.person-menu,.app-dropdown-menu,.app-select-menu,.object-type-menu) {
+  --ui-option-surface:#ffffff;
+}
+:is(.doc-type-menu,.person-menu,.app-dropdown-menu,.app-select-menu,.object-type-menu) button:not(.icon-btn) {
+  background-color:var(--ui-option-surface)!important;
+  filter:none;
+}
+.doc-type-menu .level-family-row {--ui-option-surface:#eef0f2;}
+:is(.doc-type-menu,.person-menu,.app-dropdown-menu,.app-select-menu,.object-type-menu) button:not(.icon-btn):hover {
+  background-color:color-mix(in srgb,var(--ui-option-surface) var(--ui-tone-hover-retain),black)!important;
+  filter:none!important;
+}
+:is(.doc-type-menu,.person-menu,.app-dropdown-menu,.app-select-menu,.object-type-menu) button:not(.icon-btn).selected,
+:is(.doc-type-menu,.person-menu,.app-dropdown-menu,.app-select-menu,.object-type-menu) button:not(.icon-btn).keyboard-active {
+  background-color:color-mix(in srgb,var(--ui-option-surface) var(--ui-tone-selected-retain),black)!important;
+}
