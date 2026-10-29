@@ -2613,3 +2613,9 @@ tr.construction-drag-ghost > td {
 :is(.doc-type-menu,.person-menu,.app-dropdown-menu,.app-select-menu,.object-type-menu) button:not(.icon-btn).keyboard-active {
   background-color:color-mix(in srgb,var(--ui-option-surface) var(--ui-tone-selected-retain),black)!important;
 }
+
+/* v265: Third document-context action, no changes to other modes. */
+.context-toolbar.documents-context-actions{grid-template-columns:max-content max-content max-content minmax(0,1fr)!important}
+.context-toolbar.documents-context-actions #contextDocumentList{height:32px;white-space:nowrap;grid-column:3!important;width:max-content!important}
+.context-toolbar.documents-context-actions #contextDocumentList[hidden]{display:none!important}
+.context-toolbar.documents-context-actions #search{grid-column:4!important}

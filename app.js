@@ -368,6 +368,9 @@ function updateContextButtons(){
  let tertiary=$('#contextTertiaryAction');
  if(!tertiary){tertiary=document.createElement('button');tertiary.id='contextTertiaryAction';tertiary.type='button';tertiary.hidden=true;secondary.insertAdjacentElement('afterend',tertiary)}
  const config={buildingSets:['+ Súbor stavieb',addBuildingSet],objects:['+ Súbor stavieb',addObjectGroupWithStarter],professions:['+ Profesia',()=>addProfession()],settings:['Kontrola',runPublicProjectValidation],all:['+ Príloha',()=>addAttachment()]};
+ let listButton=$('#contextDocumentList');
+ if(!listButton){listButton=document.createElement('button');listButton.id='contextDocumentList';listButton.type='button';listButton.textContent='Zoznam';listButton.title='Exportovať zoznam dokumentov podľa profesií do DOCX';listButton.addEventListener('click',exportProfessionDocumentList);tertiary.insertAdjacentElement('afterend',listButton)}
+ listButton.hidden=currentView!=='documents';
  toolbar.classList.toggle('documents-context-actions',currentView==='documents');
  toolbar.classList.toggle('construction-renumber-context-actions',currentView==='objects');
  if(currentView==='documents'){
@@ -1767,6 +1770,20 @@ async function exportXlsx(){
  for(const o of construction)for(const p of o.profesie||[]){add('group',{5:`${o.kod} - ${o.nazov}`,8:`${p.kod} - ${p.nazov}`});for(const d of p.dokumenty||[])writeDoc(o,p,d)}
  const e=allObjects().find(x=>x.kod==='E00');if(e){add('section',{2:'E',5:sectionNames.E00,9:'E00'});for(const p of e.profesie||[])for(const d of p.dokumenty||[])writeDoc(e,p,d)}
  let out=await wb.xlsx.writeBuffer();download(new Blob([out]),`${model.projekt.id_projektu}_zoznam_dokumentacie.xlsx`)
+}
+async function exportProfessionDocumentList(){
+ if(!window.ZoznamListDocx?.create)throw new Error('Modul Zoznam nie je dostupný.');
+ try{
+  const data=JSON.parse(JSON.stringify(serializeJsonModel()));
+  const b=ensurePublicBuilder();
+  const name=b.typ_subjektu_kod!=='S'?String(b.obchodne_meno||'').trim():[b.akademicky_titul_pred_menom,b.meno,b.priezvisko,b.akademicky_titul_za_menom].map(x=>String(x||'').trim()).filter(Boolean).join(' ');
+  const number=[b.supisne_cislo,b.orientacne_cislo].filter(Boolean).join('/');
+  const address=[[b.ulica,number].filter(Boolean).join(' '),b.mesto,formatPscPublic(b.psc)].filter(Boolean).join(', ');
+  const blob=await window.ZoznamListDocx.create(data,{name,address});
+  const projectId=normalizeProjectId(model.projekt.id_projektu)||'123456';
+  const version=asciiFilePart(model.projekt.verzia_zoznamu||'v1.0','v1.0');
+  download(blob,`${projectId}_Zoznam_profesii_${version}.docx`);
+ }catch(err){console.error('Zoznam DOCX export:',err);alert('Zoznam DOCX sa nepodarilo vytvoriť: '+err.message)}
 }
 async function exportDocx(){const snapshotModel=JSON.parse(JSON.stringify(model)),snapshotData=JSON.parse(JSON.stringify(serializeJsonModel()));const builder=ensurePublicBuilder();snapshotModel.projekt.stavebnik=builder.typ_subjektu_kod!=='S'?String(builder.obchodne_meno||'').trim():[builder.akademicky_titul_pred_menom,builder.meno,builder.priezvisko,builder.akademicky_titul_za_menom].map(x=>String(x||'').trim()).filter(Boolean).join(' ');const streetNo=[builder.supisne_cislo,builder.orientacne_cislo].filter(Boolean).join('/');snapshotModel.projekt.adresa_stavebnika=[[builder.ulica,streetNo].filter(Boolean).join(' '),builder.mesto,formatPscPublic(builder.psc)].filter(Boolean).join(', ');const projectId=normalizeProjectId(snapshotModel.projekt.id_projektu)||'123456',version=asciiFilePart(snapshotModel.projekt.verzia_zoznamu||'v1.0','v1.0');const blob=await window.ZoznamDocx.create(snapshotModel,snapshotData);download(blob,`${projectId}_zoznam_${version}.docx`)}
 async function fileFromZipEntry(entry,name){
